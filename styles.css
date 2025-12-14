@@ -206,19 +206,20 @@ body{
 /* All time records */
 .records-grid{
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
 }
 .record-card{
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.10);
   border-radius: 16px;
-  padding: 12px;
-  background: rgba(0,0,0,0.18);
+  padding: 14px 14px 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }
-.record-title{font-weight:900; color: var(--muted)}
-.record-value{font-size: 18px; font-weight: 950; margin-top: 8px}
-.record-holders{font-size: 13px; color: var(--muted); margin-top: 6px}
+.record-title{font-weight:900; color: var(--text); letter-spacing: -0.2px}
+.record-value{font-size: 22px; font-weight: 950; margin-top: 10px; display:inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(0,0,0,0.06); color: var(--text)}
+.record-holders{font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.35}
 
 .footer{
   padding: 22px 18px;
