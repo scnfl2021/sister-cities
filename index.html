@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sister Cities League</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <div class="brand-logo" aria-label="League logo placeholder">SC</div>
+      <div class="brand-text">
+        <div class="brand-title">Sister Cities</div>
+        <div class="brand-subtitle">Season 2021–2025</div>
+      </div>
+    </div>
+
+    <nav class="tabs" role="tablist" aria-label="Main navigation">
+      <button class="tab active" data-tab="season" role="tab" aria-selected="true">Season</button>
+      <button class="tab" data-tab="awards" role="tab" aria-selected="false">Awards</button>
+      <button class="tab" data-tab="alltime" role="tab" aria-selected="false">All Time Records</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- SEASON -->
+    <section id="tab-season" class="tabpanel active" role="tabpanel">
+      <div class="season-controls">
+        <div class="season-years" aria-label="Season years">
+          <button class="season-year-button active" data-season="2025">2025</button>
+          <button class="season-year-button" data-season="2024">2024</button>
+          <button class="season-year-button" data-season="2023">2023</button>
+          <button class="season-year-button" data-season="2022">2022</button>
+          <button class="season-year-button" data-season="2021">2021</button>
+        </div>
+      </div>
+
+      <section class="card champion-card" aria-label="Champion">
+        <div class="card-title">Champion</div>
+        <div class="champion-row">
+          <div class="champion-team" id="championTeam">—</div>
+          <div class="champion-note" id="championNote"></div>
+        </div>
+      </section>
+
+      <section class="card season-body" aria-label="Season content">
+        <div class="season-subtabs">
+          <button class="season-subtab active" data-subtab="standings">Standings</button>
+          <button class="season-subtab" data-subtab="stats">Stats</button>
+        </div>
+
+        <div id="seasonStandings" class="season-pane active" data-pane="standings"></div>
+        <div id="seasonStats" class="season-pane" data-pane="stats"></div>
+      </section>
+    </section>
+
+    <!-- AWARDS -->
+    <section id="tab-awards" class="tabpanel" role="tabpanel">
+      <section class="card">
+        <div class="card-title">Awards</div>
+        <p class="muted">
+          2025 is the inaugural awards ceremony. This section is intentionally empty for now — you’ll add nominees and winners later.
+        </p>
+      </section>
+    </section>
+
+    <!-- ALL TIME -->
+    <section id="tab-alltime" class="tabpanel" role="tabpanel">
+      <section class="card">
+        <div class="card-title">All Time Records</div>
+        <p class="muted">Auto-computed from your seasons data (2021–2025).</p>
+        <div id="allTimeRecordsContainer" class="records-grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="muted">Built for your Sister Cities fantasy league • Hosted on GitHub Pages</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
