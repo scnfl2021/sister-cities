@@ -3,17 +3,17 @@
 // =====================
 
 const TEAMS = {
-  svetunited: { name: "Svet United", owner: "MoD" },
-  daddytate: { name: "Daddy Tate", owner: "MoeK" },
-  angolarookie: { name: "Angola Rookie", owner: "wadihelk" },
-  drhtown: { name: "Dr. H-Town", owner: "MKassim" },
-  sixowls: { name: "6ixOwls", owner: "samik" },
-  miami: { name: "Miami", owner: "abe" },
-  snorlax: { name: "Snorlax", owner: "romi" },
-  barjalona: { name: "Barjalona", owner: "wassimelk" },
-  maleksexcornflex: { name: "Malek Sex & Cornflex", owner: "samerk" },
-  arshamaa: { name: "ArShamaa", owner: "arshammaa6" },
-  abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab" },
+  svetunited: { name: "Svet United", owner: "MoD", logo: "assets/svetunited.png" },
+  daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "assets/daddytate.png" },
+  angolarookie: { name: "Angola Rookie", owner: "wadihelk", logo: "assets/angolarookie.png" },
+  drhtown: { name: "Dr. H-Town", owner: "MKassim", logo: "assets/drhtown.png" },
+  sixowls: { name: "6ixOwls", owner: "samik", logo: "assets/sixowls.png" },
+  miami: { name: "Miami", owner: "abe", logo: "assets/miami.png" },
+  snorlax: { name: "Snorlax", owner: "romi", logo: "assets/snorlax.png" },
+  barjalona: { name: "Barjalona", owner: "wassimelk", logo: "assets/barjalona.png" },
+  maleksexcornflex: { name: "Malek Sex & Cornflex", owner: "samerk", logo: "assets/maleksexcornflex.png" },
+  arshamaa: { name: "ArShamaa", owner: "arshammaa6", logo: "assets/arshamaa.png" },
+  abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "assets/abethe3arab.png" },
 };
 
 const seasons = {};
@@ -255,13 +255,13 @@ function teamLabel(teamId) {
   return t ? t.name : teamId;
 }
 
-function teamPill(teamId) {
-  return `
-    <span class="pill">
-      <span class="logo-dot" aria-hidden="true"></span>
-      <span>${teamLabel(teamId)}</span>
-    </span>
-  `;
+function teamPill(teamId, extraClass = "") {
+  const t = TEAMS[teamId] || { name: teamId, owner: "" };
+  const logo = t.logo ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : "";
+  return `<span class="team-pill ${extraClass}">
+    <span class="logo-dot">${logo}</span>
+    <span class="team-pill-text">${t.name}</span>
+  </span>`;
 }
 
 function renderStandings(season) {

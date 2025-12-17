@@ -147,13 +147,7 @@ body{
   align-items:center;
   gap:8px;
 }
-.logo-dot{
-  width:18px; height:18px;
-  border-radius: 999px;
-  border:1px solid rgba(0,0,0,0.10);
-  background: rgba(0,0,0,0.06);
-  flex: 0 0 auto;
-}
+.logo-dot { width: 18px; height: 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); overflow: hidden; background: transparent; display: inline-flex; align-items: center; justify-content: center; }
 
 /* Stats */
 .stats-head{
@@ -264,48 +258,6 @@ body{
 .page{
   background: transparent;
 }
-/* ===== All Time Records — Clean style override ===== */
-.records-grid .record-card,
-.record-card {
-  background: #ffffff !important;
-  border: 1px solid #e6e6e6 !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06) !important;
-  border-radius: 16px !important;
-  color: #111 !important;
-}
 
-.record-card h3,
-.record-card .title,
-.record-card .record-title {
-  color: #111 !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.2px;
-}
 
-.record-card .value,
-.record-card .record-value {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: #f3f4f6 !important; /* light pill */
-  color: #111 !important;
-  font-weight: 900 !important;
-  font-size: 22px !important;
-  line-height: 1;
-  margin: 10px 0 8px 0;
-}
-
-.record-card .meta,
-.record-card .record-meta {
-  color: #4b5563 !important;
-  font-weight: 600;
-}
-
-/* Gold highlight stays gold */
-.record-card .badge,
-.record-card .pill-gold,
-.record-card .gold {
-  background: #b58a00 !important;
-  color: #111 !important;
-  font-weight: 900 !important;
-}
+.logo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
