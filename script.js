@@ -3,18 +3,6 @@
 // =====================
 
 const TEAMS = {
-  function teamWithLogo(teamName) {
-  const team = Object.values(TEAMS).find(t => t.name === teamName);
-  if (!team) return teamName;
-
-  return `
-    <span class="pill">
-      <img src="${team.logo}" class="logo-img" />
-      ${team.name}
-    </span>
-  `;
-}
-
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
   daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "/sister-cities/assets/daddytate.png" },
   angolarookie: { name: "Angola Rookie", owner: "wadihelk", logo: "/sister-cities/assets/angolarookie.png" },
@@ -28,7 +16,20 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
+// helper stays OUTSIDE TEAMS ✅
+function teamPill(teamId, extraClass = "") {
+  const t = TEAMS[teamId] || { name: teamId, owner: "" };
+  const logo = t.logo
+    ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
+    : "";
+  return `<span class="team-pill ${extraClass}">
+    <span class="logo-dot">${logo}</span>
+    <span class="team-pill-text">${t.name}</span>
+  </span>`;
+}
+
 const seasons = {};
+
 
 // 2025 (champion TBD)
 seasons[2025] = {
