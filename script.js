@@ -16,19 +16,29 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// helper stays OUTSIDE TEAMS ✅
+// ✅ One (and only one) helper
+function teamPill(teamId, extraClass = "") {
   const t = TEAMS[teamId] || { name: teamId, owner: "" };
   const logo = t.logo
     ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
     : "";
+
   return `<span class="team-pill ${extraClass}">
     <span class="logo-dot">${logo}</span>
     <span class="team-pill-text">${t.name}</span>
   </span>`;
 }
 
+function teamLabel(teamId) {
+  const t = TEAMS[teamId];
+  return t ? t.name : teamId;
+}
+
 const seasons = {};
 
+// =====================
+// SEASONS
+// =====================
 
 // 2025 (champion TBD)
 seasons[2025] = {
@@ -51,7 +61,7 @@ seasons[2025] = {
     { label: "Best regular season record", value: "12-2", display: "12–2", teams: ["svetunited"], details: null },
     { label: "Worst regular season record", value: "4-10", display: "4–10", teams: ["barjalona"], details: null },
     { label: "Most total points", value: "2059.30", display: "2059.30", teams: ["svetunited"], details: null },
-    { label: "Lowest total points scored", value: "1673.02", display: "1673.02", teams: ["barjalona"], details: null }, // as provided
+    { label: "Lowest total points scored", value: "1673.02", display: "1673.02", teams: ["barjalona"], details: null },
     { label: 'Most "Best Team" Sleeper reports', value: "5", display: "5 times", teams: ["svetunited"], details: null },
     { label: "Closest matchup of the season", value: "0.52", display: "0.52 points", teams: ["daddytate","barjalona"], details: "Week 5" },
     { label: "Biggest blowout of the season", value: "131", display: "131 points", teams: ["maleksexcornflex","snorlax"], details: "Week 6" },
@@ -95,7 +105,7 @@ seasons[2024] = {
   ]
 };
 
-// 2023 (champion = 6ixOwls)
+// 2023
 seasons[2023] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -128,7 +138,7 @@ seasons[2023] = {
   ]
 };
 
-// 2022 (champion = ArShamaa)
+// 2022
 seasons[2022] = {
   championTeamId: "arshamaa",
   championNote: "",
@@ -161,7 +171,7 @@ seasons[2022] = {
   ]
 };
 
-// 2021 (8 teams; champion = Malek Sex & Cornflex)
+// 2021
 seasons[2021] = {
   championTeamId: "maleksexcornflex",
   championNote: "",
@@ -192,7 +202,6 @@ seasons[2021] = {
   ]
 };
 
-
 // =====================
 // UI RENDERING
 // =====================
@@ -207,15 +216,12 @@ const LOWER_IS_BETTER = new Set([
 
 function normalizeNumberFromStat(label, val) {
   if (typeof val === "number") return val;
-
   if (typeof val !== "string") return NaN;
-  const s = val.trim();
 
-  // record like "12-2" or "12–2" => use wins for comparison
+  const s = val.trim();
   const m = s.match(/^(\d+)\s*[-–]\s*(\d+)$/);
   if (m) return Number(m[1]);
 
-  // regular number
   const n = Number(s.replace(/[^\d.\-]/g, ""));
   return Number.isFinite(n) ? n : NaN;
 }
@@ -241,6 +247,7 @@ function computeAllTime(seasonsObj) {
       } else {
         const better = lowerBetter ? (v < current.best) : (v > current.best);
         const tie = Math.abs(v - current.best) < 1e-9;
+
         if (better) {
           current.best = v;
           current.holders = [{ year, stat }];
@@ -251,7 +258,6 @@ function computeAllTime(seasonsObj) {
     }
   }
 
-  // Mark isAllTime flags
   for (const info of recordMap.values()) {
     for (const h of info.holders) {
       h.stat.isAllTime = true;
@@ -262,31 +268,16 @@ function computeAllTime(seasonsObj) {
   return recordMap;
 }
 
-function teamLabel(teamId) {
-  const t = TEAMS[teamId];
-  return t ? t.name : teamId;
-}
-
-function teamPill(teamId, extraClass = "") {
-  const t = TEAMS[teamId] || { name: teamId, owner: "" };
-  const logo = t.logo ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : "";
-  return `<span class="team-pill ${extraClass}">
-    <span class="logo-dot">${logo}</span>
-    <span class="team-pill-text">${t.name}</span>
-  </span>`;
-}
-
 function renderStandings(season) {
-  const rows = season.standings
-    .map(r => `
-      <tr>
-        <td>${r.seed}</td>
-        <td>${teamPill(r.teamId)}</td>
-        <td>${r.record}</td>
-        <td>${r.pf.toFixed(2)}</td>
-        <td>${r.pa.toFixed(2)}</td>
-      </tr>
-    `).join("");
+  const rows = season.standings.map(r => `
+    <tr>
+      <td>${r.seed}</td>
+      <td>${teamPill(r.teamId)}</td>
+      <td>${r.record}</td>
+      <td>${r.pf.toFixed(2)}</td>
+      <td>${r.pa.toFixed(2)}</td>
+    </tr>
+  `).join("");
 
   return `
     <table class="table" aria-label="Season standings">
@@ -306,10 +297,12 @@ function renderStandings(season) {
 
 function renderStats(season) {
   const badge = season.hasAllTime ? `<span class="alltime-badge">All Time Record</span>` : "";
+
   const rows = season.seasonStats.map(st => {
     const valueClass = st.isAllTime ? "stat-alltime" : "";
     const teams = (st.teams && st.teams.length) ? st.teams.map(teamPill).join(" · ") : "";
     const details = st.details ? `<div class="stat-detail">${st.details}</div>` : "";
+
     return `
       <div class="stat-row">
         <div>
@@ -335,11 +328,7 @@ function renderChampion(season) {
   const elTeam = document.getElementById("championTeam");
   const elNote = document.getElementById("championNote");
 
-  if (!season.championTeamId) {
-    elTeam.textContent = "Undecided";
-  } else {
-    elTeam.textContent = teamLabel(season.championTeamId);
-  }
+  elTeam.textContent = season.championTeamId ? teamLabel(season.championTeamId) : "Undecided";
   elNote.textContent = season.championNote || "";
 }
 
@@ -347,7 +336,6 @@ function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
   const entries = Array.from(recordMap.entries());
 
-  // nice stable ordering
   const order = [
     "Longest winning streak of the season",
     "Longest losing streak of the season",
@@ -367,25 +355,20 @@ function renderAllTime(recordMap) {
   entries.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
 
   const cards = entries.map(([label, info]) => {
-    const holdersHtml = info.holders
-      .map(h => {
-        const teamsHtml =
-          (h.stat.teams && h.stat.teams.length)
-            ? h.stat.teams.map(id => teamPill(id)).join(" ")
-            : "";
+    const holdersHtml = info.holders.map(h => {
+      const teamsHtml = (h.stat.teams && h.stat.teams.length)
+        ? h.stat.teams.map(id => teamPill(id)).join(" ")
+        : "";
 
-        const detail = h.stat.details
-          ? ` <span class="muted">(${h.stat.details})</span>`
-          : "";
+      const detail = h.stat.details ? ` <span class="muted">(${h.stat.details})</span>` : "";
 
-        return `
-          <div class="record-holder-line">
-            <span class="record-year">${h.year} —</span>
-            <span class="record-teams">${teamsHtml}${detail}</span>
-          </div>
-        `;
-      })
-      .join("");
+      return `
+        <div class="record-holder-line">
+          <span class="record-year">${h.year} —</span>
+          <span class="record-teams">${teamsHtml}${detail}</span>
+        </div>
+      `;
+    }).join("");
 
     const bestDisplay = (info.best && info.best.toFixed)
       ? info.best.toFixed(2).replace(/\.00$/, "")
@@ -400,7 +383,7 @@ function renderAllTime(recordMap) {
     `;
   }).join("");
 
-   container.innerHTML = `<div class="records-grid">${cards}</div>`;
+  container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
 // Tabs
@@ -437,8 +420,7 @@ function wireSeasonYears(state) {
       yearButtons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      const year = Number(btn.dataset.season);
-      state.currentYear = year;
+      state.currentYear = Number(btn.dataset.season);
       renderSeason(state);
     });
   });
@@ -447,13 +429,12 @@ function wireSeasonYears(state) {
 function renderSeason(state) {
   const season = seasons[state.currentYear];
   renderChampion(season);
-
   document.getElementById("seasonStandings").innerHTML = renderStandings(season);
   document.getElementById("seasonStats").innerHTML = renderStats(season);
 }
 
 // Boot
-(function init(){
+(function init() {
   wireTabs();
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
