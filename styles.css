@@ -261,3 +261,41 @@ body{
 
 
 .logo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* =========================
+   TEAM LOGO SIZE (GLOBAL)
+   Paste at bottom of styles.css
+   ========================= */
+
+/* Make any logo loaded from /assets/ bigger + perfectly circular */
+img[src*="/assets/"],
+img[src*="assets/"]{
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+/* Give the text a little breathing room next to the logo */
+img[src*="/assets/"],
+img[src*="assets/"]{
+  margin-right: 10px !important;
+}
+
+/* If your team cell is flex-based, align everything nicely */
+.team-cell,
+.team-name,
+td.team,
+td.team-cell{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Increase row height a bit so the larger logo fits clean */
+table td{
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
