@@ -1,5 +1,5 @@
 Sister Cities League Website (Static)
-
+  
 FILES:
 - index.html
 - styles.css
