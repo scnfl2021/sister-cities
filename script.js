@@ -21,7 +21,7 @@ const seasons = {};
 // 2025 (champion TBD)
 seasons[2025] = {
   championTeamId: null,
-  championNote: "Undecided (playoffs in progress)",
+  championNote: "TBD (playoffs in progress)",
   standings: [
     { teamId: "svetunited", seed: 1, record: "12–2", pf: 2059.30, pa: 1489.78 },
     { teamId: "maleksexcornflex", seed: 2, record: "10–4", pf: 2002.50, pa: 1617.90 },
