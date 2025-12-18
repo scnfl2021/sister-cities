@@ -280,4 +280,29 @@ body{
   display: block;
 }
 
+/* All-time records: show team pills (logos) nicely */
+.record-holders{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.record-holder-line{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.record-year{
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.record-teams{
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
 
