@@ -3,6 +3,18 @@
 // =====================
 
 const TEAMS = {
+  function teamWithLogo(teamName) {
+  const team = Object.values(TEAMS).find(t => t.name === teamName);
+  if (!team) return teamName;
+
+  return `
+    <span class="pill">
+      <img src="${team.logo}" class="logo-img" />
+      ${team.name}
+    </span>
+  `;
+}
+
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
   daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "/sister-cities/assets/daddytate.png" },
   angolarookie: { name: "Angola Rookie", owner: "wadihelk", logo: "/sister-cities/assets/angolarookie.png" },
