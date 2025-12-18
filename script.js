@@ -3,17 +3,17 @@
 // =====================
 
 const TEAMS = {
-  svetunited: { name: "Svet United", owner: "MoD", logo: "assets/svetunited.png" },
-  daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "assets/daddytate.png" },
-  angolarookie: { name: "Angola Rookie", owner: "wadihelk", logo: "assets/angolarookie.png" },
-  drhtown: { name: "Dr. H-Town", owner: "MKassim", logo: "assets/drhtown.png" },
-  sixowls: { name: "6ixOwls", owner: "samik", logo: "assets/sixowls.png" },
-  miami: { name: "Miami", owner: "abe", logo: "assets/miami.png" },
-  snorlax: { name: "Snorlax", owner: "romi", logo: "assets/snorlax.png" },
-  barjalona: { name: "Barjalona", owner: "wassimelk", logo: "assets/barjalona.png" },
-  maleksexcornflex: { name: "Malek Sex & Cornflex", owner: "samerk", logo: "assets/maleksexcornflex.png" },
-  arshamaa: { name: "ArShamaa", owner: "arshammaa6", logo: "assets/arshamaa.png" },
-  abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "assets/abethe3arab.png" },
+  svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
+  daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "/sister-cities/assets/daddytate.png" },
+  angolarookie: { name: "Angola Rookie", owner: "wadihelk", logo: "/sister-cities/assets/angolarookie.png" },
+  drhtown: { name: "Dr. H-Town", owner: "MKassim", logo: "/sister=cities/assets/drhtown.png" },
+  sixowls: { name: "6ixOwls", owner: "samik", logo: "/sister-cities/assets/sixowls.png" },
+  miami: { name: "Miami", owner: "abe", logo: "/sister-cities/assets/miami.png" },
+  snorlax: { name: "Snorlax", owner: "romi", logo: "/sister-cities/assets/snorlax.png" },
+  barjalona: { name: "Barjalona", owner: "wassimelk", logo: "/sister-cities/assets/barjalona.png" },
+  maleksexcornflex: { name: "Malek Sex & Cornflex", owner: "samerk", logo: "/sister-cities/assets/maleksexcornflex.png" },
+  arshamaa: { name: "ArShamaa", owner: "arshammaa6", logo: "/sister-cities/assets/arshamaa.png" },
+  abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
 const seasons = {};
