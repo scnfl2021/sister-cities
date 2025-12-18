@@ -367,12 +367,17 @@ function renderAllTime(recordMap) {
 
   entries.sort((a,b) => order.indexOf(a[0]) - order.indexOf(b[0]));
 
-  const cards = entries.map(([label, info]) => {
-    const holders = info.holders.map(h => {
-      const tnames = (h.stat.teams && h.stat.teams.length) ? h.stat.teams.map(teamLabel).join(" / ") : "";
-      const detail = h.stat.details ? ` (${h.stat.details})` : "";
-      return `${h.year} — ${tnames}${detail}`;
-    }).join(" • ");
+ const holders = info.holders.map(h => {
+  const teamsHtml = (h.stat.teams && h.stat.teams.length)
+    ? h.stat.teams.map(id => teamPill(id)).join(" ")
+    : "";
+  const detail = h.stat.details ? ` <span class="muted">(${h.stat.details})</span>` : "";
+  return `<div class="record-holder-line">
+    <span class="record-year">${h.year} —</span>
+    <span class="record-teams">${teamsHtml}${detail}</span>
+  </div>`;
+}).join("");
+
 
     const bestDisplay = info.best.toFixed ? info.best.toFixed(2).replace(/\.00$/,"") : String(info.best);
 
