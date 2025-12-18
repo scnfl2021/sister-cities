@@ -6,7 +6,7 @@ const TEAMS = {
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
   daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "/sister-cities/assets/daddytate.png" },
   angolarookie: { name: "Angola Rookie", owner: "wadihelk", logo: "/sister-cities/assets/angolarookie.png" },
-  drhtown: { name: "Dr. H-Town", owner: "MKassim", logo: "/sister=cities/assets/drhtown.png" },
+  drhtown: { name: "Dr. H-Town", owner: "MKassim", logo: "/sister-cities/assets/drhtown.png" },
   sixowls: { name: "6ixOwls", owner: "samik", logo: "/sister-cities/assets/sixowls.png" },
   miami: { name: "Miami", owner: "abe", logo: "/sister-cities/assets/miami.png" },
   snorlax: { name: "Snorlax", owner: "romi", logo: "/sister-cities/assets/snorlax.png" },
