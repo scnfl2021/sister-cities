@@ -8,20 +8,110 @@
 </head>
 <body>
   <header class="header">
+  <div class="container header-inner">
+
+    <!-- LEFT: 3 landmark silhouettes -->
+    <div class="header-left" aria-label="League countries landmarks">
+      <!-- Simple inline SVG silhouettes (USA, Canada, Lebanon) -->
+      <svg class="landmarks" viewBox="0 0 360 70" role="img" aria-label="Statue of Liberty, CN Tower, Baalbek">
+        <!-- base line -->
+        <rect x="0" y="62" width="360" height="4" rx="2"></rect>
+
+        <!-- Statue of Liberty (simplified) -->
+        <g transform="translate(10,6)">
+          <rect x="18" y="40" width="24" height="18" rx="2"></rect>
+          <rect x="24" y="20" width="12" height="22" rx="2"></rect>
+          <circle cx="30" cy="16" r="6"></circle>
+          <rect x="28" y="0" width="4" height="12"></rect>
+          <path d="M30 0 L22 10 L38 10 Z"></path>
+          <path d="M30 6 L18 18 L42 18 Z"></path>
+        </g>
+
+        <!-- CN Tower (simplified) -->
+        <g transform="translate(135,4)">
+          <rect x="34" y="6" width="6" height="54" rx="2"></rect>
+          <ellipse cx="37" cy="20" rx="20" ry="8"></ellipse>
+          <rect x="35" y="0" width="4" height="10" rx="2"></rect>
+          <path d="M37 60 L25 60 L30 52 L44 52 L49 60 Z"></path>
+        </g>
+
+        <!-- Baalbek Temple (simplified columns) -->
+        <g transform="translate(250,14)">
+          <rect x="0" y="44" width="90" height="10" rx="2"></rect>
+          <rect x="6" y="6" width="78" height="10" rx="2"></rect>
+          <rect x="10" y="16" width="10" height="28" rx="2"></rect>
+          <rect x="26" y="16" width="10" height="28" rx="2"></rect>
+          <rect x="42" y="16" width="10" height="28" rx="2"></rect>
+          <rect x="58" y="16" width="10" height="28" rx="2"></rect>
+          <rect x="74" y="16" width="10" height="28" rx="2"></rect>
+        </g>
+      </svg>
+    </div>
+
+    <!-- CENTER: Big league emblem (replaces SC circle) -->
     <div class="brand">
-      <div class="brand-logo" aria-label="League logo placeholder">SC</div>
-      <div class="brand-text">
+      <img
+        class="league-emblem"
+        src="/sister-cities/assets/league-logo.png"
+        alt="Sister Cities Fantasy League logo"
+        loading="eager"
+      />
+      <div>
         <div class="brand-title">Sister Cities</div>
         <div class="brand-subtitle">Season 2021–2025</div>
       </div>
     </div>
 
-    <nav class="tabs" role="tablist" aria-label="Main navigation">
-      <button class="tab active" data-tab="season" role="tab" aria-selected="true">Season</button>
-      <button class="tab" data-tab="awards" role="tab" aria-selected="false">Awards</button>
-      <button class="tab" data-tab="alltime" role="tab" aria-selected="false">All Time Records</button>
-    </nav>
-  </header>
+    <!-- RIGHT: USA + Canada flags -->
+    <div class="header-right" aria-label="League flags">
+      <!-- USA flag (simple SVG) -->
+      <svg class="flag" viewBox="0 0 190 100" role="img" aria-label="United States flag">
+        <rect width="190" height="100" rx="10"></rect>
+        <!-- stripes -->
+        <g class="flag-stripes">
+          <rect y="0" width="190" height="8"></rect>
+          <rect y="16" width="190" height="8"></rect>
+          <rect y="32" width="190" height="8"></rect>
+          <rect y="48" width="190" height="8"></rect>
+          <rect y="64" width="190" height="8"></rect>
+          <rect y="80" width="190" height="8"></rect>
+          <rect y="96" width="190" height="4"></rect>
+        </g>
+        <!-- canton -->
+        <rect class="flag-canton" x="0" y="0" width="76" height="56" rx="10"></rect>
+        <!-- simple stars -->
+        <g class="flag-stars">
+          <circle cx="10" cy="10" r="2"></circle><circle cx="22" cy="10" r="2"></circle><circle cx="34" cy="10" r="2"></circle><circle cx="46" cy="10" r="2"></circle><circle cx="58" cy="10" r="2"></circle><circle cx="70" cy="10" r="2"></circle>
+          <circle cx="16" cy="20" r="2"></circle><circle cx="28" cy="20" r="2"></circle><circle cx="40" cy="20" r="2"></circle><circle cx="52" cy="20" r="2"></circle><circle cx="64" cy="20" r="2"></circle>
+          <circle cx="10" cy="30" r="2"></circle><circle cx="22" cy="30" r="2"></circle><circle cx="34" cy="30" r="2"></circle><circle cx="46" cy="30" r="2"></circle><circle cx="58" cy="30" r="2"></circle><circle cx="70" cy="30" r="2"></circle>
+          <circle cx="16" cy="40" r="2"></circle><circle cx="28" cy="40" r="2"></circle><circle cx="40" cy="40" r="2"></circle><circle cx="52" cy="40" r="2"></circle><circle cx="64" cy="40" r="2"></circle>
+          <circle cx="10" cy="50" r="2"></circle><circle cx="22" cy="50" r="2"></circle><circle cx="34" cy="50" r="2"></circle><circle cx="46" cy="50" r="2"></circle><circle cx="58" cy="50" r="2"></circle><circle cx="70" cy="50" r="2"></circle>
+        </g>
+      </svg>
+
+      <!-- Canada flag (simple SVG) -->
+      <svg class="flag" viewBox="0 0 190 100" role="img" aria-label="Canada flag">
+        <rect width="190" height="100" rx="10" class="canada-bg"></rect>
+        <rect x="0" y="0" width="45" height="100" rx="10" class="canada-red"></rect>
+        <rect x="145" y="0" width="45" height="100" rx="10" class="canada-red"></rect>
+        <!-- simplified maple leaf -->
+        <path class="canada-leaf"
+          d="M95 20
+             L88 32 L78 28 L82 40 L70 42 L80 50 L74 62 L88 58
+             L95 72
+             L102 58 L116 62 L110 50 L120 42 L108 40 L112 28 L102 32 Z"/>
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- keep your tabs exactly as they were -->
+  <div class="tabs">
+    <button class="tab active" data-tab="season">Season</button>
+    <button class="tab" data-tab="awards">Awards</button>
+    <button class="tab" data-tab="records">All Time Records</button>
+  </div>
+</header>
 
   <main class="container">
     <!-- SEASON -->
