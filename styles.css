@@ -418,3 +418,15 @@ body{
   height: 48px;  /* was 24px */
   border-radius: 6px;
 }
+/* === FINAL HEADER SIZE ADJUSTMENTS === */
+
+/* League logo – slightly bigger, not huge */
+.league-logo {
+  height: 120px; /* was ~92px */
+}
+
+/* Flags – about 200% bigger */
+.flag {
+  width: 72px;   /* was ~36px */
+  height: 48px;  /* was ~24px */
+}
