@@ -483,3 +483,43 @@ body{
 .champion-team-name{
   /* inherit your existing champion-team styling */
 }
+/* =========================
+   Champion logo fixes
+   (paste at very bottom)
+   ========================= */
+
+/* Center the whole champion block (logo + name) */
+#championTeam{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+/* If your champion logo is injected as an <img> inside #championTeam */
+#championTeam img{
+  display: block;
+  margin: 0 auto;                 /* fixes the off-center issue (Malek SC) */
+  width: 72px;                    /* adjust if you want slightly bigger/smaller */
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;              /* crops to circle cleanly */
+  object-position: center center; /* centers the image inside the circle */
+  background: transparent !important; /* removes any forced white background */
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* If you wrapped the logo in a container (common pattern), make it a true circle crop */
+.champion-logo-wrap,
+.champion-logo,
+.champion-logo-container{
+  background: transparent !important;
+  border-radius: 50%;
+  overflow: hidden;               /* kills the square look */
+  display: grid;
+  place-items: center;
+}
