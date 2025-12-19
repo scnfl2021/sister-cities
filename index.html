@@ -3,121 +3,97 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sister Cities League</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Sister Cities</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+
   <header class="header">
-  <div class="container header-inner">
+    <div class="container">
 
-    <!-- LEFT: 3 landmark silhouettes -->
-    <div class="header-left" aria-label="League countries landmarks">
-      <!-- Simple inline SVG silhouettes (USA, Canada, Lebanon) -->
-      <svg class="landmarks" viewBox="0 0 360 70" role="img" aria-label="Statue of Liberty, CN Tower, Baalbek">
-        <!-- base line -->
-        <rect x="0" y="62" width="360" height="4" rx="2"></rect>
+      <div class="topbar">
 
-        <!-- Statue of Liberty (simplified) -->
-        <g transform="translate(10,6)">
-          <rect x="18" y="40" width="24" height="18" rx="2"></rect>
-          <rect x="24" y="20" width="12" height="22" rx="2"></rect>
-          <circle cx="30" cy="16" r="6"></circle>
-          <rect x="28" y="0" width="4" height="12"></rect>
-          <path d="M30 0 L22 10 L38 10 Z"></path>
-          <path d="M30 6 L18 18 L42 18 Z"></path>
-        </g>
+        <!-- LEFT: silhouettes (SVG) -->
+        <div class="topbar-left" aria-label="League countries landmarks">
+          <svg class="landmarks" viewBox="0 0 520 90" role="img" aria-label="CN Tower, Statue of Liberty, Baalbek">
+            <!-- Baseline -->
+            <rect x="0" y="78" width="520" height="4" rx="2" />
 
-        <!-- CN Tower (simplified) -->
-        <g transform="translate(135,4)">
-          <rect x="34" y="6" width="6" height="54" rx="2"></rect>
-          <ellipse cx="37" cy="20" rx="20" ry="8"></ellipse>
-          <rect x="35" y="0" width="4" height="10" rx="2"></rect>
-          <path d="M37 60 L25 60 L30 52 L44 52 L49 60 Z"></path>
-        </g>
+            <!-- CN Tower (simplified, solid) -->
+            <g transform="translate(40,8)">
+              <rect x="52" y="20" width="10" height="50" rx="2"/>
+              <rect x="44" y="30" width="26" height="6" rx="3"/>
+              <rect x="46" y="38" width="22" height="6" rx="3"/>
+              <rect x="56" y="8" width="2" height="14" />
+              <polygon points="57,0 61,8 53,8" />
+              <rect x="54" y="70" width="14" height="8" rx="2"/>
+            </g>
 
-        <!-- Baalbek Temple (simplified columns) -->
-        <g transform="translate(250,14)">
-          <rect x="0" y="44" width="90" height="10" rx="2"></rect>
-          <rect x="6" y="6" width="78" height="10" rx="2"></rect>
-          <rect x="10" y="16" width="10" height="28" rx="2"></rect>
-          <rect x="26" y="16" width="10" height="28" rx="2"></rect>
-          <rect x="42" y="16" width="10" height="28" rx="2"></rect>
-          <rect x="58" y="16" width="10" height="28" rx="2"></rect>
-          <rect x="74" y="16" width="10" height="28" rx="2"></rect>
-        </g>
-      </svg>
-    </div>
+            <!-- Statue of Liberty (simplified, solid) -->
+            <g transform="translate(200,6)">
+              <rect x="54" y="62" width="50" height="16" rx="2"/>
+              <rect x="64" y="50" width="30" height="14" rx="3"/>
+              <rect x="74" y="26" width="12" height="24" rx="6"/>
+              <circle cx="80" cy="18" r="10" />
+              <!-- crown spikes -->
+              <polygon points="80,2 84,12 76,12" />
+              <polygon points="64,8 74,14 66,18" />
+              <polygon points="96,8 94,18 86,14" />
+              <!-- torch arm -->
+              <rect x="98" y="14" width="10" height="30" rx="5"/>
+              <polygon points="103,0 114,14 92,14" />
+              <rect x="96" y="44" width="26" height="8" rx="4"/>
+            </g>
 
-    <!-- CENTER: Big league emblem (replaces SC circle) -->
-    <div class="brand">
-      <img
-        class="league-emblem"
-        src="/sister-cities/assets/league-logo.png"
-        alt="Sister Cities Fantasy League logo"
-        loading="eager"
-      />
-      <div>
-        <div class="brand-title">Sister Cities</div>
-        <div class="brand-subtitle">Season 2021–2025</div>
+            <!-- Baalbek temple (simplified, solid) -->
+            <g transform="translate(360,12)">
+              <rect x="0" y="58" width="140" height="20" rx="2"/>
+              <rect x="14" y="22" width="112" height="12" rx="2"/>
+              <!-- columns -->
+              <rect x="18" y="34" width="10" height="24" rx="2"/>
+              <rect x="38" y="34" width="10" height="24" rx="2"/>
+              <rect x="58" y="34" width="10" height="24" rx="2"/>
+              <rect x="78" y="34" width="10" height="24" rx="2"/>
+              <rect x="98" y="34" width="10" height="24" rx="2"/>
+              <rect x="118" y="34" width="10" height="24" rx="2"/>
+              <!-- roof -->
+              <polygon points="10,22 70,0 130,22" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- CENTER: logo + titles -->
+        <div class="topbar-center">
+          <img class="league-logo" src="/sister-cities/assets/league-logo.png" alt="Sister Cities League Logo" />
+          <div class="brand-text">
+            <div class="brand-title">Sister Cities</div>
+            <div class="brand-subtitle">Season 2021–2025</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: flags -->
+        <div class="topbar-right" aria-label="League flags">
+          <img class="flag" src="/sister-cities/assets/flag-usa.png" alt="USA flag" loading="lazy" />
+          <img class="flag" src="/sister-cities/assets/flag-canada.png" alt="Canada flag" loading="lazy" />
+        </div>
+
       </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="season">Season</button>
+        <button class="tab" data-tab="awards">Awards</button>
+        <button class="tab" data-tab="records">All Time Records</button>
+      </div>
+
     </div>
+  </header>
 
-    <!-- RIGHT: USA + Canada flags -->
-    <div class="header-right" aria-label="League flags">
-      <!-- USA flag (simple SVG) -->
-      <svg class="flag" viewBox="0 0 190 100" role="img" aria-label="United States flag">
-        <rect width="190" height="100" rx="10"></rect>
-        <!-- stripes -->
-        <g class="flag-stripes">
-          <rect y="0" width="190" height="8"></rect>
-          <rect y="16" width="190" height="8"></rect>
-          <rect y="32" width="190" height="8"></rect>
-          <rect y="48" width="190" height="8"></rect>
-          <rect y="64" width="190" height="8"></rect>
-          <rect y="80" width="190" height="8"></rect>
-          <rect y="96" width="190" height="4"></rect>
-        </g>
-        <!-- canton -->
-        <rect class="flag-canton" x="0" y="0" width="76" height="56" rx="10"></rect>
-        <!-- simple stars -->
-        <g class="flag-stars">
-          <circle cx="10" cy="10" r="2"></circle><circle cx="22" cy="10" r="2"></circle><circle cx="34" cy="10" r="2"></circle><circle cx="46" cy="10" r="2"></circle><circle cx="58" cy="10" r="2"></circle><circle cx="70" cy="10" r="2"></circle>
-          <circle cx="16" cy="20" r="2"></circle><circle cx="28" cy="20" r="2"></circle><circle cx="40" cy="20" r="2"></circle><circle cx="52" cy="20" r="2"></circle><circle cx="64" cy="20" r="2"></circle>
-          <circle cx="10" cy="30" r="2"></circle><circle cx="22" cy="30" r="2"></circle><circle cx="34" cy="30" r="2"></circle><circle cx="46" cy="30" r="2"></circle><circle cx="58" cy="30" r="2"></circle><circle cx="70" cy="30" r="2"></circle>
-          <circle cx="16" cy="40" r="2"></circle><circle cx="28" cy="40" r="2"></circle><circle cx="40" cy="40" r="2"></circle><circle cx="52" cy="40" r="2"></circle><circle cx="64" cy="40" r="2"></circle>
-          <circle cx="10" cy="50" r="2"></circle><circle cx="22" cy="50" r="2"></circle><circle cx="34" cy="50" r="2"></circle><circle cx="46" cy="50" r="2"></circle><circle cx="58" cy="50" r="2"></circle><circle cx="70" cy="50" r="2"></circle>
-        </g>
-      </svg>
-
-      <!-- Canada flag (simple SVG) -->
-      <svg class="flag" viewBox="0 0 190 100" role="img" aria-label="Canada flag">
-        <rect width="190" height="100" rx="10" class="canada-bg"></rect>
-        <rect x="0" y="0" width="45" height="100" rx="10" class="canada-red"></rect>
-        <rect x="145" y="0" width="45" height="100" rx="10" class="canada-red"></rect>
-        <!-- simplified maple leaf -->
-        <path class="canada-leaf"
-          d="M95 20
-             L88 32 L78 28 L82 40 L70 42 L80 50 L74 62 L88 58
-             L95 72
-             L102 58 L116 62 L110 50 L120 42 L108 40 L112 28 L102 32 Z"/>
-      </svg>
-    </div>
-
-  </div>
-
-  <!-- keep your tabs exactly as they were -->
-  <div class="tabs">
-    <button class="tab active" data-tab="season">Season</button>
-    <button class="tab" data-tab="awards">Awards</button>
-    <button class="tab" data-tab="records">All Time Records</button>
-  </div>
-</header>
-
-  <main class="container">
-    <!-- SEASON -->
-    <section id="tab-season" class="tabpanel active" role="tabpanel">
-      <div class="season-controls">
-        <div class="season-years" aria-label="Season years">
+  <main class="container page">
+    <!-- SEASON TAB -->
+    <section id="tab-season" class="tabpanel active">
+      <div class="season-controls card">
+        <div class="season-years">
           <button class="season-year-button active" data-season="2025">2025</button>
           <button class="season-year-button" data-season="2024">2024</button>
           <button class="season-year-button" data-season="2023">2023</button>
@@ -126,49 +102,51 @@
         </div>
       </div>
 
-      <section class="card champion-card" aria-label="Champion">
+      <div class="card champion-card">
         <div class="card-title">Champion</div>
         <div class="champion-row">
-          <div class="champion-team" id="championTeam">—</div>
-          <div class="champion-note" id="championNote"></div>
+          <div id="championTeam" class="champion-team"></div>
+          <div id="championNote" class="champion-note"></div>
         </div>
-      </section>
+      </div>
 
-      <section class="card season-body" aria-label="Season content">
+      <div class="card">
         <div class="season-subtabs">
           <button class="season-subtab active" data-subtab="standings">Standings</button>
           <button class="season-subtab" data-subtab="stats">Stats</button>
         </div>
 
-        <div id="seasonStandings" class="season-pane active" data-pane="standings"></div>
-        <div id="seasonStats" class="season-pane" data-pane="stats"></div>
-      </section>
+        <div class="season-pane active" data-pane="standings">
+          <div id="seasonStandings"></div>
+        </div>
+
+        <div class="season-pane" data-pane="stats">
+          <div id="seasonStats"></div>
+        </div>
+      </div>
     </section>
 
-    <!-- AWARDS -->
-    <section id="tab-awards" class="tabpanel" role="tabpanel">
-      <section class="card">
+    <!-- AWARDS TAB (placeholder) -->
+    <section id="tab-awards" class="tabpanel">
+      <div class="card">
         <div class="card-title">Awards</div>
-        <p class="muted">
-          2025 is the inaugural awards ceremony. This section is intentionally empty for now — you’ll add nominees and winners later.
-        </p>
-      </section>
+        <div class="muted">Coming soon.</div>
+      </div>
     </section>
 
-    <!-- ALL TIME -->
-    <section id="tab-alltime" class="tabpanel" role="tabpanel">
-      <section class="card">
+    <!-- ALL TIME RECORDS TAB -->
+    <section id="tab-records" class="tabpanel">
+      <div class="card">
         <div class="card-title">All Time Records</div>
-        <p class="muted">Auto-computed from your seasons data (2021–2025).</p>
-        <div id="allTimeRecordsContainer" class="records-grid"></div>
-      </section>
+        <div id="allTimeRecordsContainer"></div>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="muted">Built for your Sister Cities fantasy league • Hosted on GitHub Pages</div>
+    Built for your Sister Cities fantasy league • Hosted on GitHub Pages
   </footer>
 
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
