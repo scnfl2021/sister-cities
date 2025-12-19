@@ -333,3 +333,15 @@ body{
   flex-shrink: 0;
   display: block;
 }
+/* Header flags (USA & Canada) */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.flag-svg {
+  width: 38px;
+  height: auto;
+  display: block;
+}
