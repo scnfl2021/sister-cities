@@ -311,3 +311,46 @@ body{
   .brand-text{ text-align:center; }
   .league-logo{ height: 84px; }
 }
+/* ===============================
+   CLEAN HEADER (FINAL VERSION)
+   =============================== */
+
+.header {
+  background: #0b0b0d;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* CENTER LOGO */
+.league-logo-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.league-logo {
+  height: 130px; /* 🔥 ~40% BIGGER than before */
+  width: auto;
+  display: block;
+}
+
+/* RIGHT FLAGS */
+.header-flags {
+  display: flex;
+  gap: 14px;
+}
+
+.flag-icon {
+  height: 36px;
+  width: auto;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.15);
+}
