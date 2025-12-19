@@ -443,36 +443,3 @@ function renderSeason(state) {
   wireSeasonYears(state);
   renderSeason(state);
 })();
-/* =========================
-   HEADER FLAGS INJECTOR (NO IMAGES)
-   Paste at bottom of script.js
-   ========================= */
-(function addHeaderFlags() {
-  const header = document.querySelector("header .topbar");
-  if (!header) return;
-
-  // If a right container already exists, don't duplicate it.
-  let right = header.querySelector(".topbar-right");
-  if (!right) {
-    right = document.createElement("div");
-    right.className = "topbar-right";
-    right.setAttribute("aria-label", "League flags");
-    header.appendChild(right);
-  } else {
-    // Clear anything currently in there (like broken img icons/text)
-    right.innerHTML = "";
-  }
-
-  const usa = document.createElement("div");
-  usa.className = "flag flag-usa";
-  usa.title = "USA";
-  usa.setAttribute("aria-label", "USA flag");
-
-  const can = document.createElement("div");
-  can.className = "flag flag-canada";
-  can.title = "Canada";
-  can.setAttribute("aria-label", "Canada flag");
-
-  right.appendChild(usa);
-  right.appendChild(can);
-})();
