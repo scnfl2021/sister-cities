@@ -403,3 +403,18 @@ body{
   font-size: 14px;
   line-height: 1;
 }
+/* ===============================
+   HEADER SIZE ADJUSTMENTS (FINAL)
+   =============================== */
+
+/* League logo – make ~80% bigger */
+.league-logo {
+  height: 165px; /* was ~92px */
+}
+
+/* Flags – make ~200% bigger */
+.flag {
+  width: 72px;   /* was 36px */
+  height: 48px;  /* was 24px */
+  border-radius: 6px;
+}
