@@ -430,3 +430,38 @@ body{
   width: 72px;   /* was ~36px */
   height: 48px;  /* was ~24px */
 }
+/* ==============================
+   HEADER HEIGHT REDUCTION (SAFE)
+   ============================== */
+
+/* Reduce overall header vertical padding */
+.header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* Reduce container padding inside header */
+.header .container {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Tighten topbar spacing */
+.topbar {
+  min-height: unset;
+}
+
+/* Slightly reduce logo height */
+.league-logo {
+  height: 72px; /* was larger — adjust ±4px if needed */
+}
+
+/* Tighten brand text spacing */
+.brand-text {
+  line-height: 1.1;
+}
+
+/* Pull tabs closer to header */
+.tabs {
+  margin-top: 8px;
+}
