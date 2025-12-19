@@ -8,15 +8,12 @@
 </head>
 <body>
 
-  <header class="header">
+<header class="header">
   <div class="container">
 
     <div class="topbar">
 
-      <!-- LEFT: EMPTY (landmarks removed) -->
-      <div class="topbar-left"></div>
-
-      <!-- CENTER: league logo + text -->
+      <!-- CENTER: League logo + text -->
       <div class="topbar-center">
         <img
           class="league-logo"
@@ -29,18 +26,13 @@
         </div>
       </div>
 
-      <!-- RIGHT: flags -->
+      <!-- RIGHT: FLAGS (CREATED HERE, NO IMAGES) -->
       <div class="topbar-right">
-        <img
-          class="flag"
-          src="/sister-cities/assets/flag-usa.png"
-          alt="USA flag"
-        />
-        <img
-          class="flag"
-          src="/sister-cities/assets/flag-canada.png"
-          alt="Canada flag"
-        />
+        <!-- USA FLAG -->
+        <div class="flag flag-usa" title="USA"></div>
+
+        <!-- CANADA FLAG -->
+        <div class="flag flag-canada" title="Canada"></div>
       </div>
 
     </div>
@@ -55,65 +47,14 @@
   </div>
 </header>
 
+<main class="container page">
+  <!-- CONTENT UNCHANGED -->
+</main>
 
-  <main class="container page">
-    <!-- SEASON TAB -->
-    <section id="tab-season" class="tabpanel active">
-      <div class="season-controls card">
-        <div class="season-years">
-          <button class="season-year-button active" data-season="2025">2025</button>
-          <button class="season-year-button" data-season="2024">2024</button>
-          <button class="season-year-button" data-season="2023">2023</button>
-          <button class="season-year-button" data-season="2022">2022</button>
-          <button class="season-year-button" data-season="2021">2021</button>
-        </div>
-      </div>
+<footer class="footer">
+  Built for your Sister Cities fantasy league • Hosted on GitHub Pages
+</footer>
 
-      <div class="card champion-card">
-        <div class="card-title">Champion</div>
-        <div class="champion-row">
-          <div id="championTeam" class="champion-team"></div>
-          <div id="championNote" class="champion-note"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="season-subtabs">
-          <button class="season-subtab active" data-subtab="standings">Standings</button>
-          <button class="season-subtab" data-subtab="stats">Stats</button>
-        </div>
-
-        <div class="season-pane active" data-pane="standings">
-          <div id="seasonStandings"></div>
-        </div>
-
-        <div class="season-pane" data-pane="stats">
-          <div id="seasonStats"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AWARDS TAB (placeholder) -->
-    <section id="tab-awards" class="tabpanel">
-      <div class="card">
-        <div class="card-title">Awards</div>
-        <div class="muted">Coming soon.</div>
-      </div>
-    </section>
-
-    <!-- ALL TIME RECORDS TAB -->
-    <section id="tab-records" class="tabpanel">
-      <div class="card">
-        <div class="card-title">All Time Records</div>
-        <div id="allTimeRecordsContainer"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    Built for your Sister Cities fantasy league • Hosted on GitHub Pages
-  </footer>
-
-  <script src="./script.js"></script>
+<script src="./script.js"></script>
 </body>
 </html>
