@@ -102,22 +102,21 @@ body{
 }
 
 /* Tabs */
-/* Tabs (force centered) */
 .tabs{
-  width: 100%;
-  display: flex;
-  justify-content: center;   /* <-- centers the buttons */
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  margin-top: 14px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
-
-/* keep buttons normal */
 .tab{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.85);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor:pointer;
+  font-weight:700;
 }
 .tab:hover{ background: rgba(255,255,255,0.10); }
 .tab.active{
@@ -332,17 +331,5 @@ body{
   height: 78px;      /* adjust if you want even bigger */
   width: auto;
   flex-shrink: 0;
-  display: block;
-}
-/* Header flags (USA & Canada) */
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.flag-svg {
-  width: 38px;
-  height: auto;
   display: block;
 }
