@@ -102,21 +102,22 @@ body{
 }
 
 /* Tabs */
+/* Tabs (force centered) */
 .tabs{
-  margin-top: 14px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
+  width: 100%;
+  display: flex;
+  justify-content: center;   /* <-- centers the buttons */
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
 }
+
+/* keep buttons normal */
 .tab{
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.85);
-  padding: 10px 14px;
-  border-radius: 999px;
-  cursor:pointer;
-  font-weight:700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
 }
 .tab:hover{ background: rgba(255,255,255,0.10); }
 .tab.active{
