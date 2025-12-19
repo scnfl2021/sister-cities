@@ -9,81 +9,35 @@
 
 <body>
   <!-- HEADER -->
-  <header class="header">
-    <div class="container">
-      <div class="brandbar">
-        <!-- LEFT: intentionally empty (you asked to REMOVE everything on the left) -->
-        <div class="brand-left"></div>
+ <header class="header">
+  <div class="header-inner">
 
-        <!-- CENTER: BIG league logo + title -->
-        <div class="brand-center">
-          <img
-            class="league-logo"
-            src="/sister-cities/assets/league-logo.png"
-            alt="Sister Cities Fantasy League Logo"
-            loading="eager"
-          />
-          <div class="brand-text">
-            <div class="brand-title">Sister Cities</div>
-            <div class="brand-subtitle">Season 2021–2025</div>
-          </div>
-        </div>
-
-        <!-- RIGHT: USA + Canada flags (built-in SVG so no extra files needed) -->
-        <div class="brand-right" aria-label="League countries">
-          <!-- USA -->
-          <span class="flag" title="USA" aria-label="USA">
-            <svg viewBox="0 0 190 100" width="48" height="30" role="img" aria-hidden="true">
-              <rect width="190" height="100" fill="#fff"/>
-              <!-- red stripes -->
-              <g fill="#b22234">
-                <rect y="0" width="190" height="7.7"/>
-                <rect y="15.4" width="190" height="7.7"/>
-                <rect y="30.8" width="190" height="7.7"/>
-                <rect y="46.2" width="190" height="7.7"/>
-                <rect y="61.6" width="190" height="7.7"/>
-                <rect y="77.0" width="190" height="7.7"/>
-                <rect y="92.3" width="190" height="7.7"/>
-              </g>
-              <!-- canton -->
-              <rect width="76" height="53.9" fill="#3c3b6e"/>
-              <!-- simple star dots -->
-              <g fill="#fff" opacity="0.95">
-                <!-- rows of dots -->
-                <circle cx="8" cy="6" r="1.4"/><circle cx="18" cy="6" r="1.4"/><circle cx="28" cy="6" r="1.4"/><circle cx="38" cy="6" r="1.4"/><circle cx="48" cy="6" r="1.4"/><circle cx="58" cy="6" r="1.4"/><circle cx="68" cy="6" r="1.4"/>
-                <circle cx="13" cy="13" r="1.4"/><circle cx="23" cy="13" r="1.4"/><circle cx="33" cy="13" r="1.4"/><circle cx="43" cy="13" r="1.4"/><circle cx="53" cy="13" r="1.4"/><circle cx="63" cy="13" r="1.4"/>
-                <circle cx="8" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><circle cx="28" cy="20" r="1.4"/><circle cx="38" cy="20" r="1.4"/><circle cx="48" cy="20" r="1.4"/><circle cx="58" cy="20" r="1.4"/><circle cx="68" cy="20" r="1.4"/>
-                <circle cx="13" cy="27" r="1.4"/><circle cx="23" cy="27" r="1.4"/><circle cx="33" cy="27" r="1.4"/><circle cx="43" cy="27" r="1.4"/><circle cx="53" cy="27" r="1.4"/><circle cx="63" cy="27" r="1.4"/>
-                <circle cx="8" cy="34" r="1.4"/><circle cx="18" cy="34" r="1.4"/><circle cx="28" cy="34" r="1.4"/><circle cx="38" cy="34" r="1.4"/><circle cx="48" cy="34" r="1.4"/><circle cx="58" cy="34" r="1.4"/><circle cx="68" cy="34" r="1.4"/>
-                <circle cx="13" cy="41" r="1.4"/><circle cx="23" cy="41" r="1.4"/><circle cx="33" cy="41" r="1.4"/><circle cx="43" cy="41" r="1.4"/><circle cx="53" cy="41" r="1.4"/><circle cx="63" cy="41" r="1.4"/>
-                <circle cx="8" cy="48" r="1.4"/><circle cx="18" cy="48" r="1.4"/><circle cx="28" cy="48" r="1.4"/><circle cx="38" cy="48" r="1.4"/><circle cx="48" cy="48" r="1.4"/><circle cx="58" cy="48" r="1.4"/><circle cx="68" cy="48" r="1.4"/>
-              </g>
-            </svg>
-          </span>
-
-          <!-- Canada -->
-          <span class="flag" title="Canada" aria-label="Canada">
-            <svg viewBox="0 0 190 100" width="48" height="30" role="img" aria-hidden="true">
-              <rect width="190" height="100" fill="#fff"/>
-              <rect width="40" height="100" fill="#d52b1e"/>
-              <rect x="150" width="40" height="100" fill="#d52b1e"/>
-              <!-- simplified maple leaf -->
-              <path fill="#d52b1e" d="M95 18
-                l7 14 15-3 -10 12 10 4 -10 6 6 10 -13-3 -5 14 -5-14 -13 3 6-10 -10-6 10-4 -10-12 15 3z"/>
-              <rect x="92" y="60" width="6" height="18" fill="#d52b1e"/>
-            </svg>
-          </span>
-        </div>
-      </div>
-
-      <!-- TOP TABS -->
-      <div class="tabs">
-        <button class="tab active" data-tab="season" type="button">Season</button>
-        <button class="tab" data-tab="awards" type="button">Awards</button>
-        <button class="tab" data-tab="alltime" type="button">All Time Records</button>
-      </div>
+    <!-- CENTER: BIG LEAGUE LOGO -->
+    <div class="league-logo-wrap">
+      <img
+        src="/sister-cities/assets/league-logo.png"
+        alt="Sister Cities Fantasy League"
+        class="league-logo"
+      />
     </div>
-  </header>
+
+    <!-- RIGHT: FLAGS -->
+    <div class="header-flags">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+        alt="USA"
+        class="flag-icon"
+      />
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Canada.svg"
+        alt="Canada"
+        class="flag-icon"
+      />
+    </div>
+
+  </div>
+</header>
+
 
   <!-- CONTENT -->
   <main class="container page">
