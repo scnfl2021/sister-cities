@@ -326,3 +326,10 @@ body{
   .brand-text{align-items:center; text-align:center;}
   .league-logo{height: 68px;}
 }
+/* Make league logo ~30% bigger */
+.league-logo{
+  height: 78px;      /* adjust if you want even bigger */
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
