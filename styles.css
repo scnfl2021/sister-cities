@@ -333,3 +333,73 @@ body{
   flex-shrink: 0;
   display: block;
 }
+/* =========================
+   HEADER FLAGS (NO IMAGES)
+   Paste at bottom of styles.css
+   ========================= */
+
+.topbar { position: relative; }
+
+/* right side container */
+.topbar-right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* generic flag */
+.flag {
+  width: 36px;
+  height: 24px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.20);
+  overflow: hidden;
+}
+
+/* USA flag (simple) */
+.flag-usa {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #b22234 0,
+      #b22234 7.69%,
+      #ffffff 7.69%,
+      #ffffff 15.38%
+    );
+  position: relative;
+}
+.flag-usa::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 54%;
+  background: #3c3b6e;
+}
+
+/* Canada flag (simple) */
+.flag-canada {
+  background: linear-gradient(
+    to right,
+    #d52b1e 0%,
+    #d52b1e 25%,
+    #ffffff 25%,
+    #ffffff 75%,
+    #d52b1e 75%,
+    #d52b1e 100%
+  );
+  position: relative;
+}
+.flag-canada::before {
+  content: "🍁";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  line-height: 1;
+}
