@@ -8,53 +8,96 @@
 </head>
 <body>
 
-<header class="header">
-  <div class="container">
+  <header class="header">
+    <div class="container">
 
-    <div class="topbar">
+      <div class="topbar">
 
-      <!-- CENTER: League logo + text -->
-      <div class="topbar-center">
-        <img
-          class="league-logo"
-          src="/sister-cities/assets/league-logo.png"
-          alt="Sister Cities League Logo"
-        />
-        <div class="brand-text">
-          <div class="brand-title">Sister Cities</div>
-          <div class="brand-subtitle">Season 2021–2025</div>
+        <!-- CENTER: logo + titles -->
+        <div class="topbar-center">
+          <img class="league-logo" src="/sister-cities/assets/league-logo.png" alt="Sister Cities League Logo" />
+          <div class="brand-text">
+            <div class="brand-title">Sister Cities</div>
+            <div class="brand-subtitle">Season 2021–2025</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: flags (NO IMAGES; CSS FLAGS) -->
+        <div class="topbar-right" aria-label="League flags">
+          <div class="flag flag-usa" title="USA" aria-label="USA flag"></div>
+          <div class="flag flag-canada" title="Canada" aria-label="Canada flag"></div>
+        </div>
+
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="season">Season</button>
+        <button class="tab" data-tab="awards">Awards</button>
+        <button class="tab" data-tab="records">All Time Records</button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="container page">
+    <!-- SEASON TAB -->
+    <section id="tab-season" class="tabpanel active">
+      <div class="season-controls card">
+        <div class="season-years">
+          <button class="season-year-button active" data-season="2025">2025</button>
+          <button class="season-year-button" data-season="2024">2024</button>
+          <button class="season-year-button" data-season="2023">2023</button>
+          <button class="season-year-button" data-season="2022">2022</button>
+          <button class="season-year-button" data-season="2021">2021</button>
         </div>
       </div>
 
-      <!-- RIGHT: FLAGS (CREATED HERE, NO IMAGES) -->
-      <div class="topbar-right">
-        <!-- USA FLAG -->
-        <div class="flag flag-usa" title="USA"></div>
-
-        <!-- CANADA FLAG -->
-        <div class="flag flag-canada" title="Canada"></div>
+      <div class="card champion-card">
+        <div class="card-title">Champion</div>
+        <div class="champion-row">
+          <div id="championTeam" class="champion-team"></div>
+          <div id="championNote" class="champion-note"></div>
+        </div>
       </div>
 
-    </div>
+      <div class="card">
+        <div class="season-subtabs">
+          <button class="season-subtab active" data-subtab="standings">Standings</button>
+          <button class="season-subtab" data-subtab="stats">Stats</button>
+        </div>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active" data-tab="season">Season</button>
-      <button class="tab" data-tab="awards">Awards</button>
-      <button class="tab" data-tab="records">All Time Records</button>
-    </div>
+        <div class="season-pane active" data-pane="standings">
+          <div id="seasonStandings"></div>
+        </div>
 
-  </div>
-</header>
+        <div class="season-pane" data-pane="stats">
+          <div id="seasonStats"></div>
+        </div>
+      </div>
+    </section>
 
-<main class="container page">
-  <!-- CONTENT UNCHANGED -->
-</main>
+    <!-- AWARDS TAB (placeholder) -->
+    <section id="tab-awards" class="tabpanel">
+      <div class="card">
+        <div class="card-title">Awards</div>
+        <div class="muted">Coming soon.</div>
+      </div>
+    </section>
 
-<footer class="footer">
-  Built for your Sister Cities fantasy league • Hosted on GitHub Pages
-</footer>
+    <!-- ALL TIME RECORDS TAB -->
+    <section id="tab-records" class="tabpanel">
+      <div class="card">
+        <div class="card-title">All Time Records</div>
+        <div id="allTimeRecordsContainer"></div>
+      </div>
+    </section>
+  </main>
 
-<script src="./script.js"></script>
+  <footer class="footer">
+    Built for your Sister Cities fantasy league • Hosted on GitHub Pages
+  </footer>
+
+  <script src="./script.js"></script>
 </body>
 </html>
