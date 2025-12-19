@@ -9,36 +9,52 @@
 <body>
 
   <header class="header">
-    <div class="container">
+  <div class="container">
 
-      <div class="topbar">
+    <div class="topbar">
 
-        <!-- CENTER: logo + titles -->
-        <div class="topbar-center">
-          <img class="league-logo" src="/sister-cities/assets/league-logo.png" alt="Sister Cities League Logo" />
-          <div class="brand-text">
-            <div class="brand-title">Sister Cities</div>
-            <div class="brand-subtitle">Season 2021–2025</div>
-          </div>
+      <!-- LEFT: EMPTY (landmarks removed) -->
+      <div class="topbar-left"></div>
+
+      <!-- CENTER: league logo + text -->
+      <div class="topbar-center">
+        <img
+          class="league-logo"
+          src="/sister-cities/assets/league-logo.png"
+          alt="Sister Cities League Logo"
+        />
+        <div class="brand-text">
+          <div class="brand-title">Sister Cities</div>
+          <div class="brand-subtitle">Season 2021–2025</div>
         </div>
-
-        <!-- RIGHT: flags (NO IMAGES; CSS FLAGS) -->
-        <div class="topbar-right" aria-label="League flags">
-          <div class="flag flag-usa" title="USA" aria-label="USA flag"></div>
-          <div class="flag flag-canada" title="Canada" aria-label="Canada flag"></div>
-        </div>
-
       </div>
 
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab active" data-tab="season">Season</button>
-        <button class="tab" data-tab="awards">Awards</button>
-        <button class="tab" data-tab="records">All Time Records</button>
+      <!-- RIGHT: flags -->
+      <div class="topbar-right">
+        <img
+          class="flag"
+          src="/sister-cities/assets/flag-usa.png"
+          alt="USA flag"
+        />
+        <img
+          class="flag"
+          src="/sister-cities/assets/flag-canada.png"
+          alt="Canada flag"
+        />
       </div>
 
     </div>
-  </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="season">Season</button>
+      <button class="tab" data-tab="awards">Awards</button>
+      <button class="tab" data-tab="records">All Time Records</button>
+    </div>
+
+  </div>
+</header>
+
 
   <main class="container page">
     <!-- SEASON TAB -->
