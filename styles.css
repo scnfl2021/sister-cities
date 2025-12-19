@@ -1,157 +1,432 @@
-:root {
-  --bg: #ffffff;
-  --text: #0b1220;
-  --muted: #5f6b7a;
-  --gold: #b18a00;
-  --border: rgba(255,255,255,0.12);
+:root{
+  --bg:#ffffff;
+  --text:#0b1220;
+  --muted:#5f6b7a;
+  --gold:#b18a00;
+  --header:#0b0b0d;
+  --card:#ffffff;
+  --stroke:rgba(0,0,0,.08);
+  --stroke2:rgba(255,255,255,.12);
 }
 
-* {
-  box-sizing: border-box;
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  background:var(--bg);
+  color:var(--text);
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  background: var(--bg);
-  color: var(--text);
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:16px;
 }
 
 /* ================= HEADER ================= */
 
-.header {
-  background: #0b0b0d;
-  border-bottom: 1px solid var(--border);
+.header{
+  background:var(--header);
+  border-bottom:1px solid var(--stroke2);
 }
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 16px;
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  padding-top:4px;
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+.topbar-center{
+  display:flex;
+  align-items:center;
+  gap:16px;
 }
 
-/* CENTER */
-.topbar-center {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.league-logo{
+  height:92px; /* you already sized this; change here if needed */
+  width:auto;
+  display:block;
 }
 
-.league-logo {
-  height: 92px; /* already sized correctly */
+.brand-title{
+  color:#fff;
+  font-size:22px;
+  font-weight:800;
+  line-height:1.1;
 }
 
-.brand-title {
-  color: #fff;
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.brand-subtitle {
-  color: rgba(255,255,255,0.7);
-  font-size: 13px;
+.brand-subtitle{
+  color:rgba(255,255,255,.7);
+  font-size:13px;
+  margin-top:2px;
 }
 
 /* RIGHT FLAGS */
-.topbar-right {
-  position: absolute;
-  right: 0;
-  display: flex;
-  gap: 10px;
-  align-items: center;
+.topbar-right{
+  position:absolute;
+  right:0;
+  display:flex;
+  gap:10px;
+  align-items:center;
 }
 
-/* ================= FLAGS ================= */
+/* ================= CSS FLAGS ================= */
 
-.flag {
-  width: 36px;
-  height: 24px;
-  border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
+.flag{
+  width:38px;
+  height:24px;
+  border-radius:5px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.25);
+  overflow:hidden;
 }
 
-/* USA FLAG */
-.flag-usa {
+/* USA */
+.flag-usa{
+  position:relative;
   background:
     repeating-linear-gradient(
       to bottom,
       #b22234 0,
-      #b22234 7%,
-      #ffffff 7%,
-      #ffffff 14%
+      #b22234 7.7%,
+      #ffffff 7.7%,
+      #ffffff 15.4%
     );
-  position: relative;
+}
+.flag-usa::before{
+  content:"";
+  position:absolute;
+  top:0; left:0;
+  width:42%;
+  height:54%;
+  background:#3c3b6e;
 }
 
-.flag-usa::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40%;
-  height: 54%;
-  background: #3c3b6e;
+/* CANADA */
+.flag-canada{
+  position:relative;
+  background:linear-gradient(
+    to right,
+    #d52b1e 0%,
+    #d52b1e 25%,
+    #ffffff 25%,
+    #ffffff 75%,
+    #d52b1e 75%,
+    #d52b1e 100%
+  );
 }
-
-/* CANADA FLAG */
-.flag-canada {
-  background:
-    linear-gradient(
-      to right,
-      #d52b1e 0%,
-      #d52b1e 25%,
-      #ffffff 25%,
-      #ffffff 75%,
-      #d52b1e 75%,
-      #d52b1e 100%
-    );
-  position: relative;
-}
-
-.flag-canada::before {
-  content: "🍁";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 14px;
+.flag-canada::before{
+  content:"🍁";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-52%);
+  font-size:14px;
 }
 
 /* ================= TABS ================= */
 
-.tabs {
-  margin-top: 14px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.tabs{
+  margin-top:14px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding-bottom:10px;
 }
 
-.tab {
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.06);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
+.tab{
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid var(--stroke2);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
 
-.tab.active {
-  background: var(--gold);
-  color: #111;
+.tab.active{
+  background:var(--gold);
+  color:#111;
+  border-color:transparent;
 }
+
+/* ================= PAGE / CARDS ================= */
+
+.page{
+  padding-top:18px;
+  padding-bottom:28px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.04);
+  margin-bottom:16px;
+}
+
+.card-title{
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.champion-row{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.champion-team{
+  font-size:28px;
+  font-weight:900;
+}
+
+.champion-note{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ================= SEASON YEAR BUTTONS ================= */
+
+.season-years{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+
+.season-year-button{
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background:#f6f7f9;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.season-year-button.active{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+
+/* ================= SUBTABS ================= */
+
+.season-subtabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.season-subtab{
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background:#f6f7f9;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.season-subtab.active{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+
+.season-pane{ display:none; }
+.season-pane.active{ display:block; }
+
+/* ================= TAB PANELS ================= */
+
+.tabpanel{ display:none; }
+.tabpanel.active{ display:block; }
+
+/* ================= TABLE ================= */
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+.table thead th{
+  text-align:left;
+  font-size:12px;
+  color:var(--muted);
+  padding:10px 10px;
+  background:#fafbfc;
+  border-bottom:1px solid var(--stroke);
+}
+
+.table tbody td{
+  padding:10px 10px;
+  border-bottom:1px solid rgba(0,0,0,.06);
+  vertical-align:middle;
+}
+
+.table tbody tr:last-child td{
+  border-bottom:none;
+}
+
+/* ================= TEAM PILL (used by your script) ================= */
+
+.team-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#f5f6f8;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:999px;
+  padding:6px 10px;
+  line-height:1;
+}
+
+.logo-dot{
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e9ebef;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-img{
+  width:22px;
+  height:22px;
+  object-fit:cover;
+  display:block;
+}
+
+.team-pill-text{
+  font-weight:800;
+  font-size:12px;
+}
+
+/* ================= STATS ================= */
+
+.stats-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.stats-title{
+  font-size:16px;
+  font-weight:900;
+}
+
+.alltime-badge{
+  font-size:12px;
+  font-weight:900;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(177,138,0,.14);
+  color:var(--gold);
+  border:1px solid rgba(177,138,0,.25);
+}
+
+.stat-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 0;
+  border-top:1px solid rgba(0,0,0,.06);
+}
+
+.stat-row:first-of-type{ border-top:none; }
+
+.stat-label{
+  font-weight:900;
+}
+
+.stat-detail{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.stat-value{
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.stat-alltime{
+  color:var(--gold);
+}
+
+/* ================= ALL TIME RECORDS ================= */
+
+.records-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+}
+
+@media (max-width: 900px){
+  .records-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px){
+  .records-grid{ grid-template-columns:1fr; }
+  .champion-row{ flex-direction:column; align-items:flex-start; }
+  .topbar-right{ right:12px; }
+}
+
+.record-card{
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:14px;
+  padding:12px;
+  background:#fff;
+}
+
+.record-title{
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.record-value{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.record-holder-line{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  margin-bottom:6px;
+}
+
+.record-year{
+  font-weight:900;
+  color:var(--muted);
+}
+
+.record-teams{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  align-items:center;
+}
+
+.muted{ color:var(--muted); }
 
 /* ================= FOOTER ================= */
 
-.footer {
-  text-align: center;
-  padding: 20px;
-  color: var(--muted);
+.footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
 }
