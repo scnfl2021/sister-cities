@@ -2,118 +2,115 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sister Cities</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sister Cities League</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
 
+<body>
+  <!-- HEADER -->
   <header class="header">
     <div class="container">
+      <div class="brandbar">
+        <!-- LEFT: intentionally empty (you asked to REMOVE everything on the left) -->
+        <div class="brand-left"></div>
 
-      <div class="topbar">
-
-        <!-- LEFT: silhouettes (SVG) -->
-        <div class="topbar-left" aria-label="League countries landmarks">
-          <svg class="landmarks" viewBox="0 0 520 90" role="img" aria-label="CN Tower, Statue of Liberty, Baalbek">
-            <!-- Baseline -->
-            <rect x="0" y="78" width="520" height="4" rx="2" />
-
-            <!-- CN Tower (simplified, solid) -->
-            <g transform="translate(40,8)">
-              <rect x="52" y="20" width="10" height="50" rx="2"/>
-              <rect x="44" y="30" width="26" height="6" rx="3"/>
-              <rect x="46" y="38" width="22" height="6" rx="3"/>
-              <rect x="56" y="8" width="2" height="14" />
-              <polygon points="57,0 61,8 53,8" />
-              <rect x="54" y="70" width="14" height="8" rx="2"/>
-            </g>
-
-            <!-- Statue of Liberty (simplified, solid) -->
-            <g transform="translate(200,6)">
-              <rect x="54" y="62" width="50" height="16" rx="2"/>
-              <rect x="64" y="50" width="30" height="14" rx="3"/>
-              <rect x="74" y="26" width="12" height="24" rx="6"/>
-              <circle cx="80" cy="18" r="10" />
-              <!-- crown spikes -->
-              <polygon points="80,2 84,12 76,12" />
-              <polygon points="64,8 74,14 66,18" />
-              <polygon points="96,8 94,18 86,14" />
-              <!-- torch arm -->
-              <rect x="98" y="14" width="10" height="30" rx="5"/>
-              <polygon points="103,0 114,14 92,14" />
-              <rect x="96" y="44" width="26" height="8" rx="4"/>
-            </g>
-
-            <!-- Baalbek temple (simplified, solid) -->
-            <g transform="translate(360,12)">
-              <rect x="0" y="58" width="140" height="20" rx="2"/>
-              <rect x="14" y="22" width="112" height="12" rx="2"/>
-              <!-- columns -->
-              <rect x="18" y="34" width="10" height="24" rx="2"/>
-              <rect x="38" y="34" width="10" height="24" rx="2"/>
-              <rect x="58" y="34" width="10" height="24" rx="2"/>
-              <rect x="78" y="34" width="10" height="24" rx="2"/>
-              <rect x="98" y="34" width="10" height="24" rx="2"/>
-              <rect x="118" y="34" width="10" height="24" rx="2"/>
-              <!-- roof -->
-              <polygon points="10,22 70,0 130,22" />
-            </g>
-          </svg>
-        </div>
-
-        <!-- CENTER: logo + titles -->
-        <div class="topbar-center">
-          <img class="league-logo" src="/sister-cities/assets/league-logo.png" alt="Sister Cities League Logo" />
+        <!-- CENTER: BIG league logo + title -->
+        <div class="brand-center">
+          <img
+            class="league-logo"
+            src="/sister-cities/assets/league-logo.png"
+            alt="Sister Cities Fantasy League Logo"
+            loading="eager"
+          />
           <div class="brand-text">
             <div class="brand-title">Sister Cities</div>
             <div class="brand-subtitle">Season 2021–2025</div>
           </div>
         </div>
 
-        <!-- RIGHT: flags -->
-        <div class="topbar-right" aria-label="League flags">
-          <img class="flag" src="/sister-cities/assets/flag-usa.png" alt="USA flag" loading="lazy" />
-          <img class="flag" src="/sister-cities/assets/flag-canada.png" alt="Canada flag" loading="lazy" />
+        <!-- RIGHT: USA + Canada flags (built-in SVG so no extra files needed) -->
+        <div class="brand-right" aria-label="League countries">
+          <!-- USA -->
+          <span class="flag" title="USA" aria-label="USA">
+            <svg viewBox="0 0 190 100" width="48" height="30" role="img" aria-hidden="true">
+              <rect width="190" height="100" fill="#fff"/>
+              <!-- red stripes -->
+              <g fill="#b22234">
+                <rect y="0" width="190" height="7.7"/>
+                <rect y="15.4" width="190" height="7.7"/>
+                <rect y="30.8" width="190" height="7.7"/>
+                <rect y="46.2" width="190" height="7.7"/>
+                <rect y="61.6" width="190" height="7.7"/>
+                <rect y="77.0" width="190" height="7.7"/>
+                <rect y="92.3" width="190" height="7.7"/>
+              </g>
+              <!-- canton -->
+              <rect width="76" height="53.9" fill="#3c3b6e"/>
+              <!-- simple star dots -->
+              <g fill="#fff" opacity="0.95">
+                <!-- rows of dots -->
+                <circle cx="8" cy="6" r="1.4"/><circle cx="18" cy="6" r="1.4"/><circle cx="28" cy="6" r="1.4"/><circle cx="38" cy="6" r="1.4"/><circle cx="48" cy="6" r="1.4"/><circle cx="58" cy="6" r="1.4"/><circle cx="68" cy="6" r="1.4"/>
+                <circle cx="13" cy="13" r="1.4"/><circle cx="23" cy="13" r="1.4"/><circle cx="33" cy="13" r="1.4"/><circle cx="43" cy="13" r="1.4"/><circle cx="53" cy="13" r="1.4"/><circle cx="63" cy="13" r="1.4"/>
+                <circle cx="8" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><circle cx="28" cy="20" r="1.4"/><circle cx="38" cy="20" r="1.4"/><circle cx="48" cy="20" r="1.4"/><circle cx="58" cy="20" r="1.4"/><circle cx="68" cy="20" r="1.4"/>
+                <circle cx="13" cy="27" r="1.4"/><circle cx="23" cy="27" r="1.4"/><circle cx="33" cy="27" r="1.4"/><circle cx="43" cy="27" r="1.4"/><circle cx="53" cy="27" r="1.4"/><circle cx="63" cy="27" r="1.4"/>
+                <circle cx="8" cy="34" r="1.4"/><circle cx="18" cy="34" r="1.4"/><circle cx="28" cy="34" r="1.4"/><circle cx="38" cy="34" r="1.4"/><circle cx="48" cy="34" r="1.4"/><circle cx="58" cy="34" r="1.4"/><circle cx="68" cy="34" r="1.4"/>
+                <circle cx="13" cy="41" r="1.4"/><circle cx="23" cy="41" r="1.4"/><circle cx="33" cy="41" r="1.4"/><circle cx="43" cy="41" r="1.4"/><circle cx="53" cy="41" r="1.4"/><circle cx="63" cy="41" r="1.4"/>
+                <circle cx="8" cy="48" r="1.4"/><circle cx="18" cy="48" r="1.4"/><circle cx="28" cy="48" r="1.4"/><circle cx="38" cy="48" r="1.4"/><circle cx="48" cy="48" r="1.4"/><circle cx="58" cy="48" r="1.4"/><circle cx="68" cy="48" r="1.4"/>
+              </g>
+            </svg>
+          </span>
+
+          <!-- Canada -->
+          <span class="flag" title="Canada" aria-label="Canada">
+            <svg viewBox="0 0 190 100" width="48" height="30" role="img" aria-hidden="true">
+              <rect width="190" height="100" fill="#fff"/>
+              <rect width="40" height="100" fill="#d52b1e"/>
+              <rect x="150" width="40" height="100" fill="#d52b1e"/>
+              <!-- simplified maple leaf -->
+              <path fill="#d52b1e" d="M95 18
+                l7 14 15-3 -10 12 10 4 -10 6 6 10 -13-3 -5 14 -5-14 -13 3 6-10 -10-6 10-4 -10-12 15 3z"/>
+              <rect x="92" y="60" width="6" height="18" fill="#d52b1e"/>
+            </svg>
+          </span>
         </div>
-
       </div>
 
-      <!-- Tabs -->
+      <!-- TOP TABS -->
       <div class="tabs">
-        <button class="tab active" data-tab="season">Season</button>
-        <button class="tab" data-tab="awards">Awards</button>
-        <button class="tab" data-tab="records">All Time Records</button>
+        <button class="tab active" data-tab="season" type="button">Season</button>
+        <button class="tab" data-tab="awards" type="button">Awards</button>
+        <button class="tab" data-tab="alltime" type="button">All Time Records</button>
       </div>
-
     </div>
   </header>
 
+  <!-- CONTENT -->
   <main class="container page">
     <!-- SEASON TAB -->
     <section id="tab-season" class="tabpanel active">
-      <div class="season-controls card">
+      <div class="season-controls">
         <div class="season-years">
-          <button class="season-year-button active" data-season="2025">2025</button>
-          <button class="season-year-button" data-season="2024">2024</button>
-          <button class="season-year-button" data-season="2023">2023</button>
-          <button class="season-year-button" data-season="2022">2022</button>
-          <button class="season-year-button" data-season="2021">2021</button>
+          <button class="season-year-button active" data-season="2025" type="button">2025</button>
+          <button class="season-year-button" data-season="2024" type="button">2024</button>
+          <button class="season-year-button" data-season="2023" type="button">2023</button>
+          <button class="season-year-button" data-season="2022" type="button">2022</button>
+          <button class="season-year-button" data-season="2021" type="button">2021</button>
         </div>
       </div>
 
       <div class="card champion-card">
         <div class="card-title">Champion</div>
         <div class="champion-row">
-          <div id="championTeam" class="champion-team"></div>
+          <div id="championTeam" class="champion-team">—</div>
           <div id="championNote" class="champion-note"></div>
         </div>
       </div>
 
       <div class="card">
         <div class="season-subtabs">
-          <button class="season-subtab active" data-subtab="standings">Standings</button>
-          <button class="season-subtab" data-subtab="stats">Stats</button>
+          <button class="season-subtab active" data-subtab="standings" type="button">Standings</button>
+          <button class="season-subtab" data-subtab="stats" type="button">Stats</button>
         </div>
 
         <div class="season-pane active" data-pane="standings">
@@ -126,16 +123,16 @@
       </div>
     </section>
 
-    <!-- AWARDS TAB (placeholder) -->
+    <!-- AWARDS TAB -->
     <section id="tab-awards" class="tabpanel">
       <div class="card">
         <div class="card-title">Awards</div>
-        <div class="muted">Coming soon.</div>
+        <div class="muted">Awards content goes here.</div>
       </div>
     </section>
 
-    <!-- ALL TIME RECORDS TAB -->
-    <section id="tab-records" class="tabpanel">
+    <!-- ALL TIME TAB -->
+    <section id="tab-alltime" class="tabpanel">
       <div class="card">
         <div class="card-title">All Time Records</div>
         <div id="allTimeRecordsContainer"></div>
@@ -143,10 +140,9 @@
     </section>
   </main>
 
-  <footer class="footer">
-    Built for your Sister Cities fantasy league • Hosted on GitHub Pages
-  </footer>
+  <footer class="footer">Sister Cities Fantasy League</footer>
 
-  <script src="./script.js"></script>
+  <!-- KEEP your working script.js -->
+  <script src="script.js"></script>
 </body>
 </html>
