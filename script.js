@@ -324,11 +324,33 @@ function renderStats(season) {
   `;
 }
 
+/* ✅ UPDATED: Champion now shows team logo above champion name (2024/2023/2022/2021) */
 function renderChampion(season) {
   const elTeam = document.getElementById("championTeam");
   const elNote = document.getElementById("championNote");
 
-  elTeam.textContent = season.championTeamId ? teamLabel(season.championTeamId) : "Undecided";
+  // If undecided
+  if (!season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season.championNote || "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+
+  const logoHtml = t.logo
+    ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
+    : "";
+
+  // Keep text styling the same, just add logo above it
+  elTeam.innerHTML = `
+    <div class="champion-team-wrap">
+      ${logoHtml}
+      <div class="champion-team-name">${t.name}</div>
+    </div>
+  `;
+
   elNote.textContent = season.championNote || "";
 }
 
