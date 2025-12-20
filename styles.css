@@ -549,3 +549,14 @@ body{
 .table td:nth-child(5) {
   text-align: left;
 }
+/* =========================
+   CHAMPION STARS STYLE
+   ========================= */
+
+.champion-stars {
+  text-align: center;
+  font-size: 18pt;
+  color: #b18a00; /* same gold tone as tabs */
+  margin-bottom: 6px;
+  line-height: 1;
+}
