@@ -523,3 +523,29 @@ body{
   display: grid;
   place-items: center;
 }
+/* =========================
+   STANDINGS TABLE ALIGNMENT FIX
+   ========================= */
+
+/* Pull table inward from the right */
+.table {
+  width: 92%;
+  margin: 0 auto;
+}
+
+/* Tighten column spacing */
+.table th,
+.table td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Ensure numeric columns don't drift right */
+.table th:nth-child(3),
+.table th:nth-child(4),
+.table th:nth-child(5),
+.table td:nth-child(3),
+.table td:nth-child(4),
+.table td:nth-child(5) {
+  text-align: left;
+}
