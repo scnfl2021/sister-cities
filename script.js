@@ -465,3 +465,50 @@ function renderSeason(state) {
   wireSeasonYears(state);
   renderSeason(state);
 })();
+/* =========================
+   CHAMPION STARS + LOGO (PATCH)
+   Paste at VERY BOTTOM of script.js
+   ========================= */
+
+// Count how many championships a team has WON up to (and including) the selected season year
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+// Override renderChampion (this replaces the earlier one safely)
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+
+  // If no champion yet (like 2025)
+  if (!season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season.championNote || "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+  const champs = countChampsUpTo(teamId, season.year);
+  const stars = "★".repeat(Math.max(1, champs)); // at least 1 star if champion exists
+
+  elTeam.innerHTML = `
+    <div class="champion-stars">${stars}</div>
+    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
+// Re-render the CURRENTLY selected season immediately (so you see stars right away)
+(function rerenderChampionNow() {
+  const activeBtn = document.querySelector(".season-year-button.active");
+  const year = activeBtn ? Number(activeBtn.dataset.season) : 2025;
+  const season = seasons[year];
+  if (season) renderChampion(season);
+})();
