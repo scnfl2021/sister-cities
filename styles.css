@@ -583,3 +583,70 @@ body{
   font-weight: 900;
   letter-spacing: 0.4px;
 }
+/* ===== GALLERY ===== */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+  justify-items: start;
+}
+
+.gallery-item {
+  cursor: pointer;
+  max-width: 160px;
+}
+
+.gallery-thumb {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gallery-thumb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+
+.gallery-caption {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #666;
+}
+
+/* ===== FULLSCREEN MODAL ===== */
+
+.gallery-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.gallery-modal-img {
+  max-width: 95%;
+  max-height: 85%;
+  border-radius: 12px;
+}
+
+.gallery-modal-caption {
+  margin-top: 12px;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.gallery-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 36px;
+  color: #fff;
+  cursor: pointer;
+}
