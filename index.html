@@ -82,22 +82,33 @@
     </div>
   </section>
 
-  <!-- GALLERY TAB -->
-  <section id="tab-gallery" class="tabpanel">
-    <div class="card">
-      <div class="card-title">Gallery</div>
+<!-- GALLERY TAB -->
+<section id="tab-gallery" class="tabpanel">
+  <div class="card">
+    <div class="card-title">Gallery</div>
 
-      <figure class="gallery-item">
+    <div class="gallery-grid">
+      <!-- Gallery Item -->
+      <div class="gallery-item">
         <img
-          class="gallery-img"
           src="/sister-cities/assets/playoffs-championship-2025.png"
-          alt="Playoffs Championship 2025 poster"
-          loading="lazy"
+          alt="Playoffs Championship 2025"
+          class="gallery-thumb"
         />
-        <figcaption class="gallery-caption">Playoffs Championship 2025</figcaption>
-      </figure>
-
+        <div class="gallery-caption">Playoffs Championship 2025</div>
+      </div>
     </div>
+
+  </div>
+</section>
+
+<!-- FULLSCREEN IMAGE MODAL -->
+<div id="galleryModal" class="gallery-modal">
+  <span class="gallery-close">&times;</span>
+  <img class="gallery-modal-img" id="galleryModalImg">
+  <div class="gallery-modal-caption" id="galleryModalCaption"></div>
+</div>
+
   </section>
 
   <!-- ALL TIME RECORDS TAB -->
