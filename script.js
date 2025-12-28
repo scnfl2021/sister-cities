@@ -512,3 +512,29 @@ function renderChampion(season) {
   const season = seasons[year];
   if (season) renderChampion(season);
 })();
+// ===== GALLERY MODAL =====
+document.addEventListener("click", (e) => {
+  const img = e.target.closest(".gallery-thumb");
+  if (!img) return;
+
+  const modal = document.getElementById("galleryModal");
+  const modalImg = document.getElementById("galleryModalImg");
+  const caption = document.getElementById("galleryModalCaption");
+
+  modalImg.src = img.src;
+  caption.textContent = img.alt;
+
+  modal.style.display = "flex";
+});
+
+// Close modal
+document.querySelector(".gallery-close").addEventListener("click", () => {
+  document.getElementById("galleryModal").style.display = "none";
+});
+
+// Close when clicking outside image
+document.getElementById("galleryModal").addEventListener("click", (e) => {
+  if (e.target.id === "galleryModal") {
+    e.currentTarget.style.display = "none";
+  }
+});
