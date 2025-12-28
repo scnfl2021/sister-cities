@@ -560,3 +560,26 @@ body{
   margin-bottom: 6px;
   line-height: 1;
 }
+/* =========================
+   GALLERY
+   ========================= */
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gallery-image {
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.gallery-caption {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
