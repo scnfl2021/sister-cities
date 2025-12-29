@@ -42,7 +42,7 @@ const seasons = {};
 
 // 2025 (champion TBD)
 seasons[2025] = {
-  championTeamId: svetunited,
+  championTeamId: "svetunited", 
   championNote: "",
   standings: [
     { teamId: "svetunited", seed: 1, record: "12–2", pf: 2059.30, pa: 1489.78 },
