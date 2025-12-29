@@ -29,7 +29,8 @@ body{
 /* HEADER */
 .header{
   border-bottom: 1px solid rgba(255,255,255,0.10);
-  padding: 6px 18px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   position: sticky;
   top: 0;
   backdrop-filter: blur(10px);
@@ -49,6 +50,7 @@ body{
   grid-template-columns: 1fr auto 1fr;
   align-items:center;
   gap:14px;
+  min-height: unset;
   position: relative;
 }
 
@@ -75,7 +77,7 @@ body{
   min-height: 64px;
 }
 
-/* BIG league logo (transparent PNG) */
+/* BIG league logo (must be transparent PNG) */
 .league-logo{
   height: 72px;
   width: auto;
@@ -84,7 +86,6 @@ body{
   border: none;
   box-shadow: none;
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
-  flex-shrink: 0;
 }
 
 /* Brand text */
@@ -127,9 +128,9 @@ body{
 .card + .card{margin-top:14px}
 .card-title{font-weight:800; letter-spacing:0.4px; margin-bottom:10px}
 .muted{color: var(--muted)}
+
 .page{ background: transparent; }
 
-/* Season year buttons */
 .season-controls{margin: 16px 0 12px}
 .season-years{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
 .season-year-button{
@@ -148,116 +149,95 @@ body{
 }
 
 /* =========================
-   CHAMPION LAYOUT (FIXED)
+   CHAMPION (THIS IS WHERE YOUR 3 TASKS ARE DONE)
    ========================= */
 
 .champion-card{margin-bottom:14px}
 
-/* Row: left champion stack + centered poster area */
+/* Whole champion area: left column + centered poster */
 .champion-row{
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content:flex-start;
-  gap: 28px;
+  gap: 16px;
 }
 
-/* LEFT: champion stack */
+/* Left champion column (fixed pocket) */
 #championTeam{
-  width: 240px;                 /* fixed left column */
+  width: 240px;             /* your left “champion column” */
   display:flex;
   flex-direction:column;
-  align-items:flex-start;       /* keep the block on the left */
+  align-items:flex-start;   /* keep the whole column on the left */
   text-align:left;
+  margin:0;
+  padding:0;
 }
 
-/* Center ONLY the star + logo as a unit */
-#championTeam .champion-stars{
-  width: 100%;
-  text-align: center;           /* center star */
+/* ✅ Task #3: center star + logo over the team name (within left column) */
+#championTeam .champion-left{
+  display:flex;
+  flex-direction:column;
+  align-items:center;       /* centers star+logo over name */
+  text-align:center;        /* centers name under logo */
+  gap: 6px;
+}
+
+/* Star styling */
+.champion-stars{
+  text-align:center;
   font-size: 18pt;
-  color: var(--gold);
+  color: #b18a00;
   line-height: 1;
-  margin: 0 0 8px 0;
+  margin: 0;
 }
 
-/* Force champion logo size back to normal (kills the “huge logo” bug) */
-#championTeam img{
-  width: 72px !important;
-  height: 72px !important;
-  display:block !important;
-  margin: 0 auto 10px auto !important; /* center logo in the left column */
-  border-radius: 50% !important;
-  object-fit: contain !important;
-  object-position: center center !important;
+/* Champion logo circle crop */
+#championTeam img.champion-logo{
+  display:block;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
   background: transparent !important;
   padding: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
+  margin: 0;
 }
 
-/* Keep team name same style, but align it like before (left column) */
+/* Team name (keep your existing big look) */
 #championTeam .champion-team-name{
   font-size: 26px;
   font-weight: 900;
-  text-align: left;
+  line-height: 1.1;
 }
 
-/* MIDDLE: poster thumbnail centered in the card */
-#championPoster{
-  flex: 1;                      /* takes remaining space */
-  display: flex;
-  justify-content: center;      /* CENTER poster horizontally */
-  align-items: center;
-  min-height: 120px;
+/* ✅ Center “middle poster” area in the remaining space */
+.champion-middle{
+  flex: 1;
+  display:flex;
+  justify-content:center;   /* ✅ Task #2: center */
+  align-items:flex-start;
 }
 
-/* Thumbnail size (smaller) */
+/* ✅ Task #1: make the poster thumbnail SMALLER */
 .champion-poster-thumb{
-  width: 135px;                 /* smaller thumbnail */
+  width: 140px;            /* smaller thumbnail (tweak 120–160 if you want) */
+  max-width: 140px;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 .champion-poster-thumb:hover{
   transform: scale(1.03);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.28);
 }
 
-/* =========================
-   Champion Poster Modal
-   ========================= */
-.poster-modal{
-  display:none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0,0,0,0.95);
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.poster-modal.open{
-  display:flex;
-}
-
-.poster-modal-img{
-  max-width: 95vw;
-  max-height: 85vh;
-  border-radius: 12px;
-}
-
-.poster-modal-close{
-  position: absolute;
-  top: 18px;
-  right: 24px;
-  font-size: 36px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-}
+/* Note stays where it was visually (under everything) */
+.champion-note{ color: var(--muted); margin-top: 8px; }
 
 /* Season subtabs */
 .season-subtabs{display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
@@ -278,9 +258,10 @@ body{
 .season-pane{display:none}
 .season-pane.active{display:block}
 
-/* Table */
+/* Standings table */
 .table{
-  width:100%;
+  width: 92%;
+  margin: 0 auto;
   border-collapse: collapse;
   overflow:hidden;
   border-radius: 14px;
@@ -378,7 +359,28 @@ body{
 .record-value{font-size: 22px; font-weight: 950; margin-top: 10px; display:inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(0,0,0,0.06); color: var(--text)}
 .record-holders{font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.35}
 
-/* Footer */
+.record-holders{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.record-holder-line{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.record-year{
+  font-weight: 800;
+  color: var(--muted);
+}
+.record-teams{
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
 .footer{
   padding: 22px 18px;
   text-align:center;
@@ -386,7 +388,41 @@ body{
   color: var(--muted);
 }
 
-/* Mobile */
+/* ===== FULLSCREEN MODAL (used by gallery + champion posters) ===== */
+.gallery-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.gallery-modal.open { display: flex; }
+
+.gallery-modal-img {
+  max-width: 95%;
+  max-height: 85%;
+  border-radius: 12px;
+}
+
+.gallery-modal-caption {
+  margin-top: 12px;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.gallery-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  font-size: 36px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Mobile: stack header nicely */
 @media (max-width: 720px){
   .topbar{
     grid-template-columns: 1fr;
@@ -397,12 +433,4 @@ body{
   }
   .brand-text{align-items:center; text-align:center;}
   .league-logo{height: 68px;}
-  .champion-row{
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  #championPoster{
-    width: 100%;
-    justify-content: center;
-  }
 }
