@@ -16,7 +16,7 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// Helper
+// ✅ One (and only one) helper
 function teamPill(teamId, extraClass = "") {
   const t = TEAMS[teamId] || { name: teamId, owner: "" };
   const logo = t.logo
@@ -40,7 +40,7 @@ const seasons = {};
 // SEASONS
 // =====================
 
-// 2025 (CHAMPION = svetunited)
+// 2025 (champion = Svet United)
 seasons[2025] = {
   championTeamId: "svetunited",
   championNote: "",
@@ -56,21 +56,10 @@ seasons[2025] = {
     { teamId: "barjalona", seed: 9, record: "4–10", pf: 1673.02, pa: 1616.48 },
   ],
   seasonStats: [
-    { label: "Longest losing streak of the season", value: "4", display: "T-4 losses", teams: ["drhtown","miami","daddytate","barjalona"], details: null },
-    { label: "Longest winning streak of the season", value: "9", display: "9 wins", teams: ["svetunited"], details: null },
-    { label: "Best regular season record", value: "12-2", display: "12–2", teams: ["svetunited"], details: null },
-    { label: "Worst regular season record", value: "4-10", display: "4–10", teams: ["barjalona"], details: null },
-    { label: "Most total points", value: "2059.30", display: "2059.30", teams: ["svetunited"], details: null },
-    { label: "Lowest total points scored", value: "1673.02", display: "1673.02", teams: ["barjalona"], details: null },
-    { label: 'Most "Best Team" Sleeper reports', value: "5", display: "5 times", teams: ["svetunited"], details: null },
-    { label: "Closest matchup of the season", value: "0.52", display: "0.52 points", teams: ["daddytate","barjalona"], details: "Week 5" },
-    { label: "Biggest blowout of the season", value: "131", display: "131 points", teams: ["maleksexcornflex","snorlax"], details: "Week 6" },
-    { label: "Highest average fantasy points", value: "147", display: "147", teams: ["svetunited"], details: null },
-    { label: "Highest points in week", value: "202.58", display: "202.58", teams: ["maleksexcornflex"], details: "Week 6" },
-    { label: "Lowest points in a week", value: "71.2", display: "71.2", teams: ["snorlax"], details: "Week 6" },
-    { label: "Lowest average fantasy points", value: (1508.90/14).toFixed(2), display: (1508.90/14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
+    // leave as-is
   ]
 };
+
 
 // 2024 (champion = 6ixOwls)
 seasons[2024] = {
@@ -133,7 +122,7 @@ seasons[2023] = {
     { label: "Biggest blowout of the season", value: "76.18", display: "76.18 points", teams: ["abethe3arab","arshamaa"], details: "Week 7" },
     { label: "Highest average fantasy points", value: (1851.66/14).toFixed(2), display: (1851.66/14).toFixed(2), teams: ["arshamaa"], details: "PF/Game (computed)" },
     { label: "Highest points in week", value: "176.18", display: "176.18", teams: ["maleksexcornflex"], details: "Week 5" },
-    { label: "Lowest points in a week", value: "78.12", display: "78.12 points", teams: ["barjalona"], details: "Week 9" },
+    { label: "Lowest points in a week", value: "78.12", display: "78.12", teams: ["barjalona"], details: "Week 9" },
     { label: "Lowest average fantasy points", value: (1578.36/14).toFixed(2), display: (1578.36/14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" }
   ]
 };
@@ -203,7 +192,7 @@ seasons[2021] = {
 };
 
 // =====================
-// ALL TIME LOGIC
+// UI RENDERING
 // =====================
 
 const LOWER_IS_BETTER = new Set([
@@ -268,10 +257,6 @@ function computeAllTime(seasonsObj) {
   return recordMap;
 }
 
-// =====================
-// UI RENDERING
-// =====================
-
 function renderStandings(season) {
   const rows = season.standings.map(r => `
     <tr>
@@ -328,40 +313,12 @@ function renderStats(season) {
   `;
 }
 
-// Count championships up to selected year
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-/**
- * Champion posters:
- * We will try:
- *  - /sister-cities/assets/2025-champion.png  (recommended)
- * If it 404s, we fall back to:
- *  - /sister-cities/assets/2025 champion.png
- *
- * Do the same for all years 2021–2025.
- */
-function posterSrcForYear(year) {
-  return `/sister-cities/assets/${year}-champion.png`;
-}
-function posterFallbackForYear(year) {
-  return `/sister-cities/assets/${year} champion.png`;
-}
-
+/* ✅ UPDATED: Champion now shows team logo above champion name (2024/2023/2022/2021) */
 function renderChampion(season) {
   const elTeam = document.getElementById("championTeam");
   const elNote = document.getElementById("championNote");
-  const posterSlot = document.getElementById("championPosterSlot");
 
-  // Clear poster slot always
-  posterSlot.innerHTML = "";
-
-  // If no champion
+  // If undecided
   if (!season.championTeamId) {
     elTeam.textContent = "Undecided";
     elNote.textContent = season.championNote || "";
@@ -370,38 +327,20 @@ function renderChampion(season) {
 
   const teamId = season.championTeamId;
   const t = TEAMS[teamId] || { name: teamId, logo: null };
-  const champs = countChampsUpTo(teamId, season.year);
-  const stars = "★".repeat(Math.max(1, champs));
 
-  // Left column: stars + team logo + name
+  const logoHtml = t.logo
+    ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
+    : "";
+
+  // Keep text styling the same, just add logo above it
   elTeam.innerHTML = `
-    <div class="champion-stars">${stars}</div>
-    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-    <div class="champion-team-name">${t.name}</div>
+    <div class="champion-team-wrap">
+      ${logoHtml}
+      <div class="champion-team-name">${t.name}</div>
+    </div>
   `;
 
   elNote.textContent = season.championNote || "";
-
-  // Center: poster thumbnail (small)
-  const img = document.createElement("img");
-  img.className = "champion-poster-thumb";
-  img.alt = `${season.year} Champion Poster`;
-  img.loading = "lazy";
-  img.src = posterSrcForYear(season.year);
-
-  // fallback if filename has spaces
-  img.onerror = () => {
-    // if already tried fallback, stop
-    if (img.dataset.fallbackTried === "1") return;
-    img.dataset.fallbackTried = "1";
-    img.src = posterFallbackForYear(season.year);
-  };
-
-  img.addEventListener("click", () => {
-    openImageModal(img.src, `${season.year} Champion`);
-  });
-
-  posterSlot.appendChild(img);
 }
 
 function renderAllTime(recordMap) {
@@ -458,10 +397,7 @@ function renderAllTime(recordMap) {
   container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
-// =====================
-// Tabs + Years
-// =====================
-
+// Tabs
 function wireTabs() {
   const tabButtons = document.querySelectorAll(".tab");
   tabButtons.forEach(btn => {
@@ -508,81 +444,9 @@ function renderSeason(state) {
   document.getElementById("seasonStats").innerHTML = renderStats(season);
 }
 
-// =====================
-// Modal (used by Gallery + Champion posters)
-// =====================
-
-const modal = {
-  root: null,
-  img: null,
-  caption: null,
-  close: null,
-};
-
-function openImageModal(src, caption) {
-  if (!modal.root) return;
-  modal.img.src = src;
-  modal.img.alt = caption || "";
-  modal.caption.textContent = caption || "";
-  modal.root.classList.add("is-open");
-  modal.root.setAttribute("aria-hidden", "false");
-}
-
-function closeImageModal() {
-  if (!modal.root) return;
-  modal.root.classList.remove("is-open");
-  modal.root.setAttribute("aria-hidden", "true");
-  // clear so it doesn't "stick" on iOS sometimes
-  modal.img.src = "";
-  modal.img.alt = "";
-  modal.caption.textContent = "";
-}
-
-function wireModal() {
-  modal.root = document.getElementById("imageModal");
-  modal.img = document.getElementById("imageModalImg");
-  modal.caption = document.getElementById("imageModalCaption");
-  modal.close = document.getElementById("imageModalClose");
-
-  if (!modal.root) return;
-
-  modal.close.addEventListener("click", (e) => {
-    e.stopPropagation();
-    closeImageModal();
-  });
-
-  // click outside image closes
-  modal.root.addEventListener("click", (e) => {
-    if (e.target === modal.root) closeImageModal();
-  });
-
-  // ESC closes
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.root.classList.contains("is-open")) {
-      closeImageModal();
-    }
-  });
-}
-
-function wireGalleryClicks() {
-  document.querySelectorAll(".gallery-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const src = item.dataset.full || item.querySelector("img")?.src;
-      const cap = item.dataset.caption || item.querySelector(".gallery-caption")?.textContent || "";
-      if (src) openImageModal(src, cap);
-    });
-  });
-}
-
-// =====================
 // Boot
-// =====================
-
 (function init() {
   wireTabs();
-  wireModal();
-  wireGalleryClicks();
-
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
 
@@ -590,3 +454,76 @@ function wireGalleryClicks() {
   wireSeasonYears(state);
   renderSeason(state);
 })();
+/* =========================
+   CHAMPION STARS + LOGO (PATCH)
+   Paste at VERY BOTTOM of script.js
+   ========================= */
+
+// Count how many championships a team has WON up to (and including) the selected season year
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+// Override renderChampion (this replaces the earlier one safely)
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+
+  // If no champion yet (like 2025)
+  if (!season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season.championNote || "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+  const champs = countChampsUpTo(teamId, season.year);
+  const stars = "★".repeat(Math.max(1, champs)); // at least 1 star if champion exists
+
+  elTeam.innerHTML = `
+    <div class="champion-stars">${stars}</div>
+    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
+// Re-render the CURRENTLY selected season immediately (so you see stars right away)
+(function rerenderChampionNow() {
+  const activeBtn = document.querySelector(".season-year-button.active");
+  const year = activeBtn ? Number(activeBtn.dataset.season) : 2025;
+  const season = seasons[year];
+  if (season) renderChampion(season);
+})();
+// ===== GALLERY MODAL =====
+document.addEventListener("click", (e) => {
+  const img = e.target.closest(".gallery-thumb");
+  if (!img) return;
+
+  const modal = document.getElementById("galleryModal");
+  const modalImg = document.getElementById("galleryModalImg");
+  const caption = document.getElementById("galleryModalCaption");
+
+  modalImg.src = img.src;
+  caption.textContent = img.alt;
+
+  modal.style.display = "flex";
+});
+
+// Close modal
+document.querySelector(".gallery-close").addEventListener("click", () => {
+  document.getElementById("galleryModal").style.display = "none";
+});
+
+// Close when clicking outside image
+document.getElementById("galleryModal").addEventListener("click", (e) => {
+  if (e.target.id === "galleryModal") {
+    e.currentTarget.style.display = "none";
+  }
+});
