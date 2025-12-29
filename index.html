@@ -45,6 +45,7 @@
 </header>
 
 <main class="container page">
+
   <!-- SEASON TAB -->
   <section id="tab-season" class="tabpanel active">
     <div class="season-controls card">
@@ -59,14 +60,8 @@
 
     <div class="card champion-card">
       <div class="card-title">Champion</div>
-
-      <!-- Champion LEFT + Poster CENTER -->
       <div class="champion-row">
         <div id="championTeam" class="champion-team"></div>
-
-        <!-- CENTER poster slot (changes by year) -->
-        <div id="championPoster" class="champion-poster"></div>
-
         <div id="championNote" class="champion-note"></div>
       </div>
     </div>
@@ -87,19 +82,33 @@
     </div>
   </section>
 
-  <!-- GALLERY TAB -->
-  <section id="tab-gallery" class="tabpanel">
-    <div class="card">
-      <div class="card-title">Gallery</div>
+<!-- GALLERY TAB -->
+<section id="tab-gallery" class="tabpanel">
+  <div class="card">
+    <div class="card-title">Gallery</div>
 
-      <!-- Keep your existing gallery HTML here (whatever you already have) -->
-      <div class="gallery-grid">
-        <div class="gallery-item" data-full="/sister-cities/assets/playoffs-championship-2025.png" data-caption="Playoffs Championship 2025">
-          <img class="gallery-thumb" src="/sister-cities/assets/playoffs-championship-2025.png" alt="Playoffs Championship 2025">
-          <div class="gallery-caption">Playoffs Championship 2025</div>
-        </div>
+    <div class="gallery-grid">
+      <!-- Gallery Item -->
+      <div class="gallery-item">
+        <img
+          src="/sister-cities/assets/playoffs-championship-2025.png"
+          alt="Playoffs Championship 2025"
+          class="gallery-thumb"
+        />
+        <div class="gallery-caption">Playoffs Championship 2025</div>
       </div>
     </div>
+
+  </div>
+</section>
+
+<!-- FULLSCREEN IMAGE MODAL -->
+<div id="galleryModal" class="gallery-modal">
+  <span class="gallery-close">&times;</span>
+  <img class="gallery-modal-img" id="galleryModalImg">
+  <div class="gallery-modal-caption" id="galleryModalCaption"></div>
+</div>
+
   </section>
 
   <!-- ALL TIME RECORDS TAB -->
@@ -109,18 +118,12 @@
       <div id="allTimeRecordsContainer"></div>
     </div>
   </section>
+
 </main>
 
 <footer class="footer">
   Built for your Sister Cities fantasy league • Hosted on GitHub Pages
 </footer>
-
-<!-- ✅ ONE modal used by BOTH Gallery + Champion poster -->
-<div id="imageModal" class="gallery-modal" role="dialog" aria-modal="true" aria-hidden="true">
-  <span id="imageModalClose" class="gallery-close" aria-label="Close">&times;</span>
-  <img id="imageModalImg" class="gallery-modal-img" alt="">
-  <div id="imageModalCaption" class="gallery-modal-caption"></div>
-</div>
 
 <script src="./script.js"></script>
 </body>
