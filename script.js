@@ -40,10 +40,10 @@ const seasons = {};
 // SEASONS
 // =====================
 
-// 2025 (champion TBD)
+// 2025 (champion = Svet United)
 seasons[2025] = {
-  championTeamId: null,
-  championNote: "TBD (playoffs in progress)",
+  championTeamId: "svetunited",
+  championNote: "",
   standings: [
     { teamId: "svetunited", seed: 1, record: "12–2", pf: 2059.30, pa: 1489.78 },
     { teamId: "maleksexcornflex", seed: 2, record: "10–4", pf: 2002.50, pa: 1617.90 },
@@ -56,21 +56,10 @@ seasons[2025] = {
     { teamId: "barjalona", seed: 9, record: "4–10", pf: 1673.02, pa: 1616.48 },
   ],
   seasonStats: [
-    { label: "Longest losing streak of the season", value: "4", display: "T-4 losses", teams: ["drhtown","miami","daddytate","barjalona"], details: null },
-    { label: "Longest winning streak of the season", value: "9", display: "9 wins", teams: ["svetunited"], details: null },
-    { label: "Best regular season record", value: "12-2", display: "12–2", teams: ["svetunited"], details: null },
-    { label: "Worst regular season record", value: "4-10", display: "4–10", teams: ["barjalona"], details: null },
-    { label: "Most total points", value: "2059.30", display: "2059.30", teams: ["svetunited"], details: null },
-    { label: "Lowest total points scored", value: "1673.02", display: "1673.02", teams: ["barjalona"], details: null },
-    { label: 'Most "Best Team" Sleeper reports', value: "5", display: "5 times", teams: ["svetunited"], details: null },
-    { label: "Closest matchup of the season", value: "0.52", display: "0.52 points", teams: ["daddytate","barjalona"], details: "Week 5" },
-    { label: "Biggest blowout of the season", value: "131", display: "131 points", teams: ["maleksexcornflex","snorlax"], details: "Week 6" },
-    { label: "Highest average fantasy points", value: "147", display: "147", teams: ["svetunited"], details: null },
-    { label: "Highest points in week", value: "202.58", display: "202.58", teams: ["maleksexcornflex"], details: "Week 6" },
-    { label: "Lowest points in a week", value: "71.2", display: "71.2", teams: ["snorlax"], details: "Week 6" },
-    { label: "Lowest average fantasy points", value: (1508.90/14).toFixed(2), display: (1508.90/14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
+    // leave as-is
   ]
 };
+
 
 // 2024 (champion = 6ixOwls)
 seasons[2024] = {
