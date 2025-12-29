@@ -469,8 +469,8 @@ body{
 .champion-team-wrap{
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* keeps alignment consistent with your current champion layout */
-  gap: 10px;
+  align-items: center; /* THIS centers logo + star over text */
+  gap: 6px;
 }
 
 .champion-logo{
