@@ -1,12 +1,3 @@
-// script.js — Sister Cities site (Season / Gallery / All Time Records)
-// NOTE: Champion posters are expected at:
-// /sister-cities/assets/2025-champion.png
-// /sister-cities/assets/2024-champion.png
-// /sister-cities/assets/2023-champion.png
-// /sister-cities/assets/2022-champion.png
-// /sister-cities/assets/2021-champion.png
-// (If your filenames are different, change getChampionPosterSrc() below.)
-
 // =====================
 // DATA (EDIT HERE LATER)
 // =====================
@@ -25,9 +16,18 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// Helper: team pill (logos in tables)
+// ✅ Champion posters (put these PNGs in /sister-cities/assets/)
+const CHAMPION_POSTERS = {
+  2025: "/sister-cities/assets/2025-champion.png",
+  2024: "/sister-cities/assets/2024-champion.png",
+  2023: "/sister-cities/assets/2023-champion.png",
+  2022: "/sister-cities/assets/2022-champion.png",
+  2021: "/sister-cities/assets/2021-champion.png",
+};
+
+// ✅ One helper
 function teamPill(teamId, extraClass = "") {
-  const t = TEAMS[teamId] || { name: teamId, owner: "", logo: "" };
+  const t = TEAMS[teamId] || { name: teamId, owner: "" };
   const logo = t.logo
     ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
     : "";
@@ -44,7 +44,7 @@ const seasons = {};
 // SEASONS
 // =====================
 
-// 2025 (champion = Svet United)
+// 2025 (Champion: Svet United ✅)
 seasons[2025] = {
   championTeamId: "svetunited",
   championNote: "",
@@ -76,7 +76,7 @@ seasons[2025] = {
   ]
 };
 
-// 2024
+// 2024 (champion = 6ixOwls)
 seasons[2024] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -109,7 +109,7 @@ seasons[2024] = {
   ]
 };
 
-// 2023
+// 2023 (champion = 6ixOwls)
 seasons[2023] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -142,7 +142,7 @@ seasons[2023] = {
   ]
 };
 
-// 2022
+// 2022 (champion = ArShamaa)
 seasons[2022] = {
   championTeamId: "arshamaa",
   championNote: "",
@@ -175,7 +175,7 @@ seasons[2022] = {
   ]
 };
 
-// 2021
+// 2021 (champion = Malek Sex & Cornflex)
 seasons[2021] = {
   championTeamId: "maleksexcornflex",
   championNote: "",
@@ -207,16 +207,7 @@ seasons[2021] = {
 };
 
 // =====================
-// CHAMPION POSTERS
-// =====================
-
-function getChampionPosterSrc(year) {
-  // change here if your names are different
-  return `/sister-cities/assets/${year}-champion.png`;
-}
-
-// =====================
-// ALL-TIME RECORDS LOGIC
+// ALL-TIME RECORDS COMPUTE
 // =====================
 
 const LOWER_IS_BETTER = new Set([
@@ -282,7 +273,7 @@ function computeAllTime(seasonsObj) {
 }
 
 // =====================
-// RENDERING
+// RENDERERS
 // =====================
 
 function renderStandings(season) {
@@ -341,10 +332,44 @@ function renderStats(season) {
   `;
 }
 
+// Count how many championships a team has WON up to (and including) the selected season year
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+// ✅ Champion: left stack (stars + logo + name) + centered poster in the middle
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+
+  // left column
+  if (!season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season.championNote || "";
+  } else {
+    const teamId = season.championTeamId;
+    const t = TEAMS[teamId] || { name: teamId, logo: null };
+    const champs = countChampsUpTo(teamId, season.year);
+    const stars = "★".repeat(Math.max(1, champs));
+
+    elTeam.innerHTML = `
+      <div class="champion-stars">${stars}</div>
+      ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+      <div class="champion-team-name">${t.name}</div>
+    `;
+    elNote.textContent = season.championNote || "";
+  }
+
+  // center poster
+  injectOrUpdateChampionPoster(season.year);
+}
+
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
-  if (!container) return;
-
   const entries = Array.from(recordMap.entries());
 
   const order = [
@@ -398,124 +423,124 @@ function renderAllTime(recordMap) {
 }
 
 // =====================
-// CHAMPION (LEFT COLUMN + CENTER POSTER CLICK FULLSCREEN)
+// MODAL (FULLSCREEN) — FIXED CLOSE BUTTON
 // =====================
 
-// Count how many championships a team has WON up to (and including) year
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote"); // we use this as the CENTER poster holder
-  if (!elTeam || !elNote) return;
-
-  // Undecided
-  if (!season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-  const champs = countChampsUpTo(teamId, season.year);
-  const stars = "★".repeat(Math.max(1, champs));
-
-  // LEFT champion column (star + logo + name)
-  elTeam.innerHTML = `
-    <div class="champion-stars">${stars}</div>
-    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-    <div class="champion-team-name">${t.name}</div>
-  `;
-
-  // CENTER poster (click/tap fullscreen)
-  const posterSrc = getChampionPosterSrc(season.year);
-
-  // No caption in the Champion tab (per your request)
-  elNote.innerHTML = `
-    <div class="gallery-item js-fullscreen" data-src="${posterSrc}" data-caption="">
-      <img class="gallery-thumb" src="${posterSrc}" alt="${season.year} Champion poster" loading="lazy">
-    </div>
-  `;
-}
-
-// =====================
-// FULLSCREEN MODAL (used by Gallery + Champion posters)
-// =====================
+let modalEl, modalImgEl, modalCaptionEl, modalCloseEl;
 
 function ensureModal() {
-  let modal = document.querySelector(".gallery-modal");
-  if (modal) return modal;
+  if (modalEl) return;
 
-  modal = document.createElement("div");
-  modal.className = "gallery-modal";
-  modal.innerHTML = `
-    <div class="gallery-close" aria-label="Close">&times;</div>
-    <img class="gallery-modal-img" alt="Fullscreen image">
+  modalEl = document.createElement("div");
+  modalEl.className = "gallery-modal";
+  modalEl.setAttribute("role", "dialog");
+  modalEl.setAttribute("aria-modal", "true");
+
+  modalEl.innerHTML = `
+    <div class="gallery-close" aria-label="Close" title="Close">&times;</div>
+    <img class="gallery-modal-img" alt="Full screen image">
     <div class="gallery-modal-caption"></div>
   `;
-  document.body.appendChild(modal);
 
-  const closeBtn = modal.querySelector(".gallery-close");
-  closeBtn.addEventListener("click", () => closeModal());
+  document.body.appendChild(modalEl);
 
-  // click outside image closes
-  modal.addEventListener("click", (e) => {
-    const img = modal.querySelector(".gallery-modal-img");
-    if (e.target === modal) closeModal();
-    if (e.target === img) return;
+  modalImgEl = modalEl.querySelector(".gallery-modal-img");
+  modalCaptionEl = modalEl.querySelector(".gallery-modal-caption");
+  modalCloseEl = modalEl.querySelector(".gallery-close");
+
+  // ✅ Close button
+  modalCloseEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeModal();
   });
 
-  // ESC closes
+  // ✅ Click backdrop closes (but clicking the image does NOT close)
+  modalEl.addEventListener("click", () => closeModal());
+  modalImgEl.addEventListener("click", (e) => e.stopPropagation());
+
+  // ✅ ESC key closes
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeModal();
   });
-
-  return modal;
 }
 
 function openModal(src, caption = "") {
-  const modal = ensureModal();
-  const img = modal.querySelector(".gallery-modal-img");
-  const cap = modal.querySelector(".gallery-modal-caption");
+  ensureModal();
+  modalImgEl.src = src;
+  modalCaptionEl.textContent = caption || "";
+  modalEl.style.display = "flex";
 
-  img.src = src;
-  cap.textContent = caption || "";
-
-  modal.style.display = "flex";
+  // prevent background scroll while modal open
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
-  const modal = document.querySelector(".gallery-modal");
-  if (!modal) return;
-  modal.style.display = "none";
+  if (!modalEl) return;
+  modalEl.style.display = "none";
+  modalImgEl.src = "";
+  modalCaptionEl.textContent = "";
 
-  const img = modal.querySelector(".gallery-modal-img");
-  if (img) img.src = "";
+  // restore scroll
+  document.body.style.overflow = "";
 }
 
-function wireFullscreenClicks() {
-  // Delegated: works for Gallery + Champion posters + future images
-  document.addEventListener("click", (e) => {
-    const item = e.target.closest(".js-fullscreen, .gallery-item.js-fullscreen");
-    if (!item) return;
+// =====================
+// CHAMPION POSTER (CENTERED IN CHAMPION TAB)
+// =====================
 
-    const src = item.getAttribute("data-src");
-    const caption = item.getAttribute("data-caption") || "";
-    if (!src) return;
+function injectOrUpdateChampionPoster(year) {
+  ensureModal();
 
-    openModal(src, caption);
+  const championRow = document.querySelector(".champion-row");
+  if (!championRow) return;
+
+  // Create a center slot once
+  let slot = document.getElementById("championPosterSlot");
+  if (!slot) {
+    slot = document.createElement("div");
+    slot.id = "championPosterSlot";
+
+    // ✅ center the poster area in the remaining space
+    slot.style.flex = "1";
+    slot.style.display = "flex";
+    slot.style.justifyContent = "center";
+    slot.style.alignItems = "center";
+    slot.style.minHeight = "220px"; // gives it a nice presence even if image missing
+
+    championRow.appendChild(slot);
+  }
+
+  const posterSrc = CHAMPION_POSTERS[year];
+
+  // if missing image path, show nothing
+  if (!posterSrc) {
+    slot.innerHTML = "";
+    return;
+  }
+
+  // Render the poster like gallery formatting (clickable -> fullscreen)
+  slot.innerHTML = `
+    <img
+      class="gallery-image"
+      src="${posterSrc}"
+      alt="${year} champion poster"
+      loading="lazy"
+      style="max-width: 540px; width: 100%; cursor: pointer;"
+      data-fullscreen-src="${posterSrc}"
+      data-fullscreen-caption=""
+    />
+  `;
+
+  const img = slot.querySelector("img");
+  img.addEventListener("click", (e) => {
+    e.preventDefault();
+    openModal(posterSrc, "");
   });
 }
 
 // =====================
-// TABS + SEASONS
+// TABS + SEASONS WIRING
 // =====================
 
 function wireTabs() {
@@ -527,8 +552,7 @@ function wireTabs() {
 
       const target = btn.dataset.tab;
       document.querySelectorAll(".tabpanel").forEach(p => p.classList.remove("active"));
-      const panel = document.getElementById(`tab-${target}`);
-      if (panel) panel.classList.add("active");
+      document.getElementById(`tab-${target}`)?.classList.add("active");
     });
   });
 
@@ -540,8 +564,7 @@ function wireTabs() {
 
       const target = btn.dataset.subtab;
       document.querySelectorAll(".season-pane").forEach(p => p.classList.remove("active"));
-      const pane = document.querySelector(`[data-pane="${target}"]`);
-      if (pane) pane.classList.add("active");
+      document.querySelector(`[data-pane="${target}"]`)?.classList.add("active");
     });
   });
 }
@@ -564,11 +587,8 @@ function renderSeason(state) {
   if (!season) return;
 
   renderChampion(season);
-
-  const standingsEl = document.getElementById("seasonStandings");
-  const statsEl = document.getElementById("seasonStats");
-  if (standingsEl) standingsEl.innerHTML = renderStandings(season);
-  if (statsEl) statsEl.innerHTML = renderStats(season);
+  document.getElementById("seasonStandings").innerHTML = renderStandings(season);
+  document.getElementById("seasonStats").innerHTML = renderStats(season);
 }
 
 // =====================
@@ -576,8 +596,9 @@ function renderSeason(state) {
 // =====================
 
 (function init() {
+  ensureModal();
+
   wireTabs();
-  wireFullscreenClicks();
 
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
