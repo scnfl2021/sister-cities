@@ -29,7 +29,7 @@ body{
 /* HEADER */
 .header{
   border-bottom: 1px solid rgba(255,255,255,0.10);
-  padding: 6px 18px;
+  padding: 18px 18px 12px;
   position: sticky;
   top: 0;
   backdrop-filter: blur(10px);
@@ -38,18 +38,12 @@ body{
   z-index: 10;
 }
 
-.header .container{
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
 /* NEW TOP BAR LAYOUT (left / center / right) */
 .topbar{
   display:grid;
   grid-template-columns: 1fr auto 1fr;
   align-items:center;
   gap:14px;
-  position: relative;
 }
 
 .topbar-left{
@@ -75,26 +69,41 @@ body{
   min-height: 64px;
 }
 
-/* League logo */
+/* BIG league logo (must be transparent PNG) */
 .league-logo{
-  height: 72px;
+  height: 74px;          /* BIGGER than team logos */
   width: auto;
   display:block;
   background: transparent;
   border: none;
   box-shadow: none;
   filter: drop-shadow(0 8px 14px rgba(0,0,0,0.35));
-  flex-shrink: 0;
 }
 
 /* Brand text */
-.brand-text{display:flex; flex-direction:column; gap:2px; line-height:1.1;}
+.brand-text{display:flex; flex-direction:column; gap:2px;}
 .brand-title{font-size:22px; font-weight:800; letter-spacing:0.4px; color:#ffffff;}
 .brand-subtitle{font-size:13px; color: rgba(255,255,255,0.72);}
 
+/* Landmarks SVG */
+.landmarks{
+  height: 54px;
+  width: auto;
+  fill: rgba(255,255,255,0.78);
+}
+
+/* Flags */
+.flag{
+  height: 28px;
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
+
 /* Tabs */
 .tabs{
-  margin-top: 8px;
+  margin-top: 14px;
   display:flex;
   justify-content:center;
   gap:10px;
@@ -130,7 +139,6 @@ body{
 
 .page{ background: transparent; }
 
-/* Season year buttons */
 .season-controls{margin: 16px 0 12px}
 .season-years{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
 .season-year-button{
@@ -148,72 +156,17 @@ body{
   background: rgba(177,138,0,0.12);
 }
 
-/* =========================
-   CHAMPION SECTION (FIXED)
-   Goal:
-   - Champion block on LEFT
-   - Team name stays left-aligned
-   - Logo + star centered over the team name
-   ========================= */
-
 .champion-card{margin-bottom:14px}
-
-/* keep the champion content on the left side of the card */
 .champion-row{
   display:flex;
   flex-direction:column;
-  align-items:flex-start;
-  text-align:left;
+  align-items:center;
+  text-align:center;
   gap:6px;
 }
-
-/* Make the champion block shrink to the text width so centering works */
-#championTeam{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;      /* team name stays left-aligned */
-  text-align:left;
-  gap:8px;
-  width: fit-content;          /* IMPORTANT: makes logo center relative to the text width */
-}
-
-/* Star centered over the width of the team name */
-#championTeam .champion-stars{
-  width: 100%;
-  text-align: center;          /* centers over the team-name width */
-  font-size: 18pt;
-  color: var(--gold);
-  line-height: 1;
-  margin: 0;
-}
-
-/* Logo centered over the width of the team name */
-#championTeam img{
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-  display:block;
-  margin: 0 auto;              /* centers the logo within the fit-content block */
-  background: transparent !important;
-  border: 0 !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-}
-
-/* Team name stays as your current look */
-#championTeam .champion-team-name{
-  font-size: 26px;
-  font-weight: 900;
-  line-height: 1.1;
-  text-align: left;
-}
-
-/* Optional note */
+.champion-team{ font-size: 26px; font-weight:900 }
 .champion-note{ color: var(--muted); }
 
-/* Season subtabs */
 .season-subtabs{display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;}
 .season-subtab{
   border:1px solid var(--border);
@@ -232,10 +185,8 @@ body{
 .season-pane{display:none}
 .season-pane.active{display:block}
 
-/* Standings table */
 .table{
-  width: 92%;
-  margin: 0 auto;
+  width:100%;
   border-collapse: collapse;
   overflow:hidden;
   border-radius: 14px;
@@ -262,6 +213,7 @@ body{
   justify-content: center;
   flex-shrink: 0;
 }
+
 .logo-img{
   width: 100%;
   height: 100%;
@@ -288,6 +240,7 @@ body{
   color: #111;
   letter-spacing: 0.3px;
 }
+
 .stat-row{
   display:flex;
   justify-content:space-between;
@@ -330,6 +283,8 @@ body{
 .record-title{font-weight:900; color: var(--text); letter-spacing: -0.2px}
 .record-value{font-size: 22px; font-weight: 950; margin-top: 10px; display:inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(0,0,0,0.06); color: var(--text)}
 .record-holders{font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.35}
+
+/* All-time records: show team pills (logos) nicely */
 .record-holders{
   display: flex;
   flex-direction: column;
@@ -359,9 +314,276 @@ body{
   color: var(--muted);
 }
 
+/* Mobile: stack header nicely */
+@media (max-width: 720px){
+  .topbar{
+    grid-template-columns: 1fr;
+    justify-items:center;
+  }
+  .topbar-left, .topbar-right{
+    justify-content:center;
+  }
+  .brand-text{align-items:center; text-align:center;}
+  .league-logo{height: 68px;}
+}
+/* Make league logo ~30% bigger */
+.league-logo{
+  height: 78px;      /* adjust if you want even bigger */
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
 /* =========================
-   GALLERY (thumbnails + fullscreen)
+   HEADER FLAGS (NO IMAGES)
+   Paste at bottom of styles.css
    ========================= */
+
+.topbar { position: relative; }
+
+/* right side container */
+.topbar-right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* generic flag */
+.flag {
+  width: 36px;
+  height: 24px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.20);
+  overflow: hidden;
+}
+
+/* USA flag (simple) */
+.flag-usa {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #b22234 0,
+      #b22234 7.69%,
+      #ffffff 7.69%,
+      #ffffff 15.38%
+    );
+  position: relative;
+}
+.flag-usa::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 54%;
+  background: #3c3b6e;
+}
+
+/* Canada flag (simple) */
+.flag-canada {
+  background: linear-gradient(
+    to right,
+    #d52b1e 0%,
+    #d52b1e 25%,
+    #ffffff 25%,
+    #ffffff 75%,
+    #d52b1e 75%,
+    #d52b1e 100%
+  );
+  position: relative;
+}
+.flag-canada::before {
+  content: "🍁";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  line-height: 1;
+}
+/* ===============================
+   HEADER SIZE ADJUSTMENTS (FINAL)
+   =============================== */
+
+/* League logo – make ~80% bigger */
+.league-logo {
+  height: 165px; /* was ~92px */
+}
+
+/* Flags – make ~200% bigger */
+.flag {
+  width: 72px;   /* was 36px */
+  height: 48px;  /* was 24px */
+  border-radius: 6px;
+}
+/* === FINAL HEADER SIZE ADJUSTMENTS === */
+
+/* League logo – slightly bigger, not huge */
+.league-logo {
+  height: 120px; /* was ~92px */
+}
+
+/* Flags – about 200% bigger */
+.flag {
+  width: 72px;   /* was ~36px */
+  height: 48px;  /* was ~24px */
+}
+/* ==============================
+   HEADER HEIGHT REDUCTION (SAFE)
+   ============================== */
+
+/* Reduce overall header vertical padding */
+.header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+/* Reduce container padding inside header */
+.header .container {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Tighten topbar spacing */
+.topbar {
+  min-height: unset;
+}
+
+/* Slightly reduce logo height */
+.league-logo {
+  height: 72px; /* was larger — adjust ±4px if needed */
+}
+
+/* Tighten brand text spacing */
+.brand-text {
+  line-height: 1.1;
+}
+
+/* Pull tabs closer to header */
+.tabs {
+  margin-top: 8px;
+}
+/* Champion logo above champion name */
+.champion-team-wrap{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* keeps alignment consistent with your current champion layout */
+  gap: 10px;
+}
+
+.champion-logo{
+  height: 72px;          /* logo size above champion name */
+  width: auto;
+  border-radius: 12px;   /* soft corners like your site */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.champion-team-name{
+  /* inherit your existing champion-team styling */
+}
+/* =========================
+   Champion logo fixes
+   (paste at very bottom)
+   ========================= */
+
+/* Center the whole champion block (logo + name) */
+#championTeam{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+/* If your champion logo is injected as an <img> inside #championTeam */
+#championTeam img{
+  display: block;
+  margin: 0 auto;                 /* fixes the off-center issue (Malek SC) */
+  width: 72px;                    /* adjust if you want slightly bigger/smaller */
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;              /* crops to circle cleanly */
+  object-position: center center; /* centers the image inside the circle */
+  background: transparent !important; /* removes any forced white background */
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* If you wrapped the logo in a container (common pattern), make it a true circle crop */
+.champion-logo-wrap,
+.champion-logo,
+.champion-logo-container{
+  background: transparent !important;
+  border-radius: 50%;
+  overflow: hidden;               /* kills the square look */
+  display: grid;
+  place-items: center;
+}
+/* =========================
+   STANDINGS TABLE ALIGNMENT FIX
+   ========================= */
+
+/* Pull table inward from the right */
+.table {
+  width: 92%;
+  margin: 0 auto;
+}
+
+/* Tighten column spacing */
+.table th,
+.table td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* Ensure numeric columns don't drift right */
+.table th:nth-child(3),
+.table th:nth-child(4),
+.table th:nth-child(5),
+.table td:nth-child(3),
+.table td:nth-child(4),
+.table td:nth-child(5) {
+  text-align: left;
+}
+/* =========================
+   CHAMPION STARS STYLE
+   ========================= */
+
+.champion-stars {
+  text-align: center;
+  font-size: 18pt;
+  color: #b18a00; /* same gold tone as tabs */
+  margin-bottom: 6px;
+  line-height: 1;
+}
+/* =========================
+   GALLERY
+   ========================= */
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gallery-image {
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.gallery-caption {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+}
+/* ===== GALLERY ===== */
 
 .gallery-grid {
   display: grid;
@@ -395,7 +617,8 @@ body{
   color: #666;
 }
 
-/* Fullscreen modal */
+/* ===== FULLSCREEN MODAL ===== */
+
 .gallery-modal {
   display: none;
   position: fixed;
@@ -426,17 +649,4 @@ body{
   font-size: 36px;
   color: #fff;
   cursor: pointer;
-}
-
-/* Mobile: stack header nicely */
-@media (max-width: 720px){
-  .topbar{
-    grid-template-columns: 1fr;
-    justify-items:center;
-  }
-  .topbar-left, .topbar-right{
-    justify-content:center;
-  }
-  .brand-text{align-items:center; text-align:center;}
-  .league-logo{height: 68px;}
 }
