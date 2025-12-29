@@ -29,20 +29,15 @@ function teamPill(teamId, extraClass = "") {
   </span>`;
 }
 
-function teamLabel(teamId) {
-  const t = TEAMS[teamId];
-  return t ? t.name : teamId;
-}
-
 const seasons = {};
 
 // =====================
 // SEASONS
 // =====================
 
-// 2025 (champion TBD)
+// ✅ 2025 (Champion = Svet United)
 seasons[2025] = {
-  championTeamId: "svetunited", 
+  championTeamId: "svetunited",
   championNote: "",
   standings: [
     { teamId: "svetunited", seed: 1, record: "12–2", pf: 2059.30, pa: 1489.78 },
@@ -324,38 +319,10 @@ function renderStats(season) {
   `;
 }
 
-/* ✅ UPDATED: Champion now shows team logo above champion name (2024/2023/2022/2021) */
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-
-  // If undecided
-  if (!season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-
-  const logoHtml = t.logo
-    ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
-    : "";
-
-  // Keep text styling the same, just add logo above it
-  elTeam.innerHTML = `
-    <div class="champion-team-wrap">
-      ${logoHtml}
-      <div class="champion-team-name">${t.name}</div>
-    </div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
+  if (!container) return;
+
   const entries = Array.from(recordMap.entries());
 
   const order = [
@@ -408,7 +375,48 @@ function renderAllTime(recordMap) {
   container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
-// Tabs
+// =====================
+// CHAMPION (STARS + LOGO)
+// =====================
+
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+  if (!elTeam || !elNote) return;
+
+  if (!season || !season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season?.championNote || "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: "" };
+
+  const champs = countChampsUpTo(teamId, season.year || 0);
+  const stars = "★".repeat(Math.max(1, champs));
+
+  elTeam.innerHTML = `
+    <div class="champion-stars">${stars}</div>
+    ${t.logo ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
+// =====================
+// TABS + SEASON SWITCHING
+// =====================
+
 function wireTabs() {
   const tabButtons = document.querySelectorAll(".tab");
   tabButtons.forEach(btn => {
@@ -418,7 +426,8 @@ function wireTabs() {
 
       const target = btn.dataset.tab;
       document.querySelectorAll(".tabpanel").forEach(p => p.classList.remove("active"));
-      document.getElementById(`tab-${target}`).classList.add("active");
+      const panel = document.getElementById(`tab-${target}`);
+      if (panel) panel.classList.add("active");
     });
   });
 
@@ -430,7 +439,8 @@ function wireTabs() {
 
       const target = btn.dataset.subtab;
       document.querySelectorAll(".season-pane").forEach(p => p.classList.remove("active"));
-      document.querySelector(`[data-pane="${target}"]`).classList.add("active");
+      const pane = document.querySelector(`[data-pane="${target}"]`);
+      if (pane) pane.classList.add("active");
     });
   });
 }
@@ -451,90 +461,64 @@ function wireSeasonYears(state) {
 function renderSeason(state) {
   const season = seasons[state.currentYear];
   renderChampion(season);
-  document.getElementById("seasonStandings").innerHTML = renderStandings(season);
-  document.getElementById("seasonStats").innerHTML = renderStats(season);
+
+  const standingsEl = document.getElementById("seasonStandings");
+  const statsEl = document.getElementById("seasonStats");
+
+  if (standingsEl) standingsEl.innerHTML = renderStandings(season);
+  if (statsEl) statsEl.innerHTML = renderStats(season);
 }
 
-// Boot
-(function init() {
+// =====================
+// GALLERY MODAL
+// =====================
+
+function wireGalleryModal() {
+  const modal = document.getElementById("galleryModal");
+  const modalImg = document.getElementById("galleryModalImg");
+  const caption = document.getElementById("galleryModalCaption");
+  const closeBtn = document.querySelector(".gallery-close");
+
+  if (!modal || !modalImg || !caption) return;
+
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest(".gallery-thumb");
+    if (!img) return;
+
+    modalImg.src = img.src;
+    caption.textContent = img.alt || "";
+    modal.style.display = "flex";
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.style.display = "none";
+    });
+  }
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") modal.style.display = "none";
+  });
+}
+
+// =====================
+// BOOT
+// =====================
+
+document.addEventListener("DOMContentLoaded", () => {
   wireTabs();
+
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
 
   const state = { currentYear: 2025 };
   wireSeasonYears(state);
   renderSeason(state);
-})();
-/* =========================
-   CHAMPION STARS + LOGO (PATCH)
-   Paste at VERY BOTTOM of script.js
-   ========================= */
 
-// Count how many championships a team has WON up to (and including) the selected season year
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-// Override renderChampion (this replaces the earlier one safely)
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-
-  // If no champion yet (like 2025)
-  if (!season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-  const champs = countChampsUpTo(teamId, season.year);
-  const stars = "★".repeat(Math.max(1, champs)); // at least 1 star if champion exists
-
-  elTeam.innerHTML = `
-    <div class="champion-stars">${stars}</div>
-    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-    <div class="champion-team-name">${t.name}</div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
-// Re-render the CURRENTLY selected season immediately (so you see stars right away)
-(function rerenderChampionNow() {
-  const activeBtn = document.querySelector(".season-year-button.active");
-  const year = activeBtn ? Number(activeBtn.dataset.season) : 2025;
-  const season = seasons[year];
-  if (season) renderChampion(season);
-})();
-// ===== GALLERY MODAL =====
-document.addEventListener("click", (e) => {
-  const img = e.target.closest(".gallery-thumb");
-  if (!img) return;
-
-  const modal = document.getElementById("galleryModal");
-  const modalImg = document.getElementById("galleryModalImg");
-  const caption = document.getElementById("galleryModalCaption");
-
-  modalImg.src = img.src;
-  caption.textContent = img.alt;
-
-  modal.style.display = "flex";
-});
-
-// Close modal
-document.querySelector(".gallery-close").addEventListener("click", () => {
-  document.getElementById("galleryModal").style.display = "none";
-});
-
-// Close when clicking outside image
-document.getElementById("galleryModal").addEventListener("click", (e) => {
-  if (e.target.id === "galleryModal") {
-    e.currentTarget.style.display = "none";
-  }
+  wireGalleryModal();
 });
