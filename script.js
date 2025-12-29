@@ -1,3 +1,12 @@
+// script.js — Sister Cities site (Season / Gallery / All Time Records)
+// NOTE: Champion posters are expected at:
+// /sister-cities/assets/2025-champion.png
+// /sister-cities/assets/2024-champion.png
+// /sister-cities/assets/2023-champion.png
+// /sister-cities/assets/2022-champion.png
+// /sister-cities/assets/2021-champion.png
+// (If your filenames are different, change getChampionPosterSrc() below.)
+
 // =====================
 // DATA (EDIT HERE LATER)
 // =====================
@@ -16,9 +25,9 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// ✅ One (and only one) helper
+// Helper: team pill (logos in tables)
 function teamPill(teamId, extraClass = "") {
-  const t = TEAMS[teamId] || { name: teamId, owner: "" };
+  const t = TEAMS[teamId] || { name: teamId, owner: "", logo: "" };
   const logo = t.logo
     ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
     : "";
@@ -27,11 +36,6 @@ function teamPill(teamId, extraClass = "") {
     <span class="logo-dot">${logo}</span>
     <span class="team-pill-text">${t.name}</span>
   </span>`;
-}
-
-function teamLabel(teamId) {
-  const t = TEAMS[teamId];
-  return t ? t.name : teamId;
 }
 
 const seasons = {};
@@ -56,12 +60,23 @@ seasons[2025] = {
     { teamId: "barjalona", seed: 9, record: "4–10", pf: 1673.02, pa: 1616.48 },
   ],
   seasonStats: [
-    // leave as-is
+    { label: "Longest losing streak of the season", value: "4", display: "T-4 losses", teams: ["drhtown","miami","daddytate","barjalona"], details: null },
+    { label: "Longest winning streak of the season", value: "9", display: "9 wins", teams: ["svetunited"], details: null },
+    { label: "Best regular season record", value: "12-2", display: "12–2", teams: ["svetunited"], details: null },
+    { label: "Worst regular season record", value: "4-10", display: "4–10", teams: ["barjalona"], details: null },
+    { label: "Most total points", value: "2059.30", display: "2059.30", teams: ["svetunited"], details: null },
+    { label: "Lowest total points scored", value: "1673.02", display: "1673.02", teams: ["barjalona"], details: null },
+    { label: 'Most "Best Team" Sleeper reports', value: "5", display: "5 times", teams: ["svetunited"], details: null },
+    { label: "Closest matchup of the season", value: "0.52", display: "0.52 points", teams: ["daddytate","barjalona"], details: "Week 5" },
+    { label: "Biggest blowout of the season", value: "131", display: "131 points", teams: ["maleksexcornflex","snorlax"], details: "Week 6" },
+    { label: "Highest average fantasy points", value: "147", display: "147", teams: ["svetunited"], details: null },
+    { label: "Highest points in week", value: "202.58", display: "202.58", teams: ["maleksexcornflex"], details: "Week 6" },
+    { label: "Lowest points in a week", value: "71.2", display: "71.2", teams: ["snorlax"], details: "Week 6" },
+    { label: "Lowest average fantasy points", value: (1508.90/14).toFixed(2), display: (1508.90/14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
   ]
 };
 
-
-// 2024 (champion = 6ixOwls)
+// 2024
 seasons[2024] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -192,7 +207,16 @@ seasons[2021] = {
 };
 
 // =====================
-// UI RENDERING
+// CHAMPION POSTERS
+// =====================
+
+function getChampionPosterSrc(year) {
+  // change here if your names are different
+  return `/sister-cities/assets/${year}-champion.png`;
+}
+
+// =====================
+// ALL-TIME RECORDS LOGIC
 // =====================
 
 const LOWER_IS_BETTER = new Set([
@@ -257,6 +281,10 @@ function computeAllTime(seasonsObj) {
   return recordMap;
 }
 
+// =====================
+// RENDERING
+// =====================
+
 function renderStandings(season) {
   const rows = season.standings.map(r => `
     <tr>
@@ -313,38 +341,10 @@ function renderStats(season) {
   `;
 }
 
-/* ✅ UPDATED: Champion now shows team logo above champion name (2024/2023/2022/2021) */
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-
-  // If undecided
-  if (!season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-
-  const logoHtml = t.logo
-    ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
-    : "";
-
-  // Keep text styling the same, just add logo above it
-  elTeam.innerHTML = `
-    <div class="champion-team-wrap">
-      ${logoHtml}
-      <div class="champion-team-name">${t.name}</div>
-    </div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
+  if (!container) return;
+
   const entries = Array.from(recordMap.entries());
 
   const order = [
@@ -397,7 +397,127 @@ function renderAllTime(recordMap) {
   container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
-// Tabs
+// =====================
+// CHAMPION (LEFT COLUMN + CENTER POSTER CLICK FULLSCREEN)
+// =====================
+
+// Count how many championships a team has WON up to (and including) year
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote"); // we use this as the CENTER poster holder
+  if (!elTeam || !elNote) return;
+
+  // Undecided
+  if (!season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season.championNote || "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+  const champs = countChampsUpTo(teamId, season.year);
+  const stars = "★".repeat(Math.max(1, champs));
+
+  // LEFT champion column (star + logo + name)
+  elTeam.innerHTML = `
+    <div class="champion-stars">${stars}</div>
+    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  // CENTER poster (click/tap fullscreen)
+  const posterSrc = getChampionPosterSrc(season.year);
+
+  // No caption in the Champion tab (per your request)
+  elNote.innerHTML = `
+    <div class="gallery-item js-fullscreen" data-src="${posterSrc}" data-caption="">
+      <img class="gallery-thumb" src="${posterSrc}" alt="${season.year} Champion poster" loading="lazy">
+    </div>
+  `;
+}
+
+// =====================
+// FULLSCREEN MODAL (used by Gallery + Champion posters)
+// =====================
+
+function ensureModal() {
+  let modal = document.querySelector(".gallery-modal");
+  if (modal) return modal;
+
+  modal = document.createElement("div");
+  modal.className = "gallery-modal";
+  modal.innerHTML = `
+    <div class="gallery-close" aria-label="Close">&times;</div>
+    <img class="gallery-modal-img" alt="Fullscreen image">
+    <div class="gallery-modal-caption"></div>
+  `;
+  document.body.appendChild(modal);
+
+  const closeBtn = modal.querySelector(".gallery-close");
+  closeBtn.addEventListener("click", () => closeModal());
+
+  // click outside image closes
+  modal.addEventListener("click", (e) => {
+    const img = modal.querySelector(".gallery-modal-img");
+    if (e.target === modal) closeModal();
+    if (e.target === img) return;
+  });
+
+  // ESC closes
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
+  return modal;
+}
+
+function openModal(src, caption = "") {
+  const modal = ensureModal();
+  const img = modal.querySelector(".gallery-modal-img");
+  const cap = modal.querySelector(".gallery-modal-caption");
+
+  img.src = src;
+  cap.textContent = caption || "";
+
+  modal.style.display = "flex";
+}
+
+function closeModal() {
+  const modal = document.querySelector(".gallery-modal");
+  if (!modal) return;
+  modal.style.display = "none";
+
+  const img = modal.querySelector(".gallery-modal-img");
+  if (img) img.src = "";
+}
+
+function wireFullscreenClicks() {
+  // Delegated: works for Gallery + Champion posters + future images
+  document.addEventListener("click", (e) => {
+    const item = e.target.closest(".js-fullscreen, .gallery-item.js-fullscreen");
+    if (!item) return;
+
+    const src = item.getAttribute("data-src");
+    const caption = item.getAttribute("data-caption") || "";
+    if (!src) return;
+
+    openModal(src, caption);
+  });
+}
+
+// =====================
+// TABS + SEASONS
+// =====================
+
 function wireTabs() {
   const tabButtons = document.querySelectorAll(".tab");
   tabButtons.forEach(btn => {
@@ -407,7 +527,8 @@ function wireTabs() {
 
       const target = btn.dataset.tab;
       document.querySelectorAll(".tabpanel").forEach(p => p.classList.remove("active"));
-      document.getElementById(`tab-${target}`).classList.add("active");
+      const panel = document.getElementById(`tab-${target}`);
+      if (panel) panel.classList.add("active");
     });
   });
 
@@ -419,7 +540,8 @@ function wireTabs() {
 
       const target = btn.dataset.subtab;
       document.querySelectorAll(".season-pane").forEach(p => p.classList.remove("active"));
-      document.querySelector(`[data-pane="${target}"]`).classList.add("active");
+      const pane = document.querySelector(`[data-pane="${target}"]`);
+      if (pane) pane.classList.add("active");
     });
   });
 }
@@ -439,14 +561,24 @@ function wireSeasonYears(state) {
 
 function renderSeason(state) {
   const season = seasons[state.currentYear];
+  if (!season) return;
+
   renderChampion(season);
-  document.getElementById("seasonStandings").innerHTML = renderStandings(season);
-  document.getElementById("seasonStats").innerHTML = renderStats(season);
+
+  const standingsEl = document.getElementById("seasonStandings");
+  const statsEl = document.getElementById("seasonStats");
+  if (standingsEl) standingsEl.innerHTML = renderStandings(season);
+  if (statsEl) statsEl.innerHTML = renderStats(season);
 }
 
-// Boot
+// =====================
+// BOOT
+// =====================
+
 (function init() {
   wireTabs();
+  wireFullscreenClicks();
+
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
 
@@ -454,76 +586,3 @@ function renderSeason(state) {
   wireSeasonYears(state);
   renderSeason(state);
 })();
-/* =========================
-   CHAMPION STARS + LOGO (PATCH)
-   Paste at VERY BOTTOM of script.js
-   ========================= */
-
-// Count how many championships a team has WON up to (and including) the selected season year
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-// Override renderChampion (this replaces the earlier one safely)
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-
-  // If no champion yet (like 2025)
-  if (!season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-  const champs = countChampsUpTo(teamId, season.year);
-  const stars = "★".repeat(Math.max(1, champs)); // at least 1 star if champion exists
-
-  elTeam.innerHTML = `
-    <div class="champion-stars">${stars}</div>
-    ${t.logo ? `<img src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-    <div class="champion-team-name">${t.name}</div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
-// Re-render the CURRENTLY selected season immediately (so you see stars right away)
-(function rerenderChampionNow() {
-  const activeBtn = document.querySelector(".season-year-button.active");
-  const year = activeBtn ? Number(activeBtn.dataset.season) : 2025;
-  const season = seasons[year];
-  if (season) renderChampion(season);
-})();
-// ===== GALLERY MODAL =====
-document.addEventListener("click", (e) => {
-  const img = e.target.closest(".gallery-thumb");
-  if (!img) return;
-
-  const modal = document.getElementById("galleryModal");
-  const modalImg = document.getElementById("galleryModalImg");
-  const caption = document.getElementById("galleryModalCaption");
-
-  modalImg.src = img.src;
-  caption.textContent = img.alt;
-
-  modal.style.display = "flex";
-});
-
-// Close modal
-document.querySelector(".gallery-close").addEventListener("click", () => {
-  document.getElementById("galleryModal").style.display = "none";
-});
-
-// Close when clicking outside image
-document.getElementById("galleryModal").addEventListener("click", (e) => {
-  if (e.target.id === "galleryModal") {
-    e.currentTarget.style.display = "none";
-  }
-});
