@@ -10,7 +10,6 @@
 
 <header class="header">
   <div class="container">
-
     <div class="topbar">
       <div class="topbar-left"></div>
 
@@ -34,15 +33,12 @@
       <button class="tab" data-tab="gallery">Gallery</button>
       <button class="tab" data-tab="records">All Time Records</button>
     </div>
-
   </div>
 </header>
 
 <main class="container page">
-
-  <!-- SEASON -->
+  <!-- SEASON TAB -->
   <section id="tab-season" class="tabpanel active">
-
     <div class="season-controls card">
       <div class="season-years">
         <button class="season-year-button active" data-season="2025">2025</button>
@@ -56,60 +52,68 @@
     <div class="card champion-card">
       <div class="card-title">Champion</div>
 
-      <div class="champion-layout">
-        <!-- LEFT: team + star -->
-        <div id="championTeam"></div>
+      <!-- LEFT champion column + CENTER poster thumbnail -->
+      <div class="champion-row">
+        <div class="champion-left">
+          <div id="championTeam" class="champion-team"></div>
+          <div id="championNote" class="champion-note"></div>
+        </div>
 
-        <!-- CENTER: poster -->
-        <div class="champion-poster-slot">
-          <img
-            id="championPoster"
-            class="champion-poster-thumb"
-            src=""
-            alt="Championship Poster"
-          />
+        <div id="championPosterSlot" class="champion-poster-slot">
+          <!-- poster thumbnail injected by script.js -->
         </div>
       </div>
-
     </div>
 
+    <div class="card">
+      <div class="season-subtabs">
+        <button class="season-subtab active" data-subtab="standings">Standings</button>
+        <button class="season-subtab" data-subtab="stats">Stats</button>
+      </div>
+
+      <div class="season-pane active" data-pane="standings">
+        <div id="seasonStandings"></div>
+      </div>
+
+      <div class="season-pane" data-pane="stats">
+        <div id="seasonStats"></div>
+      </div>
+    </div>
   </section>
 
-  <!-- GALLERY -->
+  <!-- GALLERY TAB -->
   <section id="tab-gallery" class="tabpanel">
     <div class="card">
+      <div class="card-title">Gallery</div>
+
       <div class="gallery-grid">
-        <div class="gallery-item">
-          <img
-            src="/sister-cities/assets/playoffs-championship-2025.png"
-            class="gallery-thumb"
-            data-full="/sister-cities/assets/playoffs-championship-2025.png"
-          />
+        <div class="gallery-item" data-full="/sister-cities/assets/playoffs-championship-2025.png" data-caption="Playoffs Championship 2025">
+          <img class="gallery-thumb" src="/sister-cities/assets/playoffs-championship-2025.png" alt="Playoffs Championship 2025">
           <div class="gallery-caption">Playoffs Championship 2025</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- RECORDS -->
+  <!-- ALL TIME RECORDS TAB -->
   <section id="tab-records" class="tabpanel">
     <div class="card">
       <div class="card-title">All Time Records</div>
       <div id="allTimeRecordsContainer"></div>
     </div>
   </section>
-
 </main>
-
-<!-- FULLSCREEN MODAL -->
-<div class="gallery-modal" id="galleryModal">
-  <span class="gallery-close" id="galleryClose">&times;</span>
-  <img class="gallery-modal-img" id="galleryModalImg" />
-</div>
 
 <footer class="footer">
   Built for your Sister Cities fantasy league • Hosted on GitHub Pages
 </footer>
+
+<!-- FULLSCREEN IMAGE MODAL (used by Gallery + Champion posters) -->
+<div id="imageModal" class="gallery-modal" aria-hidden="true">
+  <span id="imageModalClose" class="gallery-close" aria-label="Close">&times;</span>
+  <img id="imageModalImg" class="gallery-modal-img" alt="">
+  <div id="imageModalCaption" class="gallery-modal-caption"></div>
+</div>
 
 <script src="./script.js"></script>
 </body>
