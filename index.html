@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,9 +11,13 @@
 
 <header class="header">
   <div class="container">
+
     <div class="topbar">
+
+      <!-- LEFT: EMPTY -->
       <div class="topbar-left"></div>
 
+      <!-- CENTER: league logo + text -->
       <div class="topbar-center">
         <img
           class="league-logo"
@@ -25,14 +30,18 @@
         </div>
       </div>
 
+      <!-- RIGHT: EMPTY -->
       <div class="topbar-right"></div>
+
     </div>
 
+    <!-- Tabs -->
     <div class="tabs">
       <button class="tab active" data-tab="season">Season</button>
       <button class="tab" data-tab="gallery">Gallery</button>
       <button class="tab" data-tab="records">All Time Records</button>
     </div>
+
   </div>
 </header>
 
@@ -52,16 +61,14 @@
     <div class="card champion-card">
       <div class="card-title">Champion</div>
 
-      <!-- LEFT champion column + CENTER poster thumbnail -->
+      <!-- Champion LEFT + Poster CENTER -->
       <div class="champion-row">
-        <div class="champion-left">
-          <div id="championTeam" class="champion-team"></div>
-          <div id="championNote" class="champion-note"></div>
-        </div>
+        <div id="championTeam" class="champion-team"></div>
 
-        <div id="championPosterSlot" class="champion-poster-slot">
-          <!-- poster thumbnail injected by script.js -->
-        </div>
+        <!-- CENTER poster slot (changes by year) -->
+        <div id="championPoster" class="champion-poster"></div>
+
+        <div id="championNote" class="champion-note"></div>
       </div>
     </div>
 
@@ -86,6 +93,7 @@
     <div class="card">
       <div class="card-title">Gallery</div>
 
+      <!-- Keep your existing gallery HTML here (whatever you already have) -->
       <div class="gallery-grid">
         <div class="gallery-item" data-full="/sister-cities/assets/playoffs-championship-2025.png" data-caption="Playoffs Championship 2025">
           <img class="gallery-thumb" src="/sister-cities/assets/playoffs-championship-2025.png" alt="Playoffs Championship 2025">
@@ -108,8 +116,8 @@
   Built for your Sister Cities fantasy league • Hosted on GitHub Pages
 </footer>
 
-<!-- FULLSCREEN IMAGE MODAL (used by Gallery + Champion posters) -->
-<div id="imageModal" class="gallery-modal" aria-hidden="true">
+<!-- ✅ ONE modal used by BOTH Gallery + Champion poster -->
+<div id="imageModal" class="gallery-modal" role="dialog" aria-modal="true" aria-hidden="true">
   <span id="imageModalClose" class="gallery-close" aria-label="Close">&times;</span>
   <img id="imageModalImg" class="gallery-modal-img" alt="">
   <div id="imageModalCaption" class="gallery-modal-caption"></div>
