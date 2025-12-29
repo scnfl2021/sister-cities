@@ -156,15 +156,14 @@ body{
 
 /* Whole champion area: left column + centered poster */
 .champion-row{
-  display:flex;
-  align-items:flex-start;
-  justify-content:flex-start;
-  gap: 16px;
+  display:grid;
+  grid-template-columns: 220 px 1fr 220px;
+  align-items: center;
 }
 
 /* Left champion column (fixed pocket) */
 #championTeam{
-  width: 240px;             /* your left “champion column” */
+  width: 220px;             /* your left “champion column” */
   display:flex;
   flex-direction:column;
   align-items:flex-start;   /* keep the whole column on the left */
@@ -177,7 +176,7 @@ body{
 #championTeam .champion-left{
   display:flex;
   flex-direction:column;
-  align-items:center;       /* centers star+logo over name */
+  align-items:center;       /* centers star+logo over text */
   text-align:center;        /* centers name under logo */
   gap: 6px;
 }
@@ -185,17 +184,16 @@ body{
 /* Star styling */
 .champion-stars{
   text-align:center;
-  font-size: 18pt;
+  font-size: 16pt;
   color: #b18a00;
-  line-height: 1;
-  margin: 0;
+  margin-bottom: 6px;
 }
 
 /* Champion logo circle crop */
 #championTeam img.champion-logo{
   display:block;
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center center;
@@ -203,7 +201,7 @@ body{
   padding: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
-  margin: 0;
+  margin: 0; 
 }
 
 /* Team name (keep your existing big look) */
