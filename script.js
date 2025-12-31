@@ -16,6 +16,9 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
+// Trophy icon (PUT trophy.png in this path)
+const TROPHY_SRC = "/sister-cities/assets/trophy.png";
+
 // ✅ One (and only one) helper
 function teamPill(teamId, extraClass = "") {
   const t = TEAMS[teamId] || { name: teamId, owner: "" };
@@ -35,7 +38,7 @@ const seasons = {};
 // SEASONS
 // =====================
 
-// ✅ 2025 (Champion = Svet United)
+// 2025 (champion = Svet United)
 seasons[2025] = {
   championTeamId: "svetunited",
   championNote: "",
@@ -319,10 +322,35 @@ function renderStats(season) {
   `;
 }
 
+// ✅ Champion: Trophy (image) above champion logo, then team name
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+
+  if (!elTeam || !elNote) return;
+
+  if (!season || !season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = season?.championNote || "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+
+  elTeam.innerHTML = `
+    <div class="champion-trophy-wrap">
+      <img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">
+    </div>
+    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
-  if (!container) return;
-
   const entries = Array.from(recordMap.entries());
 
   const order = [
@@ -372,51 +400,10 @@ function renderAllTime(recordMap) {
     `;
   }).join("");
 
-  container.innerHTML = `<div class="records-grid">${cards}</div>`;
+  if (container) container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
-// =====================
-// CHAMPION (STARS + LOGO)
-// =====================
-
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-  if (!elTeam || !elNote) return;
-
-  if (!season || !season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season?.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: "" };
-
-  const champs = countChampsUpTo(teamId, season.year || 0);
-  const stars = "★".repeat(Math.max(1, champs));
-
-  elTeam.innerHTML = `
-    <div class="champion-stars">${stars}</div>
-    ${t.logo ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-    <div class="champion-team-name">${t.name}</div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
-// =====================
-// TABS + SEASON SWITCHING
-// =====================
-
+// Tabs
 function wireTabs() {
   const tabButtons = document.querySelectorAll(".tab");
   tabButtons.forEach(btn => {
@@ -426,8 +413,8 @@ function wireTabs() {
 
       const target = btn.dataset.tab;
       document.querySelectorAll(".tabpanel").forEach(p => p.classList.remove("active"));
-      const panel = document.getElementById(`tab-${target}`);
-      if (panel) panel.classList.add("active");
+      const pane = document.getElementById(`tab-${target}`);
+      if (pane) pane.classList.add("active");
     });
   });
 
@@ -469,56 +456,46 @@ function renderSeason(state) {
   if (statsEl) statsEl.innerHTML = renderStats(season);
 }
 
-// =====================
-// GALLERY MODAL
-// =====================
-
-function wireGalleryModal() {
-  const modal = document.getElementById("galleryModal");
-  const modalImg = document.getElementById("galleryModalImg");
-  const caption = document.getElementById("galleryModalCaption");
-  const closeBtn = document.querySelector(".gallery-close");
-
-  if (!modal || !modalImg || !caption) return;
-
-  document.addEventListener("click", (e) => {
-    const img = e.target.closest(".gallery-thumb");
-    if (!img) return;
-
-    modalImg.src = img.src;
-    caption.textContent = img.alt || "";
-    modal.style.display = "flex";
-  });
-
-  if (closeBtn) {
-    closeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      modal.style.display = "none";
-    });
-  }
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) modal.style.display = "none";
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") modal.style.display = "none";
-  });
-}
-
-// =====================
-// BOOT
-// =====================
-
-document.addEventListener("DOMContentLoaded", () => {
+// Boot
+(function init() {
   wireTabs();
-
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
 
   const state = { currentYear: 2025 };
   wireSeasonYears(state);
   renderSeason(state);
+})();
 
-  wireGalleryModal();
+// ===== GALLERY MODAL =====
+document.addEventListener("click", (e) => {
+  const img = e.target.closest(".gallery-thumb");
+  if (!img) return;
+
+  const modal = document.getElementById("galleryModal");
+  const modalImg = document.getElementById("galleryModalImg");
+  const caption = document.getElementById("galleryModalCaption");
+
+  if (!modal || !modalImg || !caption) return;
+
+  modalImg.src = img.src;
+  caption.textContent = img.alt;
+  modal.style.display = "flex";
 });
+
+const closeBtn = document.querySelector(".gallery-close");
+if (closeBtn) {
+  closeBtn.addEventListener("click", () => {
+    const modal = document.getElementById("galleryModal");
+    if (modal) modal.style.display = "none";
+  });
+}
+
+const modalEl = document.getElementById("galleryModal");
+if (modalEl) {
+  modalEl.addEventListener("click", (e) => {
+    if (e.target.id === "galleryModal") {
+      e.currentTarget.style.display = "none";
+    }
+  });
+}
