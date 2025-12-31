@@ -652,8 +652,8 @@ body{
 }
 /* ===== Champion Trophy (replaces stars) ===== */
 .champion-trophy {
-  width: 28px;          /* trophy size (slightly bigger than star) */
-  height: 28px;
+  width: 35px;          /* trophy size (slightly bigger than star) */
+  height: 35px;
   object-fit: contain;
   display: block;
   margin: 0 auto 6px;   /* center + spacing above logo */
