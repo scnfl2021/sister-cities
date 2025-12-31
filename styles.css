@@ -666,3 +666,42 @@ body{
   display: block;
   margin: 0 auto;
 }
+/* =========================
+   CHAMPION: Trophy + Logo (FINAL)
+   Paste at VERY BOTTOM of styles.css
+   ========================= */
+
+#championTeam{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+/* Trophy: UNCROPPED + smaller */
+#championTeam .champion-trophy{
+  height: 22px;         /* <-- scale smaller here (try 20–24px) */
+  width: auto;
+  max-width: 80px;
+  object-fit: contain;  /* <-- prevents cropping */
+  border-radius: 0 !important;
+  display: block;
+}
+
+/* Team logo: keep circle sizing */
+#championTeam .champion-team-logo{
+  width: 72px;
+  height: 72px;
+  object-fit: contain;  /* contain avoids cropping logos too */
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+/* If you still have an old rule like "#championTeam img { ... }",
+   this line prevents it from cropping the trophy */
+#championTeam img{
+  object-fit: contain;
+}
