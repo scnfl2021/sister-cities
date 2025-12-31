@@ -2,6 +2,8 @@
 // DATA (EDIT HERE LATER)
 // =====================
 
+const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // <-- make sure this path + filename is correct
+
 const TEAMS = {
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
   daddytate: { name: "Daddy Tate", owner: "MoeK", logo: "/sister-cities/assets/daddytate.png" },
@@ -16,10 +18,7 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// Trophy icon (PUT trophy.png in this path)
-const TROPHY_SRC = "/sister-cities/assets/trophy.png";
-
-// ✅ One (and only one) helper
+// ✅ One helper
 function teamPill(teamId, extraClass = "") {
   const t = TEAMS[teamId] || { name: teamId, owner: "" };
   const logo = t.logo
@@ -70,7 +69,7 @@ seasons[2025] = {
   ]
 };
 
-// 2024 (champion = 6ixOwls)
+// 2024
 seasons[2024] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -322,13 +321,14 @@ function renderStats(season) {
   `;
 }
 
-// ✅ Champion: Trophy (image) above champion logo, then team name
+/* ✅ ONLY ONE renderChampion() — trophy above logo, no stars */
 function renderChampion(season) {
   const elTeam = document.getElementById("championTeam");
   const elNote = document.getElementById("championNote");
 
   if (!elTeam || !elNote) return;
 
+  // If no champion
   if (!season || !season.championTeamId) {
     elTeam.textContent = "Undecided";
     elNote.textContent = season?.championNote || "";
@@ -339,11 +339,11 @@ function renderChampion(season) {
   const t = TEAMS[teamId] || { name: teamId, logo: null };
 
   elTeam.innerHTML = `
-    <div class="champion-trophy-wrap">
+    <div class="champion-block">
       <img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">
+      ${t.logo ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+      <div class="champion-team-name">${t.name}</div>
     </div>
-    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-    <div class="champion-team-name">${t.name}</div>
   `;
 
   elNote.textContent = season.championNote || "";
@@ -351,6 +351,8 @@ function renderChampion(season) {
 
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
+  if (!container) return;
+
   const entries = Array.from(recordMap.entries());
 
   const order = [
@@ -400,7 +402,7 @@ function renderAllTime(recordMap) {
     `;
   }).join("");
 
-  if (container) container.innerHTML = `<div class="records-grid">${cards}</div>`;
+  container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
 // Tabs
@@ -413,8 +415,8 @@ function wireTabs() {
 
       const target = btn.dataset.tab;
       document.querySelectorAll(".tabpanel").forEach(p => p.classList.remove("active"));
-      const pane = document.getElementById(`tab-${target}`);
-      if (pane) pane.classList.add("active");
+      const panel = document.getElementById(`tab-${target}`);
+      if (panel) panel.classList.add("active");
     });
   });
 
@@ -459,6 +461,7 @@ function renderSeason(state) {
 // Boot
 (function init() {
   wireTabs();
+
   const recordMap = computeAllTime(seasons);
   renderAllTime(recordMap);
 
@@ -480,9 +483,11 @@ document.addEventListener("click", (e) => {
 
   modalImg.src = img.src;
   caption.textContent = img.alt;
+
   modal.style.display = "flex";
 });
 
+// Close modal (guard in case element not present)
 const closeBtn = document.querySelector(".gallery-close");
 if (closeBtn) {
   closeBtn.addEventListener("click", () => {
@@ -491,9 +496,10 @@ if (closeBtn) {
   });
 }
 
-const modalEl = document.getElementById("galleryModal");
-if (modalEl) {
-  modalEl.addEventListener("click", (e) => {
+// Close when clicking outside image
+const galleryModal = document.getElementById("galleryModal");
+if (galleryModal) {
+  galleryModal.addEventListener("click", (e) => {
     if (e.target.id === "galleryModal") {
       e.currentTarget.style.display = "none";
     }
