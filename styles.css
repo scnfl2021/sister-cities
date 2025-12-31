@@ -682,8 +682,8 @@ body{
 
 /* Trophy: bigger (UNCROPPED) */
 #championTeam .champion-trophy{
-  width: 35px !important;
-  height: 35px !important;
+  width: 42px !important;
+  height: 42px !important;
   object-fit: contain;
   display: block;
   margin: 0 auto 6px;
