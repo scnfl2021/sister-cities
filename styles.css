@@ -680,15 +680,16 @@ body{
   gap: 8px;
 }
 
-/* Trophy: UNCROPPED + smaller */
+/* Trophy: bigger (UNCROPPED) */
 #championTeam .champion-trophy{
-  height: 25px;         /* <-- scale smaller here (try 20–24px) */
-  width: auto;
-  max-width: 80px;
-  object-fit: contain;  /* <-- prevents cropping */
-  border-radius: 0 !important;
+  width: 35px !important;
+  height: 35px !important;
+  object-fit: contain;
   display: block;
+  margin: 0 auto 6px;
+  border-radius: 0 !important;
 }
+
 
 /* Team logo: keep circle sizing */
 #championTeam .champion-team-logo{
