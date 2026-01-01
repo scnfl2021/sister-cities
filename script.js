@@ -2,7 +2,7 @@
 // DATA (EDIT HERE LATER)
 // =====================
 
-const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // <-- make sure this path + filename is correct
+const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // make sure this path + filename is correct
 
 const TEAMS = {
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
@@ -321,6 +321,59 @@ function renderStats(season) {
   `;
 }
 
+// ✅ Trophy count up to the selected year
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+// ✅ ONLY ONE renderChampion (trophies side-by-side)
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+  if (!elTeam || !elNote) return;
+
+  if (!season || !season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = (season && season.championNote) ? season.championNote : "";
+    return;
+  }
+
+  const year = season.year ?? NaN; // set by computeAllTime; fallback handled below
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+
+  // If year wasn't set for some reason, infer it from the selected button or just default 2025
+  const fallbackYear = (() => {
+    const activeBtn = document.querySelector(".season-year-button.active");
+    return activeBtn ? Number(activeBtn.dataset.season) : 2025;
+  })();
+
+  const upToYear = Number.isFinite(year) ? year : fallbackYear;
+
+  // 6ixOwls in 2024 => champions in 2023 + 2024 => 2 trophies
+  const trophyCount = Math.max(1, countChampsUpTo(teamId, upToYear));
+
+  const trophiesHtml = Array.from({ length: trophyCount })
+    .map(() => `<img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">`)
+    .join("");
+
+  elTeam.innerHTML = `
+    <div class="champion-trophy-row" style="display:flex; gap:8px; justify-content:center; align-items:center;">
+      ${trophiesHtml}
+    </div>
+
+    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
   if (!container) return;
@@ -421,6 +474,10 @@ function wireSeasonYears(state) {
 
 function renderSeason(state) {
   const season = seasons[state.currentYear];
+
+  // make sure season.year exists even if computeAllTime hasn't run yet
+  if (season && !season.year) season.year = state.currentYear;
+
   renderChampion(season);
 
   const standingsEl = document.getElementById("seasonStandings");
@@ -477,59 +534,3 @@ if (galleryModal) {
     }
   });
 }
-/* =========================
-   CHAMPION: Trophy count (side-by-side)
-   Paste at VERY BOTTOM of script.js
-   Keep ONLY this renderChampion
-   ========================= */
-
-const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // adjust if your filename/path differs
-
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-
-  if (!season || !season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = (season && season.championNote) ? season.championNote : "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-
-  // How many titles this team has up to this season year (ex: 6ixOwls in 2024 => 2)
-  const trophyCount = Math.max(1, countChampsUpTo(teamId, season.year));
-
-  const trophiesHtml = Array.from({ length: trophyCount })
-    .map(() => `<img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">`)
-    .join("");
-
-  elTeam.innerHTML = `
-    <div class="champion-trophy-row" style="display:flex; gap:8px; justify-content:center; align-items:center;">
-      ${trophiesHtml}
-    </div>
-
-    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-
-    <div class="champion-team-name">${t.name}</div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
-// Re-render current year immediately (so you see the change right away)
-(function rerenderChampionNow() {
-  const activeBtn = document.querySelector(".season-year-button.active");
-  const year = activeBtn ? Number(activeBtn.dataset.season) : 2025;
-  const season = seasons[year];
-  if (season) renderChampion(season);
-})();
