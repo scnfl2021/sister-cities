@@ -321,34 +321,6 @@ function renderStats(season) {
   `;
 }
 
-/* ✅ ONLY ONE renderChampion() — trophy above logo, no stars */
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-
-  if (!elTeam || !elNote) return;
-
-  // If no champion
-  if (!season || !season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = season?.championNote || "";
-    return;
-  }
-
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-
-  elTeam.innerHTML = `
-    <div class="champion-block">
-      <img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">
-      ${t.logo ? `<img class="champion-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-      <div class="champion-team-name">${t.name}</div>
-    </div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
   if (!container) return;
@@ -505,3 +477,59 @@ if (galleryModal) {
     }
   });
 }
+/* =========================
+   CHAMPION: Trophy count (side-by-side)
+   Paste at VERY BOTTOM of script.js
+   Keep ONLY this renderChampion
+   ========================= */
+
+const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // adjust if your filename/path differs
+
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+
+  if (!season || !season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = (season && season.championNote) ? season.championNote : "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+
+  // How many titles this team has up to this season year (ex: 6ixOwls in 2024 => 2)
+  const trophyCount = Math.max(1, countChampsUpTo(teamId, season.year));
+
+  const trophiesHtml = Array.from({ length: trophyCount })
+    .map(() => `<img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">`)
+    .join("");
+
+  elTeam.innerHTML = `
+    <div class="champion-trophy-row" style="display:flex; gap:8px; justify-content:center; align-items:center;">
+      ${trophiesHtml}
+    </div>
+
+    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
+// Re-render current year immediately (so you see the change right away)
+(function rerenderChampionNow() {
+  const activeBtn = document.querySelector(".season-year-button.active");
+  const year = activeBtn ? Number(activeBtn.dataset.season) : 2025;
+  const season = seasons[year];
+  if (season) renderChampion(season);
+})();
