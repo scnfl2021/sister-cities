@@ -39,6 +39,7 @@
       <button class="tab active" data-tab="season">Season</button>
       <button class="tab" data-tab="gallery">Gallery</button>
       <button class="tab" data-tab="records">All Time Records</button>
+      <button class="tab" data-tab="franchise">Franchise Hub</button>
     </div>
 
   </div>
@@ -82,40 +83,46 @@
     </div>
   </section>
 
-<!-- GALLERY TAB -->
-<section id="tab-gallery" class="tabpanel">
-  <div class="card">
-    <div class="card-title">Gallery</div>
+  <!-- GALLERY TAB -->
+  <section id="tab-gallery" class="tabpanel">
+    <div class="card">
+      <div class="card-title">Gallery</div>
 
-    <div class="gallery-grid">
-      <!-- Gallery Item -->
-      <div class="gallery-item">
-        <img
-          src="/sister-cities/assets/playoffs-championship-2025.png"
-          alt="Playoffs Championship 2025"
-          class="gallery-thumb"
-        />
-        <div class="gallery-caption">Playoffs Championship 2025</div>
+      <div class="gallery-grid">
+        <!-- Gallery Item -->
+        <div class="gallery-item">
+          <img
+            src="/sister-cities/assets/playoffs-championship-2025.png"
+            alt="Playoffs Championship 2025"
+            class="gallery-thumb"
+          />
+          <div class="gallery-caption">Playoffs Championship 2025</div>
+        </div>
       </div>
+
     </div>
-
-  </div>
-</section>
-
-<!-- FULLSCREEN IMAGE MODAL -->
-<div id="galleryModal" class="gallery-modal">
-  <span class="gallery-close">&times;</span>
-  <img class="gallery-modal-img" id="galleryModalImg">
-  <div class="gallery-modal-caption" id="galleryModalCaption"></div>
-</div>
-
   </section>
+
+  <!-- FULLSCREEN IMAGE MODAL -->
+  <div id="galleryModal" class="gallery-modal">
+    <span class="gallery-close">&times;</span>
+    <img class="gallery-modal-img" id="galleryModalImg">
+    <div class="gallery-modal-caption" id="galleryModalCaption"></div>
+  </div>
 
   <!-- ALL TIME RECORDS TAB -->
   <section id="tab-records" class="tabpanel">
     <div class="card">
       <div class="card-title">All Time Records</div>
       <div id="allTimeRecordsContainer"></div>
+    </div>
+  </section>
+
+  <!-- FRANCHISE HUB TAB -->
+  <section id="tab-franchise" class="tabpanel">
+    <div class="card">
+      <div class="card-title">Franchise Hub</div>
+      <div class="muted">Coming soon.</div>
     </div>
   </section>
 
