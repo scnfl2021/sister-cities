@@ -520,23 +520,59 @@ function wireGalleryModal() {
 // FRANCHISE HUB (grid + modal)
 // =====================
 
+function getTeamChampionshipCount(teamId) {
+  return Object.keys(seasons)
+    .map(Number)
+    .filter(year => seasons[year].championTeamId === teamId)
+    .length;
+}
+
+function getTeamActiveYears(teamId) {
+  const activeYears = Object.keys(seasons)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .filter(year => {
+      const season = seasons[year];
+      return season.standings.some(row => row.teamId === teamId);
+    });
+
+  if (!activeYears.length) return "";
+
+  const firstYear = activeYears[0];
+  const lastYear = activeYears[activeYears.length - 1];
+
+  return `${firstYear}–${lastYear}`;
+}
 function buildFranchiseGrid() {
   const grid = document.getElementById("franchiseGrid");
   if (!grid) return;
 
-  // Build a stable list (sorted by team name)
   const entries = Object.entries(TEAMS)
     .map(([id, t]) => ({ id, ...t }))
     .sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
-  grid.innerHTML = entries.map(t => `
-    <div class="franchise-item" data-teamid="${t.id}">
-      <div class="franchise-logoWrap">
-        <img class="franchise-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">
+  grid.innerHTML = entries.map(t => {
+    const starCount = getTeamChampionshipCount(t.id);
+    const activeYears = getTeamActiveYears(t.id);
+
+    const starsHtml = starCount > 0
+      ? `<div class="franchise-stars">${"★".repeat(starCount)}</div>`
+      : `<div class="franchise-stars empty-stars"></div>`;
+
+    return `
+      <div class="franchise-item" data-teamid="${t.id}">
+        ${starsHtml}
+
+        <div class="franchise-logoWrap">
+          <img class="franchise-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">
+        </div>
+
+        <div class="franchise-name">${t.name}</div>
+        <div class="franchise-years">${activeYears}</div>
       </div>
-      <div class="franchise-name">${t.name}</div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
+}
 }
 
 function openFranchiseModal(teamId) {
