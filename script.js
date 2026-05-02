@@ -607,3 +607,11 @@ function wireFranchiseHub() {
 
   wireGalleryModal();
 })();
+// ===== FRANCHISE HUB: force-build when tab is opened =====
+document.addEventListener("click", (e) => {
+  const tabBtn = e.target.closest('.tab[data-tab="franchise"]');
+  if (!tabBtn) return;
+
+  // rebuild every time (safe + ensures it appears)
+  buildFranchiseGrid();
+});
