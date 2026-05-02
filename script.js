@@ -1,8 +1,8 @@
 // =====================
-// DATA (EDIT HERE LATER)
+// DATA
 // =====================
 
-const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // make sure this path + filename is correct
+const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // make sure this exists in /assets
 
 const TEAMS = {
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
@@ -18,7 +18,7 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// ✅ One helper
+// Small helper (used in standings + records)
 function teamPill(teamId, extraClass = "") {
   const t = TEAMS[teamId] || { name: teamId, owner: "" };
   const logo = t.logo
@@ -29,6 +29,11 @@ function teamPill(teamId, extraClass = "") {
     <span class="logo-dot">${logo}</span>
     <span class="team-pill-text">${t.name}</span>
   </span>`;
+}
+
+function teamLabel(teamId) {
+  const t = TEAMS[teamId];
+  return t ? t.name : teamId;
 }
 
 const seasons = {};
@@ -200,7 +205,7 @@ seasons[2021] = {
 };
 
 // =====================
-// UI RENDERING
+// UI LOGIC
 // =====================
 
 const LOWER_IS_BETTER = new Set([
@@ -321,59 +326,6 @@ function renderStats(season) {
   `;
 }
 
-// ✅ Trophy count up to the selected year
-function countChampsUpTo(teamId, upToYear) {
-  let count = 0;
-  for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
-  }
-  return count;
-}
-
-// ✅ ONLY ONE renderChampion (trophies side-by-side)
-function renderChampion(season) {
-  const elTeam = document.getElementById("championTeam");
-  const elNote = document.getElementById("championNote");
-  if (!elTeam || !elNote) return;
-
-  if (!season || !season.championTeamId) {
-    elTeam.textContent = "Undecided";
-    elNote.textContent = (season && season.championNote) ? season.championNote : "";
-    return;
-  }
-
-  const year = season.year ?? NaN; // set by computeAllTime; fallback handled below
-  const teamId = season.championTeamId;
-  const t = TEAMS[teamId] || { name: teamId, logo: null };
-
-  // If year wasn't set for some reason, infer it from the selected button or just default 2025
-  const fallbackYear = (() => {
-    const activeBtn = document.querySelector(".season-year-button.active");
-    return activeBtn ? Number(activeBtn.dataset.season) : 2025;
-  })();
-
-  const upToYear = Number.isFinite(year) ? year : fallbackYear;
-
-  // 6ixOwls in 2024 => champions in 2023 + 2024 => 2 trophies
-  const trophyCount = Math.max(1, countChampsUpTo(teamId, upToYear));
-
-  const trophiesHtml = Array.from({ length: trophyCount })
-    .map(() => `<img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">`)
-    .join("");
-
-  elTeam.innerHTML = `
-    <div class="champion-trophy-row" style="display:flex; gap:8px; justify-content:center; align-items:center;">
-      ${trophiesHtml}
-    </div>
-
-    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
-
-    <div class="champion-team-name">${t.name}</div>
-  `;
-
-  elNote.textContent = season.championNote || "";
-}
-
 function renderAllTime(recordMap) {
   const container = document.getElementById("allTimeRecordsContainer");
   if (!container) return;
@@ -430,7 +382,51 @@ function renderAllTime(recordMap) {
   container.innerHTML = `<div class="records-grid">${cards}</div>`;
 }
 
-// Tabs
+// =====================
+// CHAMPION (trophy count)
+// =====================
+
+function countChampsUpTo(teamId, upToYear) {
+  let count = 0;
+  for (const y of Object.keys(seasons).map(Number)) {
+    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+  }
+  return count;
+}
+
+function renderChampion(season) {
+  const elTeam = document.getElementById("championTeam");
+  const elNote = document.getElementById("championNote");
+
+  if (!season || !season.championTeamId) {
+    elTeam.textContent = "Undecided";
+    elNote.textContent = (season && season.championNote) ? season.championNote : "";
+    return;
+  }
+
+  const teamId = season.championTeamId;
+  const t = TEAMS[teamId] || { name: teamId, logo: null };
+
+  const trophyCount = Math.max(1, countChampsUpTo(teamId, season.year));
+  const trophiesHtml = Array.from({ length: trophyCount })
+    .map(() => `<img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">`)
+    .join("");
+
+  elTeam.innerHTML = `
+    <div class="champion-trophy-row" style="display:flex; gap:8px; justify-content:center; align-items:center;">
+      ${trophiesHtml}
+    </div>
+    ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+    <div class="champion-team-name">${t.name}</div>
+  `;
+
+  elNote.textContent = season.championNote || "";
+}
+
+// =====================
+// TABS / SEASONS
+// =====================
+
 function wireTabs() {
   const tabButtons = document.querySelectorAll(".tab");
   tabButtons.forEach(btn => {
@@ -474,10 +470,6 @@ function wireSeasonYears(state) {
 
 function renderSeason(state) {
   const season = seasons[state.currentYear];
-
-  // make sure season.year exists even if computeAllTime hasn't run yet
-  if (season && !season.year) season.year = state.currentYear;
-
   renderChampion(season);
 
   const standingsEl = document.getElementById("seasonStandings");
@@ -487,7 +479,118 @@ function renderSeason(state) {
   if (statsEl) statsEl.innerHTML = renderStats(season);
 }
 
-// Boot
+// =====================
+// GALLERY MODAL
+// =====================
+
+function wireGalleryModal() {
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest(".gallery-thumb");
+    if (!img) return;
+
+    const modal = document.getElementById("galleryModal");
+    const modalImg = document.getElementById("galleryModalImg");
+    const caption = document.getElementById("galleryModalCaption");
+    if (!modal || !modalImg || !caption) return;
+
+    modalImg.src = img.src;
+    caption.textContent = img.alt;
+    modal.style.display = "flex";
+  });
+
+  const closeBtn = document.querySelector(".gallery-close");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      const modal = document.getElementById("galleryModal");
+      if (modal) modal.style.display = "none";
+    });
+  }
+
+  const galleryModal = document.getElementById("galleryModal");
+  if (galleryModal) {
+    galleryModal.addEventListener("click", (e) => {
+      if (e.target.id === "galleryModal") {
+        e.currentTarget.style.display = "none";
+      }
+    });
+  }
+}
+
+// =====================
+// FRANCHISE HUB (grid + modal)
+// =====================
+
+function buildFranchiseGrid() {
+  const grid = document.getElementById("franchiseGrid");
+  if (!grid) return;
+
+  // Build a stable list (sorted by team name)
+  const entries = Object.entries(TEAMS)
+    .map(([id, t]) => ({ id, ...t }))
+    .sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+
+  grid.innerHTML = entries.map(t => `
+    <div class="franchise-item" data-teamid="${t.id}">
+      <div class="franchise-logoWrap">
+        <img class="franchise-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">
+      </div>
+      <div class="franchise-name">${t.name}</div>
+    </div>
+  `).join("");
+}
+
+function openFranchiseModal(teamId) {
+  const modal = document.getElementById("franchiseModal");
+  const logoEl = document.getElementById("franchiseModalLogo");
+  const nameEl = document.getElementById("franchiseModalName");
+  const ownerEl = document.getElementById("franchiseModalOwner");
+  if (!modal || !logoEl || !nameEl || !ownerEl) return;
+
+  const t = TEAMS[teamId];
+  if (!t) return;
+
+  logoEl.src = t.logo;
+  logoEl.alt = `${t.name} logo`;
+  nameEl.textContent = t.name;
+  ownerEl.textContent = t.owner ? `Owner: ${t.owner}` : "";
+
+  modal.style.display = "flex";
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function closeFranchiseModal() {
+  const modal = document.getElementById("franchiseModal");
+  if (!modal) return;
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+}
+
+function wireFranchiseHub() {
+  // Click team tile → open modal
+  document.addEventListener("click", (e) => {
+    const tile = e.target.closest(".franchise-item");
+    if (!tile) return;
+    const teamId = tile.getAttribute("data-teamid");
+    if (teamId) openFranchiseModal(teamId);
+  });
+
+  // Close button
+  const closeBtn = document.getElementById("franchiseClose");
+  if (closeBtn) closeBtn.addEventListener("click", closeFranchiseModal);
+
+  // Click outside card closes modal
+  const modal = document.getElementById("franchiseModal");
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target.id === "franchiseModal") closeFranchiseModal();
+    });
+  }
+}
+
+// =====================
+// BOOT
+// =====================
+
 (function init() {
   wireTabs();
 
@@ -497,40 +600,10 @@ function renderSeason(state) {
   const state = { currentYear: 2025 };
   wireSeasonYears(state);
   renderSeason(state);
+
+  // Build franchise hub after DOM exists
+  buildFranchiseGrid();
+  wireFranchiseHub();
+
+  wireGalleryModal();
 })();
-
-// ===== GALLERY MODAL =====
-document.addEventListener("click", (e) => {
-  const img = e.target.closest(".gallery-thumb");
-  if (!img) return;
-
-  const modal = document.getElementById("galleryModal");
-  const modalImg = document.getElementById("galleryModalImg");
-  const caption = document.getElementById("galleryModalCaption");
-
-  if (!modal || !modalImg || !caption) return;
-
-  modalImg.src = img.src;
-  caption.textContent = img.alt;
-
-  modal.style.display = "flex";
-});
-
-// Close modal (guard in case element not present)
-const closeBtn = document.querySelector(".gallery-close");
-if (closeBtn) {
-  closeBtn.addEventListener("click", () => {
-    const modal = document.getElementById("galleryModal");
-    if (modal) modal.style.display = "none";
-  });
-}
-
-// Close when clicking outside image
-const galleryModal = document.getElementById("galleryModal");
-if (galleryModal) {
-  galleryModal.addEventListener("click", (e) => {
-    if (e.target.id === "galleryModal") {
-      e.currentTarget.style.display = "none";
-    }
-  });
-}
