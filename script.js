@@ -434,7 +434,6 @@ function wireTabs() {
       const panel = document.getElementById(`tab-${target}`);
       if (panel) panel.classList.add("active");
 
-      // If franchise tab opened, rebuild grid (safe)
       if (target === "franchise") buildFranchiseGrid();
     });
   });
@@ -525,11 +524,23 @@ function getTeamChampionshipCount(teamId) {
     .length;
 }
 
+/**
+ * ✅ UPDATED per your request:
+ * If the team is active in the latest season year (2025), show "startYear-"
+ * Otherwise show "startYear-endYear"
+ */
 function getTeamActiveYears(teamId) {
   const years = Object.keys(seasons).map(Number).sort((a, b) => a - b);
   const active = years.filter(y => seasons[y].standings.some(r => r.teamId === teamId));
   if (!active.length) return "";
-  return `${active[0]}–${active[active.length - 1]}`;
+
+  const start = active[0];
+  const end = active[active.length - 1];
+
+  const latestYear = Math.max(...years);
+  const isActiveNow = end === latestYear;
+
+  return isActiveNow ? `${start}-` : `${start}-${end}`;
 }
 
 function buildFranchiseGrid() {
