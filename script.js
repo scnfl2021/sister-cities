@@ -2,7 +2,7 @@
 // DATA
 // =====================
 
-const TROPHY_SRC = "/sister-cities/assets/trophy.png"; // make sure this exists in /assets
+const TROPHY_SRC = "/sister-cities/assets/trophy.png";
 
 const TEAMS = {
   svetunited: { name: "Svet United", owner: "MoD", logo: "/sister-cities/assets/svetunited.png" },
@@ -18,17 +18,19 @@ const TEAMS = {
   abethe3arab: { name: "Abethe3arab", owner: "Abethe3Arab", logo: "/sister-cities/assets/abethe3arab.png" },
 };
 
-// Small helper (used in standings + records)
 function teamPill(teamId, extraClass = "") {
   const t = TEAMS[teamId] || { name: teamId, owner: "" };
+
   const logo = t.logo
     ? `<img class="logo-img" src="${t.logo}" alt="${t.name} logo" loading="lazy">`
     : "";
 
-  return `<span class="team-pill ${extraClass}">
-    <span class="logo-dot">${logo}</span>
-    <span class="team-pill-text">${t.name}</span>
-  </span>`;
+  return `
+    <span class="team-pill ${extraClass}">
+      <span class="logo-dot">${logo}</span>
+      <span class="team-pill-text">${t.name}</span>
+    </span>
+  `;
 }
 
 const seasons = {};
@@ -37,7 +39,6 @@ const seasons = {};
 // SEASONS
 // =====================
 
-// 2025 (champion = Svet United)
 seasons[2025] = {
   championTeamId: "svetunited",
   championNote: "",
@@ -65,11 +66,10 @@ seasons[2025] = {
     { label: "Highest average fantasy points", value: "147", display: "147", teams: ["svetunited"], details: null },
     { label: "Highest points in week", value: "202.58", display: "202.58", teams: ["maleksexcornflex"], details: "Week 6" },
     { label: "Lowest points in a week", value: "71.2", display: "71.2", teams: ["snorlax"], details: "Week 6" },
-    { label: "Lowest average fantasy points", value: (1508.90/14).toFixed(2), display: (1508.90/14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
+    { label: "Lowest average fantasy points", value: (1508.90 / 14).toFixed(2), display: (1508.90 / 14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
   ]
 };
 
-// 2024
 seasons[2024] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -95,14 +95,13 @@ seasons[2024] = {
     { label: 'Most "Best Team" Sleeper reports', value: "3", display: "T-3 times", teams: ["maleksexcornflex","drhtown"], details: null },
     { label: "Closest matchup of the season", value: "1.16", display: "1.16 points", teams: ["drhtown","arshamaa"], details: "Week 3" },
     { label: "Biggest blowout of the season", value: "82.12", display: "82.12 points", teams: ["drhtown","angolarookie"], details: "Week 4" },
-    { label: "Highest average fantasy points", value: (1959.96/14).toFixed(2), display: (1959.96/14).toFixed(2), teams: ["drhtown"], details: "PF/Game (computed)" },
+    { label: "Highest average fantasy points", value: (1959.96 / 14).toFixed(2), display: (1959.96 / 14).toFixed(2), teams: ["drhtown"], details: "PF/Game (computed)" },
     { label: "Highest points in week", value: "195.90", display: "195.90", teams: ["sixowls"], details: "Week 6" },
     { label: "Lowest points in a week", value: "76.74", display: "76.74", teams: ["angolarookie"], details: "Week 3" },
-    { label: "Lowest average fantasy points", value: (1644.64/14).toFixed(2), display: (1644.64/14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" }
+    { label: "Lowest average fantasy points", value: (1644.64 / 14).toFixed(2), display: (1644.64 / 14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" }
   ]
 };
 
-// 2023
 seasons[2023] = {
   championTeamId: "sixowls",
   championNote: "",
@@ -128,14 +127,13 @@ seasons[2023] = {
     { label: 'Most "Best Team" Sleeper reports', value: "4", display: "4 times", teams: ["abethe3arab"], details: null },
     { label: "Closest matchup of the season", value: "1.94", display: "1.94 points", teams: ["miami","abethe3arab"], details: "Week 6" },
     { label: "Biggest blowout of the season", value: "76.18", display: "76.18 points", teams: ["abethe3arab","arshamaa"], details: "Week 7" },
-    { label: "Highest average fantasy points", value: (1851.66/14).toFixed(2), display: (1851.66/14).toFixed(2), teams: ["arshamaa"], details: "PF/Game (computed)" },
+    { label: "Highest average fantasy points", value: (1851.66 / 14).toFixed(2), display: (1851.66 / 14).toFixed(2), teams: ["arshamaa"], details: "PF/Game (computed)" },
     { label: "Highest points in week", value: "176.18", display: "176.18", teams: ["maleksexcornflex"], details: "Week 5" },
     { label: "Lowest points in a week", value: "78.12", display: "78.12", teams: ["barjalona"], details: "Week 9" },
-    { label: "Lowest average fantasy points", value: (1578.36/14).toFixed(2), display: (1578.36/14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" }
+    { label: "Lowest average fantasy points", value: (1578.36 / 14).toFixed(2), display: (1578.36 / 14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" }
   ]
 };
 
-// 2022
 seasons[2022] = {
   championTeamId: "arshamaa",
   championNote: "",
@@ -161,14 +159,13 @@ seasons[2022] = {
     { label: 'Most "Best Team" Sleeper reports', value: "2", display: "2 times (tied)", teams: ["angolarookie","barjalona","arshamaa","miami"], details: null },
     { label: "Closest matchup of the season", value: "0.04", display: "0.04 points", teams: ["daddytate","barjalona"], details: "Week 2" },
     { label: "Biggest blowout of the season", value: "83.40", display: "83.40 points", teams: ["maleksexcornflex","miami"], details: "Week 11" },
-    { label: "Highest average fantasy points", value: (1855.70/14).toFixed(2), display: (1855.70/14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" },
+    { label: "Highest average fantasy points", value: (1855.70 / 14).toFixed(2), display: (1855.70 / 14).toFixed(2), teams: ["barjalona"], details: "PF/Game (computed)" },
     { label: "Highest points in week", value: "186.14", display: "186.14", teams: ["drhtown"], details: "Week 8" },
     { label: "Lowest points in a week", value: "70.44", display: "70.44", teams: ["angolarookie"], details: "Week 10" },
-    { label: "Lowest average fantasy points", value: (1646.14/14).toFixed(2), display: (1646.14/14).toFixed(2), teams: ["daddytate"], details: "PF/Game (computed)" }
+    { label: "Lowest average fantasy points", value: (1646.14 / 14).toFixed(2), display: (1646.14 / 14).toFixed(2), teams: ["daddytate"], details: "PF/Game (computed)" }
   ]
 };
 
-// 2021
 seasons[2021] = {
   championTeamId: "maleksexcornflex",
   championNote: "",
@@ -192,10 +189,10 @@ seasons[2021] = {
     { label: 'Most "Best Team" Sleeper reports', value: "3", display: "3 times", teams: ["barjalona"], details: null },
     { label: "Closest matchup of the season", value: "0.21", display: "0.21 points", teams: ["angolarookie","abethe3arab"], details: "Week 13" },
     { label: "Biggest blowout of the season", value: "78.30", display: "78.30 points", teams: ["abethe3arab","arshamaa"], details: "Week 14" },
-    { label: "Highest average fantasy points", value: (1981.02/14).toFixed(2), display: (1981.02/14).toFixed(2), teams: ["drhtown"], details: "PF/Game (computed)" },
+    { label: "Highest average fantasy points", value: (1981.02 / 14).toFixed(2), display: (1981.02 / 14).toFixed(2), teams: ["drhtown"], details: "PF/Game (computed)" },
     { label: "Highest points in week", value: "204.58", display: "204.58", teams: ["barjalona"], details: "Week 5" },
     { label: "Lowest points in a week", value: "77.54", display: "77.54", teams: ["abethe3arab"], details: "Week 7" },
-    { label: "Lowest average fantasy points", value: (1685.24/14).toFixed(2), display: (1685.24/14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
+    { label: "Lowest average fantasy points", value: (1685.24 / 14).toFixed(2), display: (1685.24 / 14).toFixed(2), teams: ["miami"], details: "PF/Game (computed)" }
   ]
 };
 
@@ -343,7 +340,7 @@ function renderAllTime(recordMap) {
     "Lowest average fantasy points",
   ];
 
-  entries.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0])))
+  entries.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
 
   const cards = entries.map(([label, info]) => {
     const holdersHtml = info.holders.map(h => {
@@ -378,14 +375,18 @@ function renderAllTime(recordMap) {
 }
 
 // =====================
-// CHAMPION (trophy count)
+// CHAMPION
 // =====================
 
 function countChampsUpTo(teamId, upToYear) {
   let count = 0;
+
   for (const y of Object.keys(seasons).map(Number)) {
-    if (y <= upToYear && seasons[y].championTeamId === teamId) count++;
+    if (y <= upToYear && seasons[y].championTeamId === teamId) {
+      count++;
+    }
   }
+
   return count;
 }
 
@@ -395,7 +396,7 @@ function renderChampion(season) {
 
   if (!season || !season.championTeamId) {
     elTeam.textContent = "Undecided";
-    elNote.textContent = (season && season.championNote) ? season.championNote : "";
+    elNote.textContent = season && season.championNote ? season.championNote : "";
     return;
   }
 
@@ -403,6 +404,7 @@ function renderChampion(season) {
   const t = TEAMS[teamId] || { name: teamId, logo: null };
 
   const trophyCount = Math.max(1, countChampsUpTo(teamId, season.year));
+
   const trophiesHtml = Array.from({ length: trophyCount })
     .map(() => `<img class="champion-trophy" src="${TROPHY_SRC}" alt="Trophy" loading="lazy">`)
     .join("");
@@ -411,7 +413,9 @@ function renderChampion(season) {
     <div class="champion-trophy-row" style="display:flex; gap:8px; justify-content:center; align-items:center;">
       ${trophiesHtml}
     </div>
+
     ${t.logo ? `<img class="champion-team-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">` : ""}
+
     <div class="champion-team-name">${t.name}</div>
   `;
 
@@ -424,28 +428,36 @@ function renderChampion(season) {
 
 function wireTabs() {
   const tabButtons = document.querySelectorAll(".tab");
+
   tabButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       tabButtons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
       const target = btn.dataset.tab;
+
       document.querySelectorAll(".tabpanel").forEach(p => p.classList.remove("active"));
+
       const panel = document.getElementById(`tab-${target}`);
       if (panel) panel.classList.add("active");
 
-      if (target === "franchise") buildFranchiseGrid();
+      if (target === "franchise") {
+        buildFranchiseGrid();
+      }
     });
   });
 
   const subTabs = document.querySelectorAll(".season-subtab");
+
   subTabs.forEach(btn => {
     btn.addEventListener("click", () => {
       subTabs.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
       const target = btn.dataset.subtab;
+
       document.querySelectorAll(".season-pane").forEach(p => p.classList.remove("active"));
+
       const pane = document.querySelector(`[data-pane="${target}"]`);
       if (pane) pane.classList.add("active");
     });
@@ -454,6 +466,7 @@ function wireTabs() {
 
 function wireSeasonYears(state) {
   const yearButtons = document.querySelectorAll(".season-year-button");
+
   yearButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       yearButtons.forEach(b => b.classList.remove("active"));
@@ -467,6 +480,7 @@ function wireSeasonYears(state) {
 
 function renderSeason(state) {
   const season = seasons[state.currentYear];
+
   renderChampion(season);
 
   const standingsEl = document.getElementById("seasonStandings");
@@ -488,14 +502,17 @@ function wireGalleryModal() {
     const modal = document.getElementById("galleryModal");
     const modalImg = document.getElementById("galleryModalImg");
     const caption = document.getElementById("galleryModalCaption");
+
     if (!modal || !modalImg || !caption) return;
 
     modalImg.src = img.src;
     caption.textContent = img.alt;
+
     modal.style.display = "flex";
   });
 
   const closeBtn = document.querySelector(".gallery-close");
+
   if (closeBtn) {
     closeBtn.addEventListener("click", () => {
       const modal = document.getElementById("galleryModal");
@@ -504,6 +521,7 @@ function wireGalleryModal() {
   }
 
   const galleryModal = document.getElementById("galleryModal");
+
   if (galleryModal) {
     galleryModal.addEventListener("click", (e) => {
       if (e.target.id === "galleryModal") {
@@ -514,7 +532,7 @@ function wireGalleryModal() {
 }
 
 // =====================
-// FRANCHISE HUB (grid + profile)
+// FRANCHISE HUB
 // =====================
 
 function getTeamChampionshipCount(teamId) {
@@ -526,7 +544,11 @@ function getTeamChampionshipCount(teamId) {
 
 function getTeamActiveYears(teamId) {
   const years = Object.keys(seasons).map(Number).sort((a, b) => a - b);
-  const active = years.filter(y => seasons[y].standings.some(r => r.teamId === teamId));
+
+  const active = years.filter(y =>
+    seasons[y].standings.some(r => r.teamId === teamId)
+  );
+
   if (!active.length) return "";
 
   const start = active[0];
@@ -538,33 +560,41 @@ function getTeamActiveYears(teamId) {
   return isActiveNow ? `${start}-` : `${start}-${end}`;
 }
 
-// -------- PROFILE CALCS --------
-
 function parseRecord(recordStr) {
   if (!recordStr) return null;
+
   const parts = String(recordStr).split(/[-–]/).map(s => s.trim());
+
   if (parts.length < 2) return null;
+
   const wins = Number(parts[0]);
   const losses = Number(parts[1]);
+
   if (!Number.isFinite(wins) || !Number.isFinite(losses)) return null;
+
   const games = wins + losses;
   const pct = games > 0 ? wins / games : 0;
+
   return { wins, losses, games, pct };
 }
 
 function ordinal(n) {
-  const s = ["th","st","nd","rd"];
+  const suffixes = ["th", "st", "nd", "rd"];
   const v = n % 100;
-  return n + (s[(v-20)%10] || s[v] || s[0]);
+
+  return n + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
 }
 
 function getTeamSeasonRows(teamId) {
   const years = Object.keys(seasons).map(Number).sort((a, b) => a - b);
   const rows = [];
+
   for (const y of years) {
     const season = seasons[y];
     const row = season.standings.find(r => r.teamId === teamId);
+
     if (!row) continue;
+
     rows.push({
       year: y,
       seed: row.seed,
@@ -574,62 +604,94 @@ function getTeamSeasonRows(teamId) {
       pa: row.pa
     });
   }
+
   return rows;
 }
 
 function computeFranchiseProfile(teamId) {
   const rows = getTeamSeasonRows(teamId);
+
   if (!rows.length) {
     return {
-      playoffCount: 0, playoffYears: [],
-      bestRecord: null, bestRecordYears: [],
-      bestFinish: null, bestFinishYears: [],
-      firstSeedCount: 0, firstSeedYears: []
+      playoffCount: 0,
+      playoffYears: [],
+      bestRecord: null,
+      bestRecordYears: [],
+      bestFinish: null,
+      bestFinishYears: [],
+      firstSeedCount: 0,
+      firstSeedYears: []
     };
   }
 
-  // Playoffs: seed <= 6
-  const playoffYears = rows.filter(r => r.seed <= 6).map(r => r.year);
-  const playoffCount = playoffYears.length;
+  const playoffYears = rows
+    .filter(r => r.seed <= 6)
+    .map(r => r.year);
 
-  // Best finish: min seed
   const bestFinish = Math.min(...rows.map(r => r.seed));
-  const bestFinishYears = rows.filter(r => r.seed === bestFinish).map(r => r.year);
 
-  // #1 seed count
-  const firstSeedYears = rows.filter(r => r.seed === 1).map(r => r.year);
-  const firstSeedCount = firstSeedYears.length;
+  const bestFinishYears = rows
+    .filter(r => r.seed === bestFinish)
+    .map(r => r.year);
 
-  // Best record: highest win% then wins as tiebreak
+  const firstSeedYears = rows
+    .filter(r => r.seed === 1)
+    .map(r => r.year);
+
   let best = null;
+
   for (const r of rows) {
     if (!r.recordObj) continue;
+
     const cur = r.recordObj;
-    if (!best) best = { pct: cur.pct, wins: cur.wins, losses: cur.losses, years: [r.year], display: r.record };
-    else {
-      const better = (cur.pct > best.pct) || (Math.abs(cur.pct - best.pct) < 1e-12 && cur.wins > best.wins);
-      const tie = Math.abs(cur.pct - best.pct) < 1e-12 && cur.wins === best.wins && cur.losses === best.losses;
-      if (better) best = { pct: cur.pct, wins: cur.wins, losses: cur.losses, years: [r.year], display: r.record };
-      else if (tie) best.years.push(r.year);
+
+    if (!best) {
+      best = {
+        pct: cur.pct,
+        wins: cur.wins,
+        losses: cur.losses,
+        years: [r.year],
+        display: r.record
+      };
+    } else {
+      const better =
+        cur.pct > best.pct ||
+        (Math.abs(cur.pct - best.pct) < 1e-12 && cur.wins > best.wins);
+
+      const tie =
+        Math.abs(cur.pct - best.pct) < 1e-12 &&
+        cur.wins === best.wins &&
+        cur.losses === best.losses;
+
+      if (better) {
+        best = {
+          pct: cur.pct,
+          wins: cur.wins,
+          losses: cur.losses,
+          years: [r.year],
+          display: r.record
+        };
+      } else if (tie) {
+        best.years.push(r.year);
+      }
     }
   }
 
   return {
-    playoffCount,
+    playoffCount: playoffYears.length,
     playoffYears,
     bestRecord: best ? best.display : null,
     bestRecordYears: best ? best.years : [],
     bestFinish,
     bestFinishYears,
-    firstSeedCount,
+    firstSeedCount: firstSeedYears.length,
     firstSeedYears
   };
 }
 
-// -------- GRID --------
-
 function buildFranchiseGrid() {
   const grid = document.getElementById("franchiseGrid");
+
   if (!grid) return;
 
   const entries = Object.entries(TEAMS)
@@ -656,37 +718,38 @@ function buildFranchiseGrid() {
   }).join("");
 }
 
-// -------- MODAL --------
-
 function openFranchiseModal(teamId) {
   const modal = document.getElementById("franchiseModal");
   const logoEl = document.getElementById("franchiseModalLogo");
   const nameEl = document.getElementById("franchiseModalName");
   const ownerEl = document.getElementById("franchiseModalOwner");
+
   if (!modal || !logoEl || !nameEl || !ownerEl) return;
 
-  const bodyEl = modal.querySelector(".franchise-modal-body"); // uses your existing div
+  const bodyEl = modal.querySelector(".franchise-modal-body");
+
   const t = TEAMS[teamId];
+
   if (!t) return;
 
-  // header
   logoEl.src = t.logo;
   logoEl.alt = `${t.name} logo`;
   nameEl.textContent = t.name;
   ownerEl.textContent = t.owner ? `Owner: ${t.owner}` : "";
 
-  // stats
   const p = computeFranchiseProfile(teamId);
 
   const playoffYearsTxt = p.playoffYears.length ? p.playoffYears.join(", ") : "—";
   const bestRecordTxt = p.bestRecord ? `${p.bestRecord} (${p.bestRecordYears.join(", ")})` : "—";
   const bestFinishTxt = p.bestFinish ? `${ordinal(p.bestFinish)} (${p.bestFinishYears.join(", ")})` : "—";
+
   const firstSeedTxt = p.firstSeedCount
     ? `${p.firstSeedCount} (${p.firstSeedYears.join(", ")})`
     : "0";
 
   if (bodyEl) {
     bodyEl.classList.remove("muted");
+
     bodyEl.innerHTML = `
       <div style="display:flex; flex-direction:column; gap:10px;">
         <div><strong>Playoff appearances:</strong> ${p.playoffCount} <span class="muted">(${playoffYearsTxt})</span></div>
@@ -703,29 +766,37 @@ function openFranchiseModal(teamId) {
 
 function closeFranchiseModal() {
   const modal = document.getElementById("franchiseModal");
+
   if (!modal) return;
+
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
 }
 
 function wireFranchiseHub() {
-  // Click tile → open
   document.addEventListener("click", (e) => {
     const tile = e.target.closest(".franchise-item");
+
     if (!tile) return;
+
     const teamId = tile.getAttribute("data-teamid");
+
     if (teamId) openFranchiseModal(teamId);
   });
 
-  // Close button
   const closeBtn = document.getElementById("franchiseClose");
-  if (closeBtn) closeBtn.addEventListener("click", closeFranchiseModal);
 
-  // Click outside card closes modal
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeFranchiseModal);
+  }
+
   const modal = document.getElementById("franchiseModal");
+
   if (modal) {
     modal.addEventListener("click", (e) => {
-      if (e.target.id === "franchiseModal") closeFranchiseModal();
+      if (e.target.id === "franchiseModal") {
+        closeFranchiseModal();
+      }
     });
   }
 }
@@ -741,6 +812,7 @@ function wireFranchiseHub() {
   renderAllTime(recordMap);
 
   const state = { currentYear: 2025 };
+
   wireSeasonYears(state);
   renderSeason(state);
 
