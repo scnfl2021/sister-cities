@@ -343,7 +343,7 @@ function renderAllTime(recordMap) {
     "Lowest average fantasy points",
   ];
 
-  entries.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0]));
+  entries.sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0])))
 
   const cards = entries.map(([label, info]) => {
     const holdersHtml = info.holders.map(h => {
@@ -514,7 +514,7 @@ function wireGalleryModal() {
 }
 
 // =====================
-// FRANCHISE HUB (stars + years + modal)
+// FRANCHISE HUB (grid + profile)
 // =====================
 
 function getTeamChampionshipCount(teamId) {
@@ -524,11 +524,6 @@ function getTeamChampionshipCount(teamId) {
     .length;
 }
 
-/**
- * ✅ UPDATED per your request:
- * If the team is active in the latest season year (2025), show "startYear-"
- * Otherwise show "startYear-endYear"
- */
 function getTeamActiveYears(teamId) {
   const years = Object.keys(seasons).map(Number).sort((a, b) => a - b);
   const active = years.filter(y => seasons[y].standings.some(r => r.teamId === teamId));
@@ -542,6 +537,96 @@ function getTeamActiveYears(teamId) {
 
   return isActiveNow ? `${start}-` : `${start}-${end}`;
 }
+
+// -------- PROFILE CALCS --------
+
+function parseRecord(recordStr) {
+  if (!recordStr) return null;
+  const parts = String(recordStr).split(/[-–]/).map(s => s.trim());
+  if (parts.length < 2) return null;
+  const wins = Number(parts[0]);
+  const losses = Number(parts[1]);
+  if (!Number.isFinite(wins) || !Number.isFinite(losses)) return null;
+  const games = wins + losses;
+  const pct = games > 0 ? wins / games : 0;
+  return { wins, losses, games, pct };
+}
+
+function ordinal(n) {
+  const s = ["th","st","nd","rd"];
+  const v = n % 100;
+  return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+
+function getTeamSeasonRows(teamId) {
+  const years = Object.keys(seasons).map(Number).sort((a, b) => a - b);
+  const rows = [];
+  for (const y of years) {
+    const season = seasons[y];
+    const row = season.standings.find(r => r.teamId === teamId);
+    if (!row) continue;
+    rows.push({
+      year: y,
+      seed: row.seed,
+      record: row.record,
+      recordObj: parseRecord(row.record),
+      pf: row.pf,
+      pa: row.pa
+    });
+  }
+  return rows;
+}
+
+function computeFranchiseProfile(teamId) {
+  const rows = getTeamSeasonRows(teamId);
+  if (!rows.length) {
+    return {
+      playoffCount: 0, playoffYears: [],
+      bestRecord: null, bestRecordYears: [],
+      bestFinish: null, bestFinishYears: [],
+      firstSeedCount: 0, firstSeedYears: []
+    };
+  }
+
+  // Playoffs: seed <= 6
+  const playoffYears = rows.filter(r => r.seed <= 6).map(r => r.year);
+  const playoffCount = playoffYears.length;
+
+  // Best finish: min seed
+  const bestFinish = Math.min(...rows.map(r => r.seed));
+  const bestFinishYears = rows.filter(r => r.seed === bestFinish).map(r => r.year);
+
+  // #1 seed count
+  const firstSeedYears = rows.filter(r => r.seed === 1).map(r => r.year);
+  const firstSeedCount = firstSeedYears.length;
+
+  // Best record: highest win% then wins as tiebreak
+  let best = null;
+  for (const r of rows) {
+    if (!r.recordObj) continue;
+    const cur = r.recordObj;
+    if (!best) best = { pct: cur.pct, wins: cur.wins, losses: cur.losses, years: [r.year], display: r.record };
+    else {
+      const better = (cur.pct > best.pct) || (Math.abs(cur.pct - best.pct) < 1e-12 && cur.wins > best.wins);
+      const tie = Math.abs(cur.pct - best.pct) < 1e-12 && cur.wins === best.wins && cur.losses === best.losses;
+      if (better) best = { pct: cur.pct, wins: cur.wins, losses: cur.losses, years: [r.year], display: r.record };
+      else if (tie) best.years.push(r.year);
+    }
+  }
+
+  return {
+    playoffCount,
+    playoffYears,
+    bestRecord: best ? best.display : null,
+    bestRecordYears: best ? best.years : [],
+    bestFinish,
+    bestFinishYears,
+    firstSeedCount,
+    firstSeedYears
+  };
+}
+
+// -------- GRID --------
 
 function buildFranchiseGrid() {
   const grid = document.getElementById("franchiseGrid");
@@ -571,6 +656,8 @@ function buildFranchiseGrid() {
   }).join("");
 }
 
+// -------- MODAL --------
+
 function openFranchiseModal(teamId) {
   const modal = document.getElementById("franchiseModal");
   const logoEl = document.getElementById("franchiseModalLogo");
@@ -578,13 +665,37 @@ function openFranchiseModal(teamId) {
   const ownerEl = document.getElementById("franchiseModalOwner");
   if (!modal || !logoEl || !nameEl || !ownerEl) return;
 
+  const bodyEl = modal.querySelector(".franchise-modal-body"); // uses your existing div
   const t = TEAMS[teamId];
   if (!t) return;
 
+  // header
   logoEl.src = t.logo;
   logoEl.alt = `${t.name} logo`;
   nameEl.textContent = t.name;
   ownerEl.textContent = t.owner ? `Owner: ${t.owner}` : "";
+
+  // stats
+  const p = computeFranchiseProfile(teamId);
+
+  const playoffYearsTxt = p.playoffYears.length ? p.playoffYears.join(", ") : "—";
+  const bestRecordTxt = p.bestRecord ? `${p.bestRecord} (${p.bestRecordYears.join(", ")})` : "—";
+  const bestFinishTxt = p.bestFinish ? `${ordinal(p.bestFinish)} (${p.bestFinishYears.join(", ")})` : "—";
+  const firstSeedTxt = p.firstSeedCount
+    ? `${p.firstSeedCount} (${p.firstSeedYears.join(", ")})`
+    : "0";
+
+  if (bodyEl) {
+    bodyEl.classList.remove("muted");
+    bodyEl.innerHTML = `
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div><strong>Playoff appearances:</strong> ${p.playoffCount} <span class="muted">(${playoffYearsTxt})</span></div>
+        <div><strong>Best season record:</strong> ${bestRecordTxt}</div>
+        <div><strong>Best finish in the season:</strong> ${bestFinishTxt}</div>
+        <div><strong>Number of times won the season (#1 seed):</strong> ${firstSeedTxt}</div>
+      </div>
+    `;
+  }
 
   modal.style.display = "flex";
   modal.setAttribute("aria-hidden", "false");
@@ -598,6 +709,7 @@ function closeFranchiseModal() {
 }
 
 function wireFranchiseHub() {
+  // Click tile → open
   document.addEventListener("click", (e) => {
     const tile = e.target.closest(".franchise-item");
     if (!tile) return;
@@ -605,9 +717,11 @@ function wireFranchiseHub() {
     if (teamId) openFranchiseModal(teamId);
   });
 
+  // Close button
   const closeBtn = document.getElementById("franchiseClose");
   if (closeBtn) closeBtn.addEventListener("click", closeFranchiseModal);
 
+  // Click outside card closes modal
   const modal = document.getElementById("franchiseModal");
   if (modal) {
     modal.addEventListener("click", (e) => {
