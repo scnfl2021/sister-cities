@@ -833,3 +833,82 @@ body{
   cursor: pointer;
   user-select: none;
 }
+/* =========================
+   FRANCHISE HUB - UPDATED
+   ========================= */
+
+.franchise-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.franchise-item{
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 18px 12px 16px;
+  min-height: 210px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.franchise-item:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+}
+
+.franchise-stars{
+  min-height: 24px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--gold);
+  font-weight: 900;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-stars{
+  visibility: hidden; /* keeps spacing consistent even when team has 0 stars */
+}
+
+.franchise-logoWrap{
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: transparent;
+  display: grid;
+  place-items: center;
+}
+
+.franchise-logo{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.franchise-name{
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.franchise-years{
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.1;
+}
