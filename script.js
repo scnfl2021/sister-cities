@@ -821,3 +821,52 @@ function wireFranchiseHub() {
 
   wireGalleryModal();
 })();
+/* =========================
+   FRANCHISE HUB RANDOM ORDER
+   Paste at VERY BOTTOM of script.js
+   ========================= */
+
+const FRANCHISE_RANDOM_ORDER = [
+  "sixowls",
+  "miami",
+  "arshamaa",
+  "barjalona",
+  "svetunited",
+  "angolarookie",
+  "daddytate",
+  "abethe3arab",
+  "snorlax",
+  "drhtown",
+  "maleksexcornflex"
+];
+
+function buildFranchiseGrid() {
+  const grid = document.getElementById("franchiseGrid");
+  if (!grid) return;
+
+  const entries = FRANCHISE_RANDOM_ORDER
+    .filter(id => TEAMS[id])
+    .map(id => ({ id, ...TEAMS[id] }));
+
+  grid.innerHTML = entries.map(t => {
+    const starCount = getTeamChampionshipCount(t.id);
+    const yearsActive = getTeamActiveYears(t.id);
+    const stars = starCount > 0 ? "★".repeat(starCount) : "";
+
+    return `
+      <div class="franchise-item" data-teamid="${t.id}">
+        <div class="franchise-stars">${stars || "&nbsp;"}</div>
+
+        <div class="franchise-logoWrap">
+          <img class="franchise-logo" src="${t.logo}" alt="${t.name} logo" loading="lazy">
+        </div>
+
+        <div class="franchise-name">${t.name}</div>
+        <div class="franchise-years">${yearsActive}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+/* Rebuild immediately so the random order shows right away */
+buildFranchiseGrid();
